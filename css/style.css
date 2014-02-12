@@ -395,7 +395,7 @@ body >header {
   width: 100%;
   -webkit-box-shadow: 2px 4px 5px rgba(3,3,3,0.2);
   box-shadow: 2px 4px 5px rgba(3,3,3,0.2);
-  background: color-blue-theme;
+  background: #badeee;
   color: #fff;
   padding: 1em 0 0.8em;
 }
@@ -549,8 +549,8 @@ header nav ul li a {
   }
 }
 header nav ul li a:hover {
-  background: #dd2c11;
-  color: #e9cd4c;
+  background: #5fb7df;
+  color: #deeef7;
 }
 .shownav {
   max-height: 40em;
