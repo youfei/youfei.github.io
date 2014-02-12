@@ -110,12 +110,18 @@ a img {
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
 }
+html {
+  height: 100%;
+  min-height: 100%;
+}
 body {
   background: #ddd;
   font-family: "Helvetica Neue", "Helvetica", "Microsoft YaHei", "WenQuanYi Micro Hei", Arial, sans-serif;
   font-size: 100%;
   color: #817c7c;
   line-height: 1.5;
+  height: 100%;
+  min-height: 100%;
 }
 small {
   font-size: 80%;
@@ -585,6 +591,8 @@ header nav ul li a:hover {
 /* index layout */
 #container {
   width: 95%;
+  height: 100%;
+  min-height: 100%;
   margin: 0 auto;
   overflow: hidden;
 }
@@ -639,7 +647,7 @@ header nav ul li a:hover {
   }
 }
 #main section.post a:hover {
-  border-left: 0.5em solid #ea6753;
+  border-left: 0.5em solid #89ba17;
 }
 #main section.post a h1 {
   color: #2ca6cb;
@@ -831,7 +839,7 @@ article header.article-info >h1 {
   word-break: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  border-left: 5px solid #ea6753;
+  border-left: 5px solid #89ba17;
 }
 @media only screen and (min-width: 1024px) {
   article header.article-info >h1 {
@@ -1478,7 +1486,7 @@ section.comment {
   border: 1px solid #fff;
   -webkit-border-radius: 5px;
   border-radius: 5px;
-  background: #ea6753;
+  background: #f08a00;
   padding: 0.2em 0.55em;
 }
 .openaside a::before {
@@ -1598,7 +1606,7 @@ section.comment {
   background: #e6e6e6;
 }
 .rsspart {
-  background: #ea6753;
+  background: #f08a00;
   width: 100%;
 }
 @media only screen and (min-width: 768px) {
@@ -1622,8 +1630,8 @@ section.comment {
   text-align: center;
 }
 .rsspart a:hover {
-  color: #ea6753;
-  background: #fafafa;
+  color: #f08a00;
+  background: #fff1d6;
 }
 .rsspart a::before {
   font-family: "FontAwesome";
@@ -1654,7 +1662,7 @@ section.comment {
   padding: 0.5em;
 }
 .archiveslist li a:hover {
-  color: #ea6753;
+  color: #89ba17;
   -webkit-transition: color 0.25s;
   -moz-transition: color 0.25s;
   -o-transition: color 0.25s;
