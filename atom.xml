@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Good good study]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://youfei.github.io/"/>
-  <updated>2014-02-13T12:25:04.153Z</updated>
+  <updated>2014-02-13T13:52:01.002Z</updated>
   <id>http://youfei.github.io/</id>
   
   <author>
@@ -15,11 +15,28 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Import Image]]></title>
+    <link href="http://youfei.github.io/2014/02/13/import-image/"/>
+    <id>http://youfei.github.io/2014/02/13/import-image/</id>
+    <published>2014-02-13T12:29:34.000Z</published>
+    <updated>2014-02-13T13:15:22.000Z</updated>
+    <content type="html"><![CDATA[<p>This is a image test page.</p>
+<p><img src="/img/404.jpg" alt="404page"></p>
+<p>This is a music test</p>
+<embed src="http://www.xiami.com/widget/0_1771756963/singlePlayer.swf" type="application/x-shockwave-flash" width="257" height="33" wmode="transparent"></embed>
+]]></content>
+    
+    
+      <category term="hexo" scheme="http://youfei.github.io/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Code HighLight]]></title>
     <link href="http://youfei.github.io/2014/02/12/code-highlight/"/>
     <id>http://youfei.github.io/2014/02/12/code-highlight/</id>
     <published>2014-02-12T08:59:43.000Z</published>
-    <updated>2014-02-12T09:33:41.000Z</updated>
+    <updated>2014-02-13T12:41:43.000Z</updated>
     <content type="html"><![CDATA[<p>Try code high light</p>
 <a id="more"></a>
 
@@ -94,6 +111,8 @@ content
     <summary type="html"><![CDATA[<p>Try code high light</p>
 ]]></summary>
     
+      <category term="hexo" scheme="http://youfei.github.io/tags/hexo/"/>
+    
   </entry>
   
   <entry>
@@ -101,10 +120,12 @@ content
     <link href="http://youfei.github.io/2014/02/11/hello-world/"/>
     <id>http://youfei.github.io/2014/02/11/hello-world/</id>
     <published>2014-02-11T03:41:35.000Z</published>
-    <updated>2014-02-11T03:41:35.000Z</updated>
+    <updated>2014-02-13T12:41:43.000Z</updated>
     <content type="html"><![CDATA[<p>Welcome to <a href="http://zespia.tw/hexo" target="_blank">Hexo</a>! This is your very first post. Check <a href="http://zespia.tw/hexo/docs" target="_blank">documentation</a> to learn how to use.</p>
 ]]></content>
     
+    
+      <category term="hexo" scheme="http://youfei.github.io/tags/hexo/"/>
     
   </entry>
   
