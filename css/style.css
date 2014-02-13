@@ -962,7 +962,7 @@ article .article-content ol {
 @media only screen and (min-width: 768px) {
   article .article-content ul,
   article .article-content ol {
-    padding-left: 3em;
+    padding-left: 2em;
   }
 }
 article .article-content ul li {

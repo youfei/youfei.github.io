@@ -4,12 +4,18 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Hello World | youfei&#39;s blog</title>
+    <title>hexo简介 | youfei&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="fei you">
     
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation to learn how to use.">
+    <meta name="description" content="hexo简介
+
+Hexo
+Hexo 是由Node.js编写的静态Blog框架。它主要涉及：Node.js, stylus, Markdown 等东东。和作者@tommy351说的一样，整个框架的应用，主题转换与修改都是非常简单，方便的。
+个人选择 Hexo 的理由
+
+在Github Page上应用简">
     
     
     
@@ -67,15 +73,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/02/11/hello-world/" title="Hello World" itemprop="url">Hello World</a>
+      <a href="/2014/02/13/hexo-g-1/" title="hexo简介" itemprop="url">hexo简介</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://youfei.github.io" title="fei you">fei you</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-02-11T03:41:35.000Z" itemprop="datePublished">2月 11 2014</time>
-    更新日期:<time datetime="2014-02-13T12:41:43.000Z" itemprop="dateModified">2月 13 2014</time>
+    <time datetime="2014-02-13T14:02:58.000Z" itemprop="datePublished">2月 13 2014</time>
+    更新日期:<time datetime="2014-02-13T15:50:58.000Z" itemprop="dateModified">2月 13 2014</time>
     
   </p>
 </header>
@@ -84,10 +90,91 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#hexo-"><span class="toc-number">1.</span> <span class="toc-text">hexo简介</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo"><span class="toc-number">1.1.</span> <span class="toc-text">Hexo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo-"><span class="toc-number">1.2.</span> <span class="toc-text">Hexo搭建</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-git"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. 安装Git</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-node-js"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 安装Node.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-hexo"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. 安装Hexo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-hexo-"><span class="toc-number">1.2.4.</span> <span class="toc-text">4. Hexo常用命令</span></a></li></ol>
 		</div>
 		
-		<p>Welcome to <a href="http://zespia.tw/hexo" target="_blank">Hexo</a>! This is your very first post. Check <a href="http://zespia.tw/hexo/docs" target="_blank">documentation</a> to learn how to use.</p>
+		<h1 id="hexo-">hexo简介</h1>
+<hr>
+<h2 id="hexo">Hexo</h2>
+<p><a href="http://zespia.tw/hexo/" target="_blank">Hexo</a> 是由Node.js编写的静态Blog框架。它主要涉及：<a href="http://nodejs.org/" target="_blank">Node.js</a>, <a href="http://learnboost.github.io/stylus/" target="_blank">stylus</a>, <a href="http://www.zybuluo.com/mdeditor" target="_blank">Markdown</a> 等东东。和作者<a href="https://github.com/tommy351/hexo" target="_blank">@tommy351</a>说的一样，整个框架的应用，主题转换与修改都是非常简单，方便的。</p>
+<p>个人选择 <strong>Hexo</strong> 的理由</p>
+<ul>
+<li>在Github Page上应用简单</li>
+<li>主题自己可以修改, 本博主题 <a href="https://github.com/youfei/pacmanBlue" target="_blank">pacmanBlue</a></li>
+<li>Markdown</li>
+</ul>
+<hr>
+<h2 id="hexo-">Hexo搭建</h2>
+<h3 id="1-git">1. 安装Git</h3>
+<p>Window 下，安装 <a href="http://msysgit.github.io/" target="_blank">msysgit</a></p>
+<h3 id="2-node-js">2. 安装Node.js</h3>
+<p>安装 <a href="http://nodejs.org/" target="_blank">Node.js</a></p>
+<h3 id="3-hexo">3. 安装Hexo</h3>
+<p>选择日常编写Blog的文件夹，右键-&gt; <strong>Git Bash</strong> 
+运行</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="variable">$ </span>npm install -g hexo
+<span class="variable">$ </span>hexo init
+</pre></td></tr></table></figure>
+
+<blockquote><p>详细信息可参考 <a href="http://zespia.tw/hexo/docs/" target="_blank">Hexo docs</a></p>
+</blockquote>
+
+
+<h3 id="4-hexo-">4. Hexo常用命令</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="variable">$ </span>hexo clean		<span class="comment">#清除</span>
+<span class="variable">$ </span>hexo new 			<span class="comment">#新建Blog</span>
+<span class="variable">$ </span>hexo generate		<span class="comment">#生成静态Blog页面</span>
+<span class="variable">$ </span>hexo server		<span class="comment">#启动本地服务，查看页面状态，默认端口4000</span>
+<span class="variable">$ </span>hexo deploy		<span class="comment">#部署Blog</span>
+</pre></td></tr></table></figure>
+
+<ul>
+<li><strong>本地查看</strong></li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="variable">$ </span>hexo generate		<span class="comment">#生成静态Blog页面</span>
+<span class="variable">$ </span>hexo server		<span class="comment">#启动本地服务，查看页面状态，默认端口4000</span>
+</pre></td></tr></table></figure>
+
+<p>在本地浏览器中输入<code>http://localhost:4000/</code></p>
+<ul>
+<li><strong>远端部署</strong></li>
+</ul>
+<p>远端部署需要修改配置文件<code>&lt;Hexo init folder&gt;/_config.yml</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>deploy:
+  type: github
+  repository: https://github.com/&lt;your git domain&gt;/&lt;your git domain&gt;.github.io.git
+  branch: master
+</pre></td></tr></table></figure>
+
+<p>之后再运行以下命令进行部署</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="variable">$ </span>hexo deploy -g	<span class="comment">#部署Blog</span>
+</pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Tips</strong></li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="variable">$ </span>hexo g	<span class="comment">#hexo generate		#生成静态Blog页面</span>
+<span class="variable">$ </span>hexo s 	<span class="comment">#hexo server		#启动本地服务，查看页面状态，默认端口4000</span>
+<span class="variable">$ </span>hexo d	<span class="comment">#hexo deploy		#部署Blog</span>
+</pre></td></tr></table></figure>
+
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -97,6 +184,11 @@
   <span></span> <a href="/tags/hexo/">hexo</a>
   </div>
 
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Github Blog/">Github Blog</a>
+</div>
 
 
 
@@ -120,14 +212,14 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/02/12/code-highlight/" title="Code HighLight">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  Code HighLight</span>
+
+<div class="next">
+<a href="/2014/02/13/import-image/"  title="Import Image">
+ <strong>NEXT:</strong><br/> 
+ <span>Import Image
+</span>
 </a>
 </div>
-
 
 </nav>
 
@@ -159,7 +251,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#hexo-"><span class="toc-number">1.</span> <span class="toc-text">hexo简介</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo"><span class="toc-number">1.1.</span> <span class="toc-text">Hexo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo-"><span class="toc-number">1.2.</span> <span class="toc-text">Hexo搭建</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-git"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. 安装Git</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-node-js"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 安装Node.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-hexo"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. 安装Hexo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-hexo-"><span class="toc-number">1.2.4.</span> <span class="toc-text">4. Hexo常用命令</span></a></li></ol>
   </div>
 
 <div id="asidepart">
