@@ -1925,9 +1925,6 @@ footer {
   line-height: 1.5;
   font-size: 100%;
 }
-.article-content {
-  border-right: 1px solid #ddd !important;
-}
 .article-content pre {
   font-family: Monaco, Menlo, Consolas, Courier New, monospace;
 }
