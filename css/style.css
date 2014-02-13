@@ -1909,7 +1909,8 @@ footer {
 }
 .article-content pre,
 .article-content .highlight {
-  background: #c8ddb9;
+  background: #eee;
+  border: 1px solid #ddd;
   margin: 0.5em 0;
   padding: 1em 2%;
   overflow: auto;
@@ -1923,6 +1924,9 @@ footer {
   font-size: 0.85em;
   line-height: 1.5;
   font-size: 100%;
+}
+.article-content {
+  border-right: 1px solid #ddd !important;
 }
 .article-content pre {
   font-family: Monaco, Menlo, Consolas, Courier New, monospace;
@@ -1962,16 +1966,16 @@ footer {
 .article-content .highlight figcaption:after {
   clear: both;
 }
-.article-content .highlight figcaption a {
+.article-content .highlight a {
   float: right;
 }
 .article-content .highlight .gutter pre {
   text-align: right;
-  padding-right: 1.5em;
+  padding-right: 15px;
 }
 .article-content .gist {
   margin: 0.5em 0;
-  background: #c8ddb9;
+  background: #eee;
   padding: 1em 2%;
 }
 .article-content .gist .gist-file {
@@ -1997,7 +2001,7 @@ footer {
   border: none;
 }
 .article-content .gist .gist-file .gist-meta {
-  background: #c8ddb9;
+  background: #eee;
   color: #93a1a1;
   font: 0.85em "Georgia", serif;
   padding: 0;
@@ -2010,6 +2014,14 @@ footer {
 }
 .article-content .gist .gist-file .gist-meta a:hover {
   color: #ea6753;
+}
+.gutter pre {
+  color: #777 !important;
+  border-right: 1px solid #ddd !important;
+}
+.code pre {
+  padding-left: 15px !important;
+  border-left: 1px solid #fff !important;
 }
 pre .comment {
   color: #93a1a1;
