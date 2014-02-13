@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Good good study]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://youfei.github.io/"/>
-  <updated>2014-02-13T15:51:16.470Z</updated>
+  <updated>2014-02-13T15:56:52.741Z</updated>
   <id>http://youfei.github.io/</id>
   
   <author>
@@ -19,12 +19,13 @@
     <link href="http://youfei.github.io/2014/02/13/hexo-g-1/"/>
     <id>http://youfei.github.io/2014/02/13/hexo-g-1/</id>
     <published>2014-02-13T14:02:58.000Z</published>
-    <updated>2014-02-13T15:50:58.000Z</updated>
+    <updated>2014-02-13T15:56:36.000Z</updated>
     <content type="html"><![CDATA[<h1 id="hexo-">hexo简介</h1>
 <hr>
 <h2 id="hexo">Hexo</h2>
-<p><a href="http://zespia.tw/hexo/" target="_blank">Hexo</a> 是由Node.js编写的静态Blog框架。它主要涉及：<a href="http://nodejs.org/" target="_blank">Node.js</a>, <a href="http://learnboost.github.io/stylus/" target="_blank">stylus</a>, <a href="http://www.zybuluo.com/mdeditor" target="_blank">Markdown</a> 等东东。和作者<a href="https://github.com/tommy351/hexo" target="_blank">@tommy351</a>说的一样，整个框架的应用，主题转换与修改都是非常简单，方便的。</p>
-<p>个人选择 <strong>Hexo</strong> 的理由</p>
+<p><a href="http://zespia.tw/hexo/" target="_blank">Hexo</a> 是由Node.js编写的静态Blog框架。它主要涉及：<a href="http://nodejs.org/" target="_blank">Node.js</a>, <a href="http://learnboost.github.io/stylus/" target="_blank">stylus</a>, <a href="http://www.zybuluo.com/mdeditor" target="_blank">Markdown</a> 等东东。和作者<a href="https://github.com/tommy351/hexo" target="_blank">@tommy351</a>说的一样，整个框架的应用，主题转换与修改都是非常简单，方便的。
+<a id="more"></a>
+个人选择 <strong>Hexo</strong> 的理由</p>
 <ul>
 <li>在Github Page上应用简单</li>
 <li>主题自己可以修改, 本博主题 <a href="https://github.com/youfei/pacmanBlue" target="_blank">pacmanBlue</a></li>
@@ -103,7 +104,11 @@
 </pre></td></tr></table></figure>
 
 ]]></content>
-    
+    <summary type="html"><![CDATA[<h1 id="hexo-">hexo简介</h1>
+<hr>
+<h2 id="hexo">Hexo</h2>
+<p><a href="http://zespia.tw/hexo/" target="_blank">Hexo</a> 是由Node.js编写的静态Blog框架。它主要涉及：<a href="http://nodejs.org/" target="_blank">Node.js</a>, <a href="http://learnboost.github.io/stylus/" target="_blank">stylus</a>, <a href="http://www.zybuluo.com/mdeditor" target="_blank">Markdown</a> 等东东。和作者<a href="https://github.com/tommy351/hexo" target="_blank">@tommy351</a>说的一样，整个框架的应用，主题转换与修改都是非常简单，方便的。
+]]></summary>
     
       <category term="hexo" scheme="http://youfei.github.io/tags/hexo/"/>
     
