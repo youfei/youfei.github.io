@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Good good study]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://youfei.github.io/"/>
-  <updated>2014-02-17T08:28:07.327Z</updated>
+  <updated>2014-02-17T08:33:33.205Z</updated>
   <id>http://youfei.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://youfei.github.io/2014/02/17/go-g-1/"/>
     <id>http://youfei.github.io/2014/02/17/go-g-1/</id>
     <published>2014-02-17T07:01:31.000Z</published>
-    <updated>2014-02-17T08:23:32.000Z</updated>
+    <updated>2014-02-17T08:33:16.000Z</updated>
     <content type="html"><![CDATA[<h1 id="go-programming-language">Go Programming Language</h1>
 <p><a href="http://docs.studygolang.com/" target="_blank">Go</a> is an open source programming language that makes it easy to build simple, reliable, and efficient software.</p>
 <a id="more"></a>
@@ -39,13 +39,13 @@
 
 <hr>
 <h1 id="go-eclipse">Go eclipse</h1>
-<p><strong>Eclipse</strong>是个好同志，啥都有插件
-<a href="https://code.google.com/p/goclipse/" target="_blank">Go</a>的Eclipse插件<code>goclipse</code>，如何安装eclipse的插件俺就不废话了</p>
+<p><strong>Eclipse</strong>是个好同志，啥都有插件</br>
+<strong>Go</strong>的Eclipse插件<a href="https://code.google.com/p/goclipse/" target="_blank">goclipse</a>，如何安装eclipse的插件俺就不废话了</p>
 <h3 id="goclipse-">goclipse配置</h3>
 <p>配置如图：
 <img src="/img/go-config.PNG" alt="go-config"></p>
 <h3 id="go-helloworld">Go Helloworld</h3>
-<p>在<strong>Eclipse</strong>创建<code>Go Project</code>
+<p>在<strong>Eclipse</strong>创建<code>Go Project</code></br>
 在<strong>Go Project</strong>创建<code>Go File</code> 键入</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -66,7 +66,7 @@
 <p>右键运行<code>Run Go Application</code></p>
 <h3 id="goclipse-">goclipse输入提示</h3>
 <ul>
-<li>在<strong>Git Hub</strong>上，找到<a href="https://github.com/nsf/gocode" target="_blank">Gocode</a>,下载并放置在<code>$GOHOME</code>目录下并解压，得到<strong>Gocode</strong>路径<code>C:\Go\gocode\gocode-master</code> 
+<li>在<strong>Git Hub</strong>上，找到<a href="https://github.com/nsf/gocode" target="_blank">Gocode</a>,下载并放置在<code>$GOHOME</code>目录下并解压，得到<strong>Gocode</strong>路径<code>C:\Go\gocode\gocode-master</code> </br>
 在<strong>Gocode</strong>文件夹下，起<code>cmd</code>，键入<figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre>set GOPATH="C:<span class="command">\Go</span><span class="command">\gocode</span><span class="command">\gocode</span>-master"
