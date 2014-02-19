@@ -4,13 +4,14 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Golang安装与IDE | youfei&#39;s blog</title>
+    <title>Java多版本清理 | youfei&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="fei you">
     
-    <meta name="description" content="Go Programming Language
-Go is an open source programming language that makes it easy to build simple, reliable, and efficient software.">
+    <meta name="description" content="近期需要对Java Web Start的各种版本进行测试，安装到SDK1.7以后就会出现各种问题，什么安装不上，什么清理不了等等。
+
+要恢复原来的开发系统相当苦难。">
     
     
     
@@ -68,15 +69,15 @@ Go is an open source programming language that makes it easy to build simple, re
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/02/17/go-g-1/" title="Golang安装与IDE" itemprop="url">Golang安装与IDE</a>
+      <a href="/2014/02/19/java-multi-1/" title="Java多版本清理" itemprop="url">Java多版本清理</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://youfei.github.io" title="fei you">fei you</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-02-17T07:01:31.000Z" itemprop="datePublished">2月 17 2014</time>
-    更新日期:<time datetime="2014-02-17T08:33:16.000Z" itemprop="dateModified">2月 17 2014</time>
+    <time datetime="2014-02-19T08:56:56.000Z" itemprop="datePublished">2月 19 2014</time>
+    更新日期:<time datetime="2014-02-19T09:06:08.000Z" itemprop="dateModified">2月 19 2014</time>
     
   </p>
 </header>
@@ -85,95 +86,41 @@ Go is an open source programming language that makes it easy to build simple, re
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#go-programming-language"><span class="toc-number">1.</span> <span class="toc-text">Go Programming Language</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#go-windows-"><span class="toc-number">2.</span> <span class="toc-text">Go Windows安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#go-eclipse"><span class="toc-number">3.</span> <span class="toc-text">Go eclipse</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#goclipse-"><span class="toc-number">3.0.1.</span> <span class="toc-text">goclipse配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#go-helloworld"><span class="toc-number">3.0.2.</span> <span class="toc-text">Go Helloworld</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#goclipse-"><span class="toc-number">3.0.3.</span> <span class="toc-text">goclipse输入提示</span></a></li></ol></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">4.</span> <span class="toc-text">其他信息</span></a></li></ol>
+		
 		</div>
 		
-		<h1 id="go-programming-language">Go Programming Language</h1>
-<p><a href="http://docs.studygolang.com/" target="_blank">Go</a> is an open source programming language that makes it easy to build simple, reliable, and efficient software.</p>
+		<p>近期需要对<strong>Java Web Start</strong>的各种版本进行测试，安装到<strong>SDK1.7</strong>以后就会出现各种问题，什么安装不上，什么清理不了等等。
+</br>
+要恢复原来的开发系统相当苦难。
 <a id="more"></a>
-
-<p>个人而言：Google出品的，应该很NB吧...</p>
-<hr>
-<h1 id="go-windows-">Go Windows安装</h1>
-<p>在<a href="http://docs.studygolang.com/" target="_blank">Go</a> 主页上<strong>Download Go</strong>， 我选择的<em>msi</em>版本，双击安装。</p>
-<p>安装完成后，启动<code>cmd</code>,运行<code>go</code>查看安装成果</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre>go
-<span class="keyword">echo</span> <span class="envvar">%GOROOT%</span>		# C:\go
-<span class="keyword">echo</span> <span class="envvar">%PATH%</span>		# <span class="envvar">%GOROOT%</span>\bin;<span class="envvar">%PATH%</span>
-</pre></td></tr></table></figure>
-
-<hr>
-<h1 id="go-eclipse">Go eclipse</h1>
-<p><strong>Eclipse</strong>是个好同志，啥都有插件</br>
-<strong>Go</strong>的Eclipse插件<a href="https://code.google.com/p/goclipse/" target="_blank">goclipse</a>，如何安装eclipse的插件俺就不废话了</p>
-<h3 id="goclipse-">goclipse配置</h3>
-<p>配置如图：
-<img src="/img/go-config.PNG" alt="go-config"></p>
-<h3 id="go-helloworld">Go Helloworld</h3>
-<p>在<strong>Eclipse</strong>创建<code>Go Project</code></br>
-在<strong>Go Project</strong>创建<code>Go File</code> 键入</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre>package main
-<span class="function"><span class="title">import</span> <span class="params">(
-	<span class="string">"fmt"</span>
-)</span>
-<span class="title">func</span> <span class="title">main</span><span class="params">()</span> {
-	<span class="title">fmt</span>.P<span class="title">rintln</span><span class="params">(<span class="string">"hello world"</span>)</span>
-}</span>
-</pre></td></tr></table></figure>
-
-<p>右键运行<code>Run Go Application</code></p>
-<h3 id="goclipse-">goclipse输入提示</h3>
+经过一天的苦苦奋斗，总结下经验：</p>
 <ul>
-<li>在<strong>Git Hub</strong>上，找到<a href="https://github.com/nsf/gocode" target="_blank">Gocode</a>,下载并放置在<code>$GOHOME</code>目录下并解压，得到<strong>Gocode</strong>路径<code>C:\Go\gocode\gocode-master</code> </br>
-在<strong>Gocode</strong>文件夹下，起<code>cmd</code>，键入<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre>set GOPATH="C:<span class="command">\Go</span><span class="command">\gocode</span><span class="command">\gocode</span>-master"
-go build
-</pre></td></tr></table></figure>
-
-</li>
-</ul>
-<p>在<strong>Gocode</strong>下，会生成<code>gocode-master.exe</code></p>
-<ul>
-<li><p>配置Gocode到Eclipse
-如图：
-<img src="/img/gocode-config.PNG" alt="gocode-config"></p>
-</li>
-<li><p>效果展示
-<img src="/img/go-suggest.png" alt="go-suggest"></p>
-</li>
-</ul>
-<hr>
-<h1 id="-">其他信息</h1>
-<ol>
-<li>国人<a href="https://code.google.com/p/golangide/" target="_blank">GolangIDE</a></li>
-<li><a href="http://www.360doc.com/content/13/0926/16/8504707_317256198.shtml" target="_blank">GOPATH</a>详解</li>
-<li><a href="http://blog.csdn.net/hengyunabc/article/details/7371446" target="_blank">参考文章</a></li>
-<li><a href="http://blog.hsatac.net/2012/09/golang-ides/" target="_blank">各种IDE介绍</a></li>
+<li><ol>
+<li>用360软件管家卸载各种JDK, JRE <strong>两遍</strong>， 一遍不干净两遍还有点残余</li>
 </ol>
+</li>
+<li><ol>
+<li>在regedit中以<strong>JavaSoft</strong>为关键字搜索，然后进行各种删除</li>
+</ol>
+</li>
+<li><ol>
+<li>整个世界清静了...</li>
+</ol>
+</li>
+</ul>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/golang/">golang</a>
+  <span></span> <a href="/tags/Java/">Java</a>
   </div>
 
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Golang/">Golang</a>
+  <a class="article-category-link" href="/categories/Java/">Java</a>
 </div>
 
 
@@ -198,19 +145,11 @@ go build
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/02/18/go-g-2/" title="Golang语法初读">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  Golang语法初读</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/02/14/hexo-g-2/"  title="hexo配置">
+<a href="/2014/02/18/go-g-2/"  title="Golang语法初读">
  <strong>NEXT:</strong><br/> 
- <span>hexo配置
+ <span>Golang语法初读
 </span>
 </a>
 </div>
@@ -245,7 +184,7 @@ go build
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#go-programming-language"><span class="toc-number">1.</span> <span class="toc-text">Go Programming Language</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#go-windows-"><span class="toc-number">2.</span> <span class="toc-text">Go Windows安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#go-eclipse"><span class="toc-number">3.</span> <span class="toc-text">Go eclipse</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#goclipse-"><span class="toc-number">3.0.1.</span> <span class="toc-text">goclipse配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#go-helloworld"><span class="toc-number">3.0.2.</span> <span class="toc-text">Go Helloworld</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#goclipse-"><span class="toc-number">3.0.3.</span> <span class="toc-text">goclipse输入提示</span></a></li></ol></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">4.</span> <span class="toc-text">其他信息</span></a></li></ol>
+  
   </div>
 
 <div id="asidepart">

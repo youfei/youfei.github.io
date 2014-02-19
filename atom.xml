@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Good good study]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://youfei.github.io/"/>
-  <updated>2014-02-18T09:05:42.171Z</updated>
+  <updated>2014-02-19T09:06:19.488Z</updated>
   <id>http://youfei.github.io/</id>
   
   <author>
@@ -13,6 +13,43 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Java多版本清理]]></title>
+    <link href="http://youfei.github.io/2014/02/19/java-multi-1/"/>
+    <id>http://youfei.github.io/2014/02/19/java-multi-1/</id>
+    <published>2014-02-19T08:56:56.000Z</published>
+    <updated>2014-02-19T09:06:08.000Z</updated>
+    <content type="html"><![CDATA[<p>近期需要对<strong>Java Web Start</strong>的各种版本进行测试，安装到<strong>SDK1.7</strong>以后就会出现各种问题，什么安装不上，什么清理不了等等。
+</br>
+要恢复原来的开发系统相当苦难。
+<a id="more"></a>
+经过一天的苦苦奋斗，总结下经验：</p>
+<ul>
+<li><ol>
+<li>用360软件管家卸载各种JDK, JRE <strong>两遍</strong>， 一遍不干净两遍还有点残余</li>
+</ol>
+</li>
+<li><ol>
+<li>在regedit中以<strong>JavaSoft</strong>为关键字搜索，然后进行各种删除</li>
+</ol>
+</li>
+<li><ol>
+<li>整个世界清静了...</li>
+</ol>
+</li>
+</ul>
+]]></content>
+    <summary type="html"><![CDATA[<p>近期需要对<strong>Java Web Start</strong>的各种版本进行测试，安装到<strong>SDK1.7</strong>以后就会出现各种问题，什么安装不上，什么清理不了等等。
+</br>
+要恢复原来的开发系统相当苦难。
+]]></summary>
+    
+      <category term="Java" scheme="http://youfei.github.io/tags/Java/"/>
+    
+      <category term="Java" scheme="http://youfei.github.io/categories/Java/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Golang语法初读]]></title>
