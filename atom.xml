@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Good good study]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://youfei.github.io/"/>
-  <updated>2014-02-19T09:06:19.488Z</updated>
+  <updated>2014-02-19T09:07:59.723Z</updated>
   <id>http://youfei.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://youfei.github.io/2014/02/19/java-multi-1/"/>
     <id>http://youfei.github.io/2014/02/19/java-multi-1/</id>
     <published>2014-02-19T08:56:56.000Z</published>
-    <updated>2014-02-19T09:06:08.000Z</updated>
+    <updated>2014-02-19T09:07:41.000Z</updated>
     <content type="html"><![CDATA[<p>近期需要对<strong>Java Web Start</strong>的各种版本进行测试，安装到<strong>SDK1.7</strong>以后就会出现各种问题，什么安装不上，什么清理不了等等。
 </br>
 要恢复原来的开发系统相当苦难。
