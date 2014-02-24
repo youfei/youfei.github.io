@@ -1,0 +1,536 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Go网络编程 | youfei&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="fei you">
+    
+    <meta name="description" content="Socket编程
+Client Side
+func Dial (net, addr string) (Conn, error)
+1
+2
+3
+4
+5
+6
+7
+8
+//TCP
+conn, err := net.Dial (&quot;tcp&quot;, &quot;192.168.0.1:9000&quot;)
+
+//UDP
+conn, e">
+    
+    
+    
+    
+    <link rel="alternative" href="/atom.xml" title="youfei&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="youfei&#39;s blog" title="youfei&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="youfei&#39;s blog">youfei&#39;s blog</a></h1>
+				<h2 class="blog-motto">Good good study</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:youfei.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/02/24/go-g-4/" title="Go网络编程" itemprop="url">Go网络编程</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://youfei.github.io" title="fei you">fei you</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-02-24T07:40:45.000Z" itemprop="datePublished">2月 24 2014</time>
+    更新日期:<time datetime="2014-02-24T08:47:14.000Z" itemprop="dateModified">2月 24 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#socket-"><span class="toc-number">1.</span> <span class="toc-text">Socket编程</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#client-side"><span class="toc-number">1.1.</span> <span class="toc-text">Client Side</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#server-side"><span class="toc-number">1.2.</span> <span class="toc-text">Server Side</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#http-"><span class="toc-number">2.</span> <span class="toc-text">Http编程</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#client-side"><span class="toc-number">2.1.</span> <span class="toc-text">Client Side</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#server-side"><span class="toc-number">2.2.</span> <span class="toc-text">Server Side</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#http-"><span class="toc-number">2.2.1.</span> <span class="toc-text">http请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#https-"><span class="toc-number">2.2.2.</span> <span class="toc-text">https请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-"><span class="toc-number">2.2.3.</span> <span class="toc-text">模板缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-"><span class="toc-number">2.2.4.</span> <span class="toc-text">动态请求和静态分离</span></a></li></ol></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">3.</span> <span class="toc-text">资料</span></a></li></ol>
+		</div>
+		
+		<h1 id="socket-">Socket编程</h1>
+<h2 id="client-side">Client Side</h2>
+<p><code>func Dial (net, addr string) (Conn, error)</code></br></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="comment">//TCP</span>
+conn, err := net.Dial (<span class="string">"tcp"</span>, <span class="string">"192.168.0.1:9000"</span>)
+
+<span class="comment">//UDP</span>
+conn, err := net.Dial (<span class="string">"udp"</span>, <span class="string">"192.168.0.1:9000"</span>)
+
+<span class="comment">//ICMP</span>
+conn, err := net.Dial (<span class="string">"ip4.icmp"</span>, <span class="string">"192.168.0.1:9000"</span>)
+</pre></td></tr></table></figure>
+
+<h2 id="server-side">Server Side</h2>
+<p><code>func Listen(net, laddr string) (l Listener, err os.Error)</code></br></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>service := <span class="string">":1200"</span>
+<span class="comment">//TCP</span>
+conn, err := net.Listen(<span class="string">"tcp"</span>, service)
+
+<span class="comment">//UDP</span>
+conn, err := net.Listen (<span class="string">"udp"</span>, service)
+</pre></td></tr></table></figure>
+
+<blockquote><p>I THINK: It is cool !</p>
+</blockquote>
+
+
+<hr>
+<h1 id="http-">Http编程</h1>
+<h2 id="client-side">Client Side</h2>
+<p><code>func (c *Client) Get (url string) (r *Response, err error)</code></br>
+<code>func (c *Client) Post (url string, bodyType string, body io.Reader) (r *Response, err error)</code></br>
+<code>func (c *Client) PostForm (url string, data url.Values) (r *Respone, err error)</code></br>
+<code>func (c *Client) Head (url, string) (r *Response, err error)</code></br>
+<code>func (c *Client) Do (request *Requset) (resp *Response, err error)</code></br></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre></td><td class="code"><pre>//从网上贴的，偷懒啦~
+package main
+ 
+import (
+    <span class="string">"net/http"</span>
+    <span class="string">"io/ioutil"</span>
+    <span class="string">"fmt"</span>
+)
+ 
+func main() {
+    client := &http<span class="preprocessor">.Client</span>{}
+    reqest, _ := http<span class="preprocessor">.NewRequest</span>(<span class="string">"GET"</span>, <span class="string">"http://www.baidu.com"</span>, nil)
+     
+    reqest<span class="preprocessor">.Header</span><span class="preprocessor">.Set</span>(<span class="string">"Accept"</span>,<span class="string">"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"</span>)
+    reqest<span class="preprocessor">.Header</span><span class="preprocessor">.Set</span>(<span class="string">"Accept-Charset"</span>,<span class="string">"GBK,utf-8;q=0.7,*;q=0.3"</span>)
+    reqest<span class="preprocessor">.Header</span><span class="preprocessor">.Set</span>(<span class="string">"Accept-Encoding"</span>,<span class="string">"gzip,deflate,sdch"</span>)
+    reqest<span class="preprocessor">.Header</span><span class="preprocessor">.Set</span>(<span class="string">"Accept-Language"</span>,<span class="string">"zh-CN,zh;q=0.8"</span>)
+    reqest<span class="preprocessor">.Header</span><span class="preprocessor">.Set</span>(<span class="string">"Cache-Control"</span>,<span class="string">"max-age=0"</span>)
+    reqest<span class="preprocessor">.Header</span><span class="preprocessor">.Set</span>(<span class="string">"Connection"</span>,<span class="string">"keep-alive"</span>)
+     
+    response,_ := client<span class="preprocessor">.Do</span>(reqest)
+    if response<span class="preprocessor">.StatusCode</span> == <span class="number">200</span> {
+        body, _ := ioutil<span class="preprocessor">.ReadAll</span>(response<span class="preprocessor">.Body</span>)
+        bodystr := string(body)<span class="comment">;</span>
+        fmt<span class="preprocessor">.Println</span>(bodystr)
+    }
+}
+</pre></td></tr></table></figure>
+
+<p><strong>Client Side</strong>代码来源<a href="http://www.cnblogs.com/yjf512/archive/2012/06/18/2554066.html" target="_blank">网络</a></p>
+<h2 id="server-side">Server Side</h2>
+<p><code>net.Listen</code></br></p>
+<h3 id="http-">http请求</h3>
+<p><code>func ListenAndServe(addr string, handler Handler) error</code></br></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="code"><pre>package main
+
+import (
+	<span class="string">"io"</span>
+	<span class="string">"log"</span>
+	<span class="string">"net/http"</span>
+)
+
+func helloWorld (w http.ResponseWriter, r *http.Request) {
+	io.WriteString (w, <span class="string">"Hello World"</span>)
+}
+
+func main () {
+	http.HandleFunc (<span class="string">"/hello"</span>, helloWorld)
+	err := http.ListenAndServe(<span class="string">":8099"</span>, nil)
+	if err != nil {
+		log.Fatal(<span class="string">" ListenAndServe: "</span>, err.Error())
+	}	
+}
+</pre></td></tr></table></figure>
+
+<h3 id="https-">https请求</h3>
+<p><code>func ListenAndServeTLS(addr string, handler Handler) error</code></br></p>
+<h3 id="-">模板缓存</h3>
+<p>这个有必要单独出来，是做逻辑与页面分离的。</br>
+<code>templates := make(map[string]*template.Template)</code></br></p>
+<h3 id="-">动态请求和静态分离</h3>
+<p>需要自己写个Handler函数，好烂</p>
+<hr>
+<blockquote><p><strong>总结</strong></br>
+Socket 喜欢！</br>
+Http 对于习惯Java 编程的我，不喜欢！</p>
+</blockquote>
+
+
+
+
+<h1 id="-">资料</h1>
+<ol>
+<li><a href="http://jan.newmarch.name/go/" target="_blank">Network programming with Go</a>, really helpful !!!</li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/golang/">golang</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Golang/">Golang</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  
+
+	<!-- JiaThis Button BEGIN -->
+	<script type="text/javascript">
+	var jiathis_config = {data_track_clickback:'true'};
+	</script>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jiathis_r.js?move=0&amp;uid=1893583" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+
+
+
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2014/02/20/go-g-3/"  title="Golang语法初读-2">
+ <strong>NEXT:</strong><br/> 
+ <span>Golang语法初读-2
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	
+	
+	<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"youfei"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = 'http://static.duoshuo.com/embed.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			|| document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+		</script>
+	<!-- Duoshuo Comment END -->
+	
+	
+	
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#socket-"><span class="toc-number">1.</span> <span class="toc-text">Socket编程</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#client-side"><span class="toc-number">1.1.</span> <span class="toc-text">Client Side</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#server-side"><span class="toc-number">1.2.</span> <span class="toc-text">Server Side</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#http-"><span class="toc-number">2.</span> <span class="toc-text">Http编程</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#client-side"><span class="toc-number">2.1.</span> <span class="toc-text">Client Side</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#server-side"><span class="toc-number">2.2.</span> <span class="toc-text">Server Side</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#http-"><span class="toc-number">2.2.1.</span> <span class="toc-text">http请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#https-"><span class="toc-number">2.2.2.</span> <span class="toc-text">https请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-"><span class="toc-number">2.2.3.</span> <span class="toc-text">模板缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-"><span class="toc-number">2.2.4.</span> <span class="toc-text">动态请求和静态分离</span></a></li></ol></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">3.</span> <span class="toc-text">资料</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Github Blog/" title="Github Blog">Github Blog<sup>3</sup></a></li>
+		
+			<li><a href="/categories/Golang/" title="Golang">Golang<sup>4</sup></a></li>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Git Page/" title="Git Page">Git Page<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/golang/" title="golang">golang<sup>4</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>5</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/Git Page/" style="font-size: 10.00px;">Git Page</a><a href="/tags/Java/" style="font-size: 10.00px;">Java</a><a href="/tags/golang/" style="font-size: 15.00px;">golang</a><a href="/tags/hexo/" style="font-size: 20.00px;">hexo</a>
+    </div>
+  </div>
+
+
+  <div class="tagslist">
+	<p class="asidetitle">我的微博</p>
+	<iframe id="sina_widget_1656357677" style="width:100%; height:500px;" frameborder="0" scrolling="no" src="http://v.t.sina.com.cn/widget/widget_blog.php?uid=1656357677&height=500&skin=wd_02&showpic=1"></iframe>
+</div>
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+     <li><a href="http://hongbinzuo.github.io/" title="Hongbin Zuo's Blog">Hongbin Zuo</a></li>
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> 
+		
+		</br> © 2014 <a href="http://youfei.github.io" target="_blank" title="fei you">fei you</a>
+		<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1000271340'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/z_stat.php%3Fid%3D1000271340%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+		
+		</p>
+</div>
+	
+	
+	</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"null"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>
