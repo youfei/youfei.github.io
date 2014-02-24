@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Good good study]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://youfei.github.io/"/>
-  <updated>2014-02-24T08:47:41.519Z</updated>
+  <updated>2014-02-24T08:49:54.826Z</updated>
   <id>http://youfei.github.io/</id>
   
   <author>
@@ -19,8 +19,10 @@
     <link href="http://youfei.github.io/2014/02/24/go-g-4/"/>
     <id>http://youfei.github.io/2014/02/24/go-g-4/</id>
     <published>2014-02-24T07:40:45.000Z</published>
-    <updated>2014-02-24T08:47:14.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="socket-">Socket编程</h1>
+    <updated>2014-02-24T08:49:39.000Z</updated>
+    <content type="html"><![CDATA[<a id="more"></a>
+
+<h1 id="socket-">Socket编程</h1>
 <h2 id="client-side">Client Side</h2>
 <p><code>func Dial (net, addr string) (Conn, error)</code></br></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
