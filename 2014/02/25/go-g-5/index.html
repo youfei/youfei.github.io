@@ -4,12 +4,12 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Code HighLight | youfei&#39;s blog</title>
+    <title>Golang语法初读-4 | youfei&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="fei you">
     
-    <meta name="description" content="Try code high light">
+    <meta name="description" content="继续看书哈">
     
     
     
@@ -67,15 +67,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/02/12/code-highlight/" title="Code HighLight" itemprop="url">Code HighLight</a>
+      <a href="/2014/02/25/go-g-5/" title="Golang语法初读-4" itemprop="url">Golang语法初读-4</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://youfei.github.io" title="fei you">fei you</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-02-12T08:59:43.000Z" itemprop="datePublished">2月 12 2014</time>
-    更新日期:<time datetime="2014-02-13T12:41:43.000Z" itemprop="dateModified">2月 13 2014</time>
+    <time datetime="2014-02-25T02:50:29.000Z" itemprop="datePublished">2月 25 2014</time>
+    更新日期:<time datetime="2014-02-25T05:46:29.000Z" itemprop="dateModified">2月 25 2014</time>
     
   </p>
 </header>
@@ -84,88 +84,170 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#md5-sha"><span class="toc-number">1.</span> <span class="toc-text">Md5 &amp; Sha</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">2.</span> <span class="toc-text">单元测试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">3.</span> <span class="toc-text">发布</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">4.</span> <span class="toc-text">反射</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">5.</span> <span class="toc-text">语言交互性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#go-"><span class="toc-number">6.</span> <span class="toc-text">Go标准库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">7.</span> <span class="toc-text">初读感受</span></a></li></ol>
 		</div>
 		
-		<p>Try code high light</p>
+		<p>继续看书哈</p>
 <a id="more"></a>
 
-<p>this is [High] [Light] code.</p>
-<figure class="highlight [High]"><table><tr><td class="gutter"><pre>1
+<hr>
+<h1 id="md5-sha">Md5 &amp; Sha</h1>
+<p><strong>Code解释大法</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
 4
 5
 6
 7
-</pre></td><td class="code"><pre><span class="attribute">codes
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="code"><pre>package main
 
-codes
+import (
+	<span class="string">"fmt"</span>
+	<span class="string">"crypto/sha1"</span>
+	<span class="string">"crypto/md5"</span>
+)
 
-codes
-
-var codes </span>=<span class="string"> sss;</span>
+func main () {
+	
+	var TestString string = string(<span class="string">"admin"</span>)
+	
+	Md5Inst := md5.New()
+	Md5Inst.Write([]byte (TestString))
+	Result := Md5Inst.Sum([]byte(<span class="string">""</span>))
+	
+	fmt.Printf(<span class="string">"%x\n"</span>,Result)
+	
+	Sha1Inst := sha1.New()
+	Sha1Inst.Write([]byte (TestString))
+	Result = Sha1Inst.Sum([]byte(<span class="string">""</span>))
+	
+	fmt.Printf(<span class="string">"%x\n"</span>,Result)
+}
 </pre></td></tr></table></figure>
 
-<figure class="highlight javascript"><figcaption><span>[title] []</span></figcaption><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>code snippet
-</pre></td></tr></table></figure>
-
-
-
-<blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque hendrerit lacus ut purus iaculis feugiat. Sed nec tempor elit, quis aliquam neque. Curabitur sed diam eget dolor fermentum semper at eu lorem. </p>
+<hr>
+<h1 id="-">单元测试</h1>
+<p>和JUnit差不多</p>
+<hr>
+<h1 id="-">发布</h1>
+<p>太差了！！！</p>
+<blockquote><p>打包源代码进行分发，使用者自行编译！！！</p>
+<p>现在严重鄙视各种自行编译！！！（突然想起了python，嘿嘿）</p>
 </blockquote>
 
 
+<hr>
+<h1 id="-">反射</h1>
+<p>反射是高配置，灵活性的体现，但确实是把双刃剑。
+高配置，灵活性 === 繁琐，可读性，可维护性 差</p>
+<p>Go 中的反射，主要是两个概念Type和Value</p>
+<p>用书中的例子，记录下</p>
+<p><strong>//传值</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>var <span class="built_in">x</span> float64 = <span class="number">3.4</span>
+v := reflect<span class="preprocessor">.ValueOf</span>(<span class="built_in">x</span>) 
+v<span class="preprocessor">.Set</span>(<span class="number">4.1</span>)
+</pre></td></tr></table></figure>
 
-<blockquote><p>Do not just seek happiness for yourself. Seek happiness for all. Through kindness. Through mercy.</p>
-<footer><strong>David Levithan</strong><cite>Wide Awake</cite></footer></blockquote>
+<p><strong>//传址</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre>var <span class="built_in">x</span> float64 = <span class="number">3.4</span>
+p := reflect<span class="preprocessor">.ValueOf</span>(&<span class="built_in">x</span>)
+fmt<span class="preprocessor">.Println</span>(<span class="string">"Type of P : "</span>, p<span class="preprocessor">.Type</span>())
+fmt<span class="preprocessor">.Println</span>(<span class="string">"settability of p : "</span>, p<span class="preprocessor">.CanSet</span>())
+
+<span class="label">v:</span>= p<span class="preprocessor">.Elem</span>()
+fmt<span class="preprocessor">.Println</span>(<span class="string">"settability of v : "</span>, v<span class="preprocessor">.CanSet</span>())
 
 
+v<span class="preprocessor">.SetFloat</span>(<span class="number">7.1</span>)
+fmt<span class="preprocessor">.Println</span>(<span class="string">"v : "</span>, v<span class="preprocessor">.Interface</span>())
+fmt<span class="preprocessor">.Println</span>(<span class="string">"x : "</span>, <span class="built_in">x</span>)
+</pre></td></tr></table></figure>
 
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="function">alert(<span class="string">'Hello World!'</span>)</span>;
-</pre></td></tr></table></figure>
-
-
-<figure class="highlight objc"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="title">[rectangle setX: 10 y: 10 width: 20 height: 20]</span><span class="comment">;</span>
-</pre></td></tr></table></figure>
-
-
-<figure class="highlight"><figcaption><span>.compact</span><a href="http://underscorejs.org/#compact" target="_blank">Underscore.js</a></figcaption><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre>.compact([<span class="number">0</span>, <span class="number">1</span>, <span class="keyword">false</span>, <span class="number">2</span>, <span class="string">''</span>, <span class="number">3</span>]);
-=&gt; [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">Type</span> <span class="keyword">of</span> P :  *float64
+settability <span class="keyword">of</span> p :  <span class="keyword">false</span>
+settability <span class="keyword">of</span> v :  <span class="keyword">true</span>
+v :  <span class="number">7.1</span>
+x :  <span class="number">7.1</span>
 </pre></td></tr></table></figure>
 
-
-<blockquote class="pullquote [class]"><p>content</p>
-</blockquote>
-
-
-
-
-content
-
-
-
-
-<p>photos</p>
+<hr>
+<h1 id="-">语言交互性</h1>
+<p>Cgo 没啥兴趣</p>
+<hr>
+<h1 id="go-">Go标准库</h1>
 <ul>
-<li>photo1</li>
-<li>photo2</li>
+<li>输入输出
+  <strong>bufio, fmt, io, log, flag(处理命令行参数)</strong></li>
+<li>文本处理
+  <strong>encoding, bytes, strings, strconv, text, mime, unicode, regexp, index, path(处理路径字符串)</strong></li>
+<li>网络
+  <strong>net, http, expvar</strong></li>
+<li>系统
+  <strong>os, syscall, sync, time, unsafe</strong></li>
+<li>数据结构和算法
+  <strong>math, sort, container, crypto, hash, archive, compress, image(图像编码算法)</strong></li>
+<li>RunTime
+  <strong>runtime, reflect, go</strong></li>
 </ul>
-<p>Welcome to <a href="http://zespia.tw/hexo" target="_blank">Hexo</a>! This is your very first post. Check <a href="http://zespia.tw/hexo/docs" target="_blank">documentation</a> to learn how to use.</p>
+<hr>
+<h1 id="-">初读感受</h1>
+<p>没啥东东，interface{}? goroutine? defer糖？</p>
+<p>还需要多发展发展，不知道以后在Android 上怎么样，给条活路哈</p>
+<p>打包，发布啥的，这都什么年代啦... MakeFile?</p>
+<p>现在就觉得做个MessageQueue 啥的还行，和Erlang拼杀?</p>
+<p>Done</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/hexo/">hexo</a>
+  <span></span> <a href="/tags/golang/">golang</a>
   </div>
 
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Golang/">Golang</a>
+</div>
 
 
 
@@ -189,19 +271,11 @@ content
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/02/13/import-image/" title="Import Image">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  Import Image</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/02/11/hello-world/"  title="Hello World">
+<a href="/2014/02/25/life-1/"  title="逃离帝都">
  <strong>NEXT:</strong><br/> 
- <span>Hello World
+ <span>逃离帝都
 </span>
 </a>
 </div>
@@ -236,7 +310,7 @@ content
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#md5-sha"><span class="toc-number">1.</span> <span class="toc-text">Md5 &amp; Sha</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">2.</span> <span class="toc-text">单元测试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">3.</span> <span class="toc-text">发布</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">4.</span> <span class="toc-text">反射</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">5.</span> <span class="toc-text">语言交互性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#go-"><span class="toc-number">6.</span> <span class="toc-text">Go标准库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">7.</span> <span class="toc-text">初读感受</span></a></li></ol>
   </div>
 
 <div id="asidepart">

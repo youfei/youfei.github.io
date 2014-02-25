@@ -75,7 +75,7 @@
     </p>
   <p class="article-time">
     <time datetime="2014-02-20T01:48:42.000Z" itemprop="datePublished">2月 20 2014</time>
-    更新日期:<time datetime="2014-02-21T01:08:11.000Z" itemprop="dateModified">2月 21 2014</time>
+    更新日期:<time datetime="2014-02-25T05:11:45.000Z" itemprop="dateModified">2月 25 2014</time>
     
   </p>
 </header>
@@ -94,11 +94,37 @@
 <h1 id="interface-">interface{}</h1>
 <ol>
 <li>非侵入式接口</li>
+</ol>
+<p><code>是否可以理解为实现动作即实现接口...</code></p>
+<ol>
 <li>接口赋值</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>var rw IReadWriter = <span class="keyword">...</span>
+var r IReader = rw
+</pre></td></tr></table></figure>
+
+<ol>
 <li>接口查询</li>
+</ol>
+<p>应用场景</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="comment">//拥有IReader接口的开发者，想要知道IReader对应的实例化是否也实现了IReadWriter接口，这样它可以切换到IReadWriterj接口的Writer()方法</span>
+<span class="keyword">var</span> reader IReader = NewReader()
+<span class="keyword">if</span> writer, ok := reader.(IReadWriter); ok {
+	writer.Writer()
+}
+</pre></td></tr></table></figure>
+
+<ol>
 <li>接口组合 <code>个人觉得有点继承的意味</code></li>
 </ol>
-<p><strong>Go</strong> 的接口定义的很宽泛，有点太宽泛了</p>
+<p><strong>Go</strong> 的接口定义的很宽泛，有点太宽泛了</br></p>
 <hr>
 <h1 id="-">并发</h1>
 <h3 id="-">并发通信模型</h3>
@@ -111,6 +137,14 @@
 </blockquote>
 
 
+<p><strong>协程</strong>，也有人称之为轻量级线程，特点</p>
+<ol>
+<li>能够在单一的系统线程中模拟多任务的并发执行</li>
+<li>在一个特定的时间内，只有一个任务在执行，即并非真正的并行</li>
+<li>被动的任务调度方式，即没有任务主动抢占时间片的说法。</li>
+<li>每个协程都有自己的堆栈和局部变量</li>
+</ol>
+<p><strong>和线程对进程的解释有啥不一样呢？</strong></p>
 <h3 id="channel">channel</h3>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -212,10 +246,10 @@ x, ok:= &lt;-ch
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2014/02/24/go-g-4/" title="Go网络编程">
+ <a href="/2014/02/24/go-g-4/" title="Golang语法初读-3">
   <strong>PREVIOUS:</strong><br/>
   <span>
-  Go网络编程</span>
+  Golang语法初读-3</span>
 </a>
 </div>
 
@@ -272,7 +306,7 @@ x, ok:= &lt;-ch
 		
 			<li><a href="/categories/Github Blog/" title="Github Blog">Github Blog<sup>3</sup></a></li>
 		
-			<li><a href="/categories/Golang/" title="Golang">Golang<sup>4</sup></a></li>
+			<li><a href="/categories/Golang/" title="Golang">Golang<sup>5</sup></a></li>
 		
 			<li><a href="/categories/Java/" title="Java">Java<sup>1</sup></a></li>
 		
@@ -291,7 +325,7 @@ x, ok:= &lt;-ch
 		
 			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
 		
-			<li><a href="/tags/golang/" title="golang">golang<sup>4</sup></a></li>
+			<li><a href="/tags/golang/" title="golang">golang<sup>5</sup></a></li>
 		
 			<li><a href="/tags/hexo/" title="hexo">hexo<sup>5</sup></a></li>
 		
@@ -305,7 +339,7 @@ x, ok:= &lt;-ch
   <div class="tagcloudlist">
     <p class="asidetitle">标签云</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/Git Page/" style="font-size: 10.00px;">Git Page</a><a href="/tags/Java/" style="font-size: 10.00px;">Java</a><a href="/tags/golang/" style="font-size: 15.00px;">golang</a><a href="/tags/hexo/" style="font-size: 20.00px;">hexo</a><a href="/tags/生活杂记/" style="font-size: 10.00px;">生活杂记</a>
+       <a href="/tags/Git Page/" style="font-size: 10.00px;">Git Page</a><a href="/tags/Java/" style="font-size: 10.00px;">Java</a><a href="/tags/golang/" style="font-size: 20.00px;">golang</a><a href="/tags/hexo/" style="font-size: 20.00px;">hexo</a><a href="/tags/生活杂记/" style="font-size: 10.00px;">生活杂记</a>
     </div>
   </div>
 
