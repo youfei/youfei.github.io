@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Good good study]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://youfei.github.io/"/>
-  <updated>2014-02-25T05:46:49.767Z</updated>
+  <updated>2014-02-27T09:43:15.659Z</updated>
   <id>http://youfei.github.io/</id>
   
   <author>
@@ -13,6 +13,527 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[杂记]]></title>
+    <link href="http://youfei.github.io/2014/02/27/others-1/"/>
+    <id>http://youfei.github.io/2014/02/27/others-1/</id>
+    <published>2014-02-27T02:09:10.000Z</published>
+    <updated>2014-02-27T09:42:55.000Z</updated>
+    <content type="html"><![CDATA[<p>安装了下虚拟机，并在上面搭了下环境</p>
+<a id="more"></a>
+
+<h1 id="-">虚拟机安装</h1>
+<p>1 orcale 的 VBox 很烂，再一次挂掉，不能忍啊。 <strong>卸掉</strong></br>
+2 VMWare 还要注册 。。。 <strong>溜掉</strong></br>
+3 VMWare Player <strong>Good</strong></br></p>
+<p><a href="https://my.vmware.com/web/vmware/free#desktop_end_user_computing/vmware_player/6_0" target="_blank">VMWare Player Download Link -&gt; </a>
+<a href="http://www.ubuntu.org.cn/download/ubuntu/download-zh" target="_blank">ubuntu iso -&gt; </a></p>
+<h1 id="-ssh">安装ssh</h1>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>sudo apt-get install openssh-server
+
+Try:  ssh <span class="tag">&lt;<span class="title">username</span>&gt;</span>@<span class="tag">&lt;<span class="title">remote</span> <span class="attribute">ip</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<hr>
+<h1 id="-monit">安装monit</h1>
+<p>主要参考：
+<a href="http://feilong.me/2011/02/monitor-core-processes-with-monit" target="_blank">link1</a>, <a href="http://mmonit.com/monit/documentation/monit.html" target="_blank">mmonit doc link</a></br></p>
+<p>以下来源<strong>link1</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="built_in">sudo</span> apt-get install monit
+--- <span class="built_in">sudo</span> apt-get remove monit
+
+/var/monit/monitrc	//配置文件
+
+<span class="built_in">sudo</span> /etc/init.d/monit start
+<span class="built_in">sudo</span> /etc/init.d/monit stop
+<span class="built_in">sudo</span> /etc/init.d/monit restart
+</pre></td></tr></table></figure>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+</pre></td><td class="code"><pre><span class="comment">##</span>
+<span class="comment">## 示例monit配置文件，说明：</span>
+<span class="comment">## 1. 域名以example.com为例。</span>
+<span class="comment">## 2. 后面带xxx的均是举例用的名字，需要根据自己的需要修改。</span>
+<span class="comment">##</span>
+<span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">#</span>
+<span class="comment">## Monit control file</span>
+<span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">#</span>
+<span class="comment">#</span>
+<span class="comment"># 检查周期，默认为2分钟，对于网站来说有点长，可以根据需要自行调节，这改成30秒。</span>
+set daemon  <span class="number">30</span>
+
+<span class="comment"># 日志文件</span>
+set logfile /<span class="reserved">var</span>/log/monit.log
+
+<span class="comment">#</span>
+<span class="comment"># 邮件通知服务器</span>
+<span class="comment">#</span>
+<span class="comment">#set mailserver mail.example.com</span>
+set mailserver localhost           
+
+<span class="comment">#</span>
+<span class="comment"># 通知邮件的格式设置，下面是默认格式供参考</span>
+<span class="comment">#</span>
+<span class="comment">## Monit by default uses the following alert mail format:</span>
+<span class="comment">##</span>
+<span class="comment">## --8&lt;--</span>
+<span class="comment">## From: monit@$HOST                         # sender</span>
+<span class="comment">## Subject: monit alert --  $EVENT $SERVICE  # subject</span>
+<span class="comment">##</span>
+<span class="comment">## $EVENT Service $SERVICE                   #</span>
+<span class="comment">##                                           #</span>
+<span class="comment">## 	Date:        $DATE                   #</span>
+<span class="comment">## 	Action:      $ACTION                 #</span>
+<span class="comment">## 	Host:        $HOST                   # body</span>
+<span class="comment">## 	Description: $DESCRIPTION            #</span>
+<span class="comment">##                                           #</span>
+<span class="comment">## Your faithful employee,                   #</span>
+<span class="comment">## monit                                     #</span>
+<span class="comment">## --8&lt;--</span>
+<span class="comment">##</span>
+<span class="comment">## You can override the alert message format or its parts such as subject</span>
+<span class="comment">## or sender using the MAIL-FORMAT statement. Macros such as $DATE, etc.</span>
+<span class="comment">## are expanded on runtime. For example to override the sender:</span>
+<span class="comment">#</span>
+<span class="comment"># 简单的，这只改了一下发送人，有需要可以自己修改其它内容。</span>
+set mail-format { <span class="attribute">from</span>: webmaster<span class="property">@example</span>.com }
+
+<span class="comment"># 设置邮件通知接收者。建议发到gmail，方便邮件过滤。</span>
+set alert userxxx<span class="property">@gmail</span>.com
+
+set httpd port <span class="number">2812</span> <span class="keyword">and</span>            <span class="comment"># 设置http监控页面的端口</span>
+     use address www.example.com   <span class="comment"># http监控页面的IP或域名</span>
+     allow localhost               <span class="comment"># 允许本地访问</span>
+     allow <span class="number">58.68</span><span class="number">.78</span><span class="number">.0</span>/<span class="number">24</span>           <span class="comment"># 允许此IP段访问</span>
+     <span class="comment">##allow 0.0.0.0/0.0.0.0       # 允许任何IP段，不建议这样干</span>
+     allow <span class="attribute">userxxx</span>:passwordxxx     <span class="comment"># 访问用户名密码</span>
+
+<span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">#</span>
+<span class="comment">## Services</span>
+<span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">######</span><span class="comment">#</span>
+<span class="comment">#</span>
+<span class="comment"># 系统整体运行状况监控，默认的就可以，可以自己去微调</span>
+<span class="comment">#</span>
+<span class="comment"># 系统名称，可以是IP或域名</span>
+check system www.example.com
+    <span class="keyword">if</span> loadavg (<span class="number">1</span>min) &gt; <span class="number">4</span> <span class="keyword">then</span> alert
+    <span class="keyword">if</span> loadavg (<span class="number">5</span>min) &gt; <span class="number">2</span> <span class="keyword">then</span> alert
+    <span class="keyword">if</span> memory usage &gt; <span class="number">75</span>% <span class="keyword">then</span> alert
+    <span class="keyword">if</span> cpu usage (user) &gt; <span class="number">70</span>% <span class="keyword">then</span> alert
+    <span class="keyword">if</span> cpu usage (system) &gt; <span class="number">30</span>% <span class="keyword">then</span> alert
+    <span class="keyword">if</span> cpu usage (wait) &gt; <span class="number">20</span>% <span class="keyword">then</span> alert
+
+<span class="comment">#</span>
+<span class="comment"># 监控nginx</span>
+<span class="comment">#</span>
+<span class="comment"># 需要提供进程pid文件信息</span>
+check process nginx <span class="reserved">with</span> pidfile /<span class="reserved">var</span>/run/nginx.pid
+    <span class="comment"># 进程启动命令行，注：必须是命令全路径</span>
+    start program = <span class="string">"/etc/init.d/nginx start"</span>
+    <span class="comment"># 进程关闭命令行</span>
+    stop program  = <span class="string">"/etc/init.d/nginx stop"</span>
+    <span class="comment"># nginx进程状态测试，监测到nginx连不上了，则自动重启</span>
+    <span class="keyword">if</span> failed host www.example.com port <span class="number">80</span> protocol http <span class="keyword">then</span> restart
+    <span class="comment"># 多次重启失败将不再尝试重启，这种就是系统出现严重错误的情况</span>
+    <span class="keyword">if</span> <span class="number">3</span> restarts within <span class="number">5</span> cycles <span class="keyword">then</span> timeout
+    <span class="comment"># 可选，设置分组信息</span>
+    group server
+
+<span class="comment">#   可选的ssl端口的监控，如果有的话</span>
+<span class="comment">#    if failed port 443 type tcpssl protocol http</span>
+<span class="comment">#       with timeout 15 seconds</span>
+<span class="comment">#       then restart</span>
+
+<span class="comment">#</span>
+<span class="comment"># 监控apache</span>
+<span class="comment">#</span>
+check process apache <span class="reserved">with</span> pidfile /<span class="reserved">var</span>/run/apache2.pid
+    start program = <span class="string">"/etc/init.d/apache2 start"</span>
+    stop program  = <span class="string">"/etc/init.d/apache2 stop"</span>
+    <span class="comment"># apache吃cpu和内存比较厉害，额外添加一些关于这方面的监控设置</span>
+    <span class="keyword">if</span> cpu &gt; <span class="number">50</span>% <span class="keyword">for</span> <span class="number">2</span> cycles <span class="keyword">then</span> alert
+    <span class="keyword">if</span> cpu &gt; <span class="number">70</span>% <span class="keyword">for</span> <span class="number">5</span> cycles <span class="keyword">then</span> restart
+    <span class="keyword">if</span> totalmem &gt; <span class="number">1500</span> MB <span class="keyword">for</span> <span class="number">10</span> cycles <span class="keyword">then</span> restart
+    <span class="keyword">if</span> children &gt; <span class="number">250</span> <span class="keyword">then</span> restart
+    <span class="keyword">if</span> loadavg(<span class="number">5</span>min) greater than <span class="number">10</span> <span class="keyword">for</span> <span class="number">20</span> cycles <span class="keyword">then</span> stop
+    <span class="keyword">if</span> failed host www.example.com port <span class="number">8080</span> protocol http <span class="keyword">then</span> restart
+    <span class="keyword">if</span> <span class="number">3</span> restarts within <span class="number">5</span> cycles <span class="keyword">then</span> timeout
+    group server
+    <span class="comment"># 可选，依赖于nginx</span>
+    depends <span class="literal">on</span> nginx
+
+<span class="comment">#</span>
+<span class="comment"># 监控spawn-fcgi进程(其实就是fast-cgi进程)</span>
+<span class="comment">#</span>
+check process spawn-fcgi <span class="reserved">with</span> pidfile /<span class="reserved">var</span>/run/spawn-fcgi.pid
+    <span class="comment"># spawn-fcgi一定要带-P参数才会生成pid文件，默认是没有的</span>
+    start program = <span class="string">"/usr/bin/spawn-fcgi -a 127.0.0.1 -p 8081 -C 10 -u userxxx -g groupxxx -P /var/run/spawn-fcgi.pid -f /usr/bin/php-cgi"</span>
+    stop program = <span class="string">"/usr/bin/killall /usr/bin/php-cgi"</span>
+    <span class="comment"># fast-cgi走的不是http协议，monit的protocol参数也没有cgi对应的设置，这里去掉protocol http即可。</span>
+    <span class="keyword">if</span> failed host <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> port <span class="number">8081</span> <span class="keyword">then</span> restart
+    <span class="keyword">if</span> <span class="number">3</span> restarts within <span class="number">5</span> cycles <span class="keyword">then</span> timeout
+    group server
+    depends <span class="literal">on</span> nginx
+</pre></td></tr></table></figure>
+
+<blockquote><ul>
+<li><p>start和stop的program参数里的命令必须是全路径，否则monit不能正常启动，比如killall应该是/usr/bin/killall。</p>
+</li>
+<li><p>对于spawn-fcgi，很多人会用它来管理PHP的fast-cgi进程，但spawn-fcgi本身也是有可能挂掉的，所以还是需要用monit来监控spawn-fcgi。spawn-fcgi必须带-P参数才会有pid文件，而且fast-cgi走的不是http协议，monit的protocol参数也没有cgi对应的设置，一定要去掉protocol http这项设置才管用。</p>
+</li>
+<li><p>进程多次重启失败monit将不再尝试重启，收到这样的通知邮件表明系统出现了严重的问题，要引起足够的重视，需要赶紧人工处理。</p>
+</li>
+</ul>
+</blockquote>
+
+
+<hr>
+<h1 id="-chrome">安装Chrome</h1>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>
+download: google<span class="attribute">-chrome</span><span class="attribute">-stable_current_i386</span><span class="built_in">.</span>deb
+sudo dpkg <span class="attribute">-i</span> google<span class="attribute">-chrome</span><span class="attribute">-stable_current_i386</span><span class="built_in">.</span>deb
+sudo apt<span class="attribute">-get</span> install <span class="attribute">-f</span>
+</pre></td></tr></table></figure>
+
+<hr>
+<h1 id="-jdk">安装JDK</h1>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+</pre></td><td class="code"><pre>$ getconf LONG_BIT	<span class="comment">//操作系统位数</span>
+<span class="number">32</span>
+
+$ lsb_release <span class="attribute">-a</span>	<span class="comment">//操作系统信息</span>
+No LSB modules are available<span class="built_in">.</span>
+Distributor ID: Ubuntu
+Description:    Ubuntu <span class="number">12.04</span><span class="number">.3</span> LTS
+Release:        <span class="number">12.04</span>
+Codename:       precise
+
+<span class="number">1</span> sudo apt<span class="attribute">-get</span> purge openjdk<span class="subst">*</span>
+<span class="number">2</span> Download ： jdk<span class="subst">-</span><span class="number">7</span>u51<span class="attribute">-linux</span><span class="attribute">-i586</span><span class="built_in">.</span>tar<span class="built_in">.</span>gz
+<span class="number">3</span> sudo su
+<span class="number">4</span> mkdir /usr/lib/java
+<span class="number">5</span> cd /usr/lib/java
+<span class="number">6</span> mv ~/Downloads/jdk<span class="subst">-</span><span class="number">7</span>u51<span class="attribute">-linux</span><span class="attribute">-i586</span><span class="built_in">.</span>tar<span class="built_in">.</span>gz <span class="built_in">.</span>
+<span class="number">7</span> tar xvf jdk<span class="subst">-</span><span class="number">7</span>u51<span class="attribute">-linux</span><span class="attribute">-i586</span><span class="built_in">.</span>tar<span class="built_in">.</span>gz
+<span class="number">8</span> mv jdk1<span class="number">.7</span><span class="number">.0</span>_51<span class="subst">/</span> java<span class="subst">-</span><span class="number">7</span><span class="attribute">-sun</span>
+<span class="number">9</span> vi /etc/environment
+<span class="number">10</span> PATH<span class="subst">=</span><span class="string">"/usr/lib/java/java-7-sun/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"</span>
+   JAVA_HOME<span class="subst">=</span><span class="string">"/usr/lib/java/java-7-sun"</span>
+   CLASSPATH<span class="subst">=</span><span class="string">"/usr/lib/java/java-7-sun/lib"</span>
+<span class="number">11</span> source /etc/environment
+<span class="number">12</span> java <span class="attribute">-version</span>
+<span class="number">13</span> Done
+</pre></td></tr></table></figure>
+
+<hr>
+<h1 id="-tomcat">安装Tomcat</h1>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>
+<span class="number">1</span> Download Tomcat
+<span class="number">2</span> vi ~/.bashrc
+<span class="number">3</span> <span class="keyword">export</span> CATALINA_HOME=&lt;apache-tomcat path&gt;
+  <span class="keyword">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$CATALINA_HOME</span>/bin
+<span class="number">4</span> Done
+</pre></td></tr></table></figure>
+
+<hr>
+<h1 id="-tomcat-">添加Tomcat启动脚本</h1>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+</pre></td><td class="code"><pre><span class="comment"># !/bin/bash</span>
+<span class="comment"># Usage:        tomcat [start|stop|reload|restart]</span>
+<span class="comment">#</span>
+
+<span class="keyword">export</span> JAVA_HOME= 
+<span class="keyword">export</span> CATALINA_HOME= 
+<span class="keyword">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$CATALINA_HOME</span>/bin
+
+<span class="keyword">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$HOME</span>/bin
+<span class="keyword">export</span> BASH_ENV=<span class="variable">$HOME</span>/.bashrc
+<span class="keyword">export</span> USERNAME=<span class="string">"root"</span>
+
+
+<span class="keyword">case</span> <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span>
+	start)
+	   	<span class="built_in">echo</span> -n <span class="string">"tomcat start: "</span>
+	 	<span class="built_in">cd</span> <span class="variable">$CATALINA_HOME</span>/bin/
+	 	sh startup.sh
+	   	<span class="built_in">echo</span> <span class="string">"Done"</span>
+		;;
+	stop)
+   		<span class="built_in">echo</span> -n <span class="string">"tomcat stop:"</span>
+   		<span class="built_in">cd</span> <span class="variable">$CATALINA_HOME</span>/bin/
+   		sh shutdown.sh
+   		<span class="built_in">echo</span> <span class="string">"Done"</span>
+		;;
+	restart)
+	    <span class="variable">$0</span> stop
+	    <span class="variable">$0</span> start
+		;;
+	*)
+	   <span class="built_in">echo</span> <span class="string">"Usage: tomcat [start|stop|reload|restart]"</span>
+	   <span class="keyword">exit</span> <span class="number">1</span>
+
+<span class="keyword">esac</span>
+<span class="keyword">exit</span> <span class="number">0</span>
+</pre></td></tr></table></figure>
+
+<hr>
+<h1 id="monit-tomcat-">monit添加tomcat监听</h1>
+<p><a href="http://blog.chinaunix.net/uid-21516619-id-1825022.html" target="_blank">参考</a> </br>
+<a href="http://portable.easylife.tw/2407?category=4" target="_blank">参考</a></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>
+check <span class="built_in">process</span> tomcat <span class="operator">with</span> pidfile /var/run/catalina.pid
+    start program = <span class="string">"/etc/init.d/tomcat start"</span>
+    stop program  = <span class="string">"/etc/init.d/tomcat stop"</span>
+        <span class="keyword">if</span> <span class="number">9</span> restarts <span class="operator">within</span> <span class="number">10</span> cycles <span class="keyword">then</span> timeout
+    <span class="keyword">if</span> failed url <span class="keyword">http</span>://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">8080</span>/ timeout <span class="number">120</span> <span class="built_in">seconds</span> <span class="keyword">for</span> <span class="number">5</span> cycles <span class="keyword">then</span> restart
+</pre></td></tr></table></figure>
+
+<p><strong>catalina.pid</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>vi $CATALINA_HOME/bin/catalina<span class="preprocessor">.sh</span>
+
+<span class="keyword">Add</span> Line: CATALINA_PID=/var/run/catalina<span class="preprocessor">.pid</span>
+</pre></td></tr></table></figure>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre>monit -h
+monit -d 30
+monit <span class="operator"><span class="keyword">start</span> tomcat || monit <span class="keyword">start</span> <span class="keyword">all</span>
+monit status
+
+<span class="keyword">CHECK</span>: http://localhost:<span class="number">2812</span>
+
+monit stop tomcat</span>
+</pre></td></tr></table></figure>
+
+]]></content>
+    <summary type="html"><![CDATA[<p>安装了下虚拟机，并在上面搭了下环境</p>
+]]></summary>
+    
+      <category term="比较杂乱" scheme="http://youfei.github.io/tags/%E6%AF%94%E8%BE%83%E6%9D%82%E4%B9%B1/"/>
+    
+      <category term="比较杂乱" scheme="http://youfei.github.io/categories/%E6%AF%94%E8%BE%83%E6%9D%82%E4%B9%B1/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Golang语法初读-4]]></title>
@@ -213,7 +734,7 @@ x :  <span class="number">7.1</span>
     <link href="http://youfei.github.io/2014/02/24/go-g-4/"/>
     <id>http://youfei.github.io/2014/02/24/go-g-4/</id>
     <published>2014-02-24T07:40:45.000Z</published>
-    <updated>2014-02-25T05:42:18.000Z</updated>
+    <updated>2014-02-25T09:02:56.000Z</updated>
     <content type="html"><![CDATA[<p>Go网络编程</p>
 <a id="more"></a>
 
@@ -386,6 +907,7 @@ Http 对于习惯Java 编程的我，不喜欢！</p>
 <h1 id="-">资料</h1>
 <ol>
 <li><a href="http://jan.newmarch.name/go/" target="_blank">Network programming with Go</a>, really helpful !!!</li>
+<li><a href="https://code.google.com/p/go-wiki/wiki/Projects" target="_blank">Go Project</a></li>
 </ol>
 ]]></content>
     <summary type="html"><![CDATA[<p>Go网络编程</p>
