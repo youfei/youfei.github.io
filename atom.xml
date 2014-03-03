@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Good good study]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://youfei.github.io/"/>
-  <updated>2014-03-03T06:40:35.746Z</updated>
+  <updated>2014-03-03T08:07:54.641Z</updated>
   <id>http://youfei.github.io/</id>
   
   <author>
@@ -15,16 +15,71 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[浅谈CSRF攻击方式(转)]]></title>
+    <link href="http://youfei.github.io/2014/03/03/others-2/"/>
+    <id>http://youfei.github.io/2014/03/03/others-2/</id>
+    <published>2014-03-03T07:54:19.000Z</published>
+    <updated>2014-03-03T08:07:33.000Z</updated>
+    <content type="html"><![CDATA[<p><a href="http://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html" target="_blank">浅谈CSRF攻击方式</a>出处：hyddd(<a href="http://www.cnblogs.com/hyddd/" target="_blank">http://www.cnblogs.com/hyddd/</a>) 写的太详细了</br></p>
+<p>以服务器端产生伪随机数<input type="hidden">防范，该方法也可用于<strong>防止表单多次提交</strong>~</p>
+<a id="more"></a>
+
+<h1 id="-csrf-">一.CSRF是什么？</h1>
+<p>　　CSRF（Cross-site request forgery），中文名称：跨站请求伪造，也被称为：one click attack/session riding，缩写为：CSRF/XSRF。</p>
+<hr>
+<h1 id="-csrf-">二.CSRF可以做什么？</h1>
+<p>　　你这可以这么理解CSRF攻击：攻击者盗用了你的身份，以你的名义发送恶意请求。CSRF能够做的事情包括：以你名义发送邮件，发消息，盗取你的账号，甚至于购买商品，虚拟货币转账......造成的问题包括：个人隐私泄露以及财产安全。</p>
+<hr>
+<h1 id="-csrf-">三.CSRF漏洞现状</h1>
+<p>　　CSRF这种攻击方式在2000年已经被国外的安全人员提出，但在国内，直到06年才开始被关注，08年，国内外的多个大型社区和交互网站分别爆出CSRF漏洞，如：NYTimes.com（纽约时报）、Metafilter（一个大型的BLOG网站），YouTube和百度HI......而现在，互联网上的许多站点仍对此毫无防备，以至于安全业界称CSRF为“沉睡的巨人”。</p>
+<hr>
+<h1 id="-csrf-">四.CSRF的原理</h1>
+<p>　　下图简单阐述了CSRF攻击的思想：
+<img src="http://pic002.cnblogs.com/img/hyddd/200904/2009040916453171.jpg" alt="CSRF攻击的思想"></p>
+<p>从上图可以看出，要完成一次CSRF攻击，受害者必须依次完成两个步骤：</p>
+<p>　　1.登录受信任网站A，并在本地生成Cookie。</p>
+<p>　　2.在不登出A的情况下，访问危险网站B。</p>
+<p>　　看到这里，你也许会说：“如果我不满足以上两个条件中的一个，我就不会受到CSRF的攻击”。是的，确实如此，但你不能保证以下情况不会发生：</p>
+<p>　　1.你不能保证你登录了一个网站后，不再打开一个tab页面并访问另外的网站。</p>
+<p>　　2.你不能保证你关闭浏览器了后，你本地的Cookie立刻过期，你上次的会话已经结束。（事实上，关闭浏览器不能结束一个会话，但大多数人都会错误的认为关闭浏览器就等于退出登录/结束会话了......）</p>
+<p>　　3.上图中所谓的攻击网站，可能是一个存在其他漏洞的可信任的经常被人访问的网站。</p>
+<blockquote><p>其实可以看出，CSRF攻击是源于WEB的隐式身份验证机制！WEB的身份验证机制虽然可以保证一个请求是来自于某个用户的浏览器，但却无法保证该请求是用户批准发送的！</p>
+</blockquote>
+
+
+<hr>
+<h1 id="-csrf-">五.CSRF的防御</h1>
+<h2 id="1-csrf-">1.服务端进行CSRF防御</h2>
+<p>服务端的CSRF方式方法很多样，但总的思想都是一致的，就是在客户端页面增加伪随机数。</p>
+<p>　　(1).Cookie Hashing(所有表单都包含同一个伪随机值)：</p>
+<p>　　这可能是最简单的解决方案了，因为攻击者不能获得第三方的Cookie(理论上)，所以表单中的数据也就构造失败了:&gt;</p>
+<p><strong>这个方法个人觉得已经可以杜绝99%的CSRF攻击了，那还有1%呢....由于用户的Cookie很容易由于网站的XSS漏洞而被盗取，这就另外的1%。一般的攻击者看到有需要算Hash值，基本都会放弃了，某些除外，所以如果需要100%的杜绝，这个不是最好的方法。</strong></p>
+<pre><code>(2).验证码
+</code></pre><p>　　这个方案的思路是：每次的用户提交都需要用户在表单中填写一个图片上的随机字符串，厄....这个方案可以完全解决CSRF，但个人觉得在易用性方面似乎不是太好，还有听闻是验证码图片的使用涉及了一个被称为MHTML的Bug，可能在某些版本的微软IE中受影响。</p>
+<p>　　(3).One-Time Tokens(不同的表单包含一个不同的伪随机值)</p>
+<p>　　在实现One-Time Tokens时，需要注意一点：就是“并行会话的兼容”。如果用户在一个站点上同时打开了两个不同的表单，CSRF保护措施不应该影响到他对任何表单的提交。考虑一下如果每次表单被装入时站点生成一个伪随机值来覆盖以前的伪随机值将会发生什么情况：用户只能成功地提交他最后打开的表单，因为所有其他的表单都含有非法的伪随机值。必须小心操作以确保CSRF保护措施不会影响选项卡式的浏览或者利用多个浏览器窗口浏览一个站点。</p>
+]]></content>
+    <summary type="html"><![CDATA[<p><a href="http://www.cnblogs.com/hyddd/archive/2009/04/09/1432744.html" target="_blank">浅谈CSRF攻击方式</a>出处：hyddd(<a href="http://www.cnblogs.com/hyddd/" target="_blank">http://www.cnblogs.com/hyddd/</a>) 写的太详细了</br></p>
+<p>以服务器端产生伪随机数<input type="hidden">防范，该方法也可用于<strong>防止表单多次提交</strong>~</p>
+]]></summary>
+    
+      <category term="比较杂乱" scheme="http://youfei.github.io/tags/%E6%AF%94%E8%BE%83%E6%9D%82%E4%B9%B1/"/>
+    
+      <category term="比较杂乱" scheme="http://youfei.github.io/categories/%E6%AF%94%E8%BE%83%E6%9D%82%E4%B9%B1/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[RabbitMQ 初读]]></title>
     <link href="http://youfei.github.io/2014/02/28/rabbit-g-1/"/>
     <id>http://youfei.github.io/2014/02/28/rabbit-g-1/</id>
     <published>2014-02-28T06:14:37.000Z</published>
-    <updated>2014-03-03T06:40:16.000Z</updated>
+    <updated>2014-03-03T06:40:54.000Z</updated>
     <content type="html"><![CDATA[<p>RabbitMQ 是由 LShift 提供的一个 Advanced Message Queuing Protocol (AMQP) 的开源实现，由以高性能、健壮以及可伸缩性出名的 Erlang 写成，因此也是继承了这些优点。</p>
 <a id="more"></a>
 
 <h1 id="-">简介</h1>
-<p>典型的消费-生产者模型, 应用：对无需即时返回且耗时的操作，进行异步处理。</p>
+<p>典型的消费-生产者模型。 应用：对无需即时返回且耗时的操作，进行异步处理。</p>
 <p>RabbitMQ的结构图如下：
 <img src="http://www.nsbeta.info/wp-content/uploads/2012/03/mq.png" alt="RabbitMQ的结构图"></p>
 <h2 id="-"><strong>几个概念说明</strong></h2>
