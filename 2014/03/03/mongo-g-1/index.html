@@ -1,0 +1,692 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>MongoDB初读 | youfei&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="fei you">
+    
+    <meta name="description" content="MongoDB初读">
+    
+    
+    
+    
+    <link rel="alternative" href="/atom.xml" title="youfei&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="youfei&#39;s blog" title="youfei&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="youfei&#39;s blog">youfei&#39;s blog</a></h1>
+				<h2 class="blog-motto">Good good study</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:youfei.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/03/03/mongo-g-1/" title="MongoDB初读" itemprop="url">MongoDB初读</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://youfei.github.io" title="fei you">fei you</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-03-03T08:22:09.000Z" itemprop="datePublished">3月 3 2014</time>
+    更新日期:<time datetime="2014-03-04T07:23:59.000Z" itemprop="dateModified">3月 4 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#mongodb-"><span class="toc-number">1.</span> <span class="toc-text">MongoDB安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">2.</span> <span class="toc-text">设置开机启动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">3.</span> <span class="toc-text">客户端登录服务器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">4.</span> <span class="toc-text">创建数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">5.</span> <span class="toc-text">标准检查流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mongovue"><span class="toc-number">6.</span> <span class="toc-text">MONGOVUE</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">7.</span> <span class="toc-text">参考</span></a></li></ol>
+		</div>
+		
+		<p>MongoDB初读</p>
+<a id="more"></a>
+
+<h1 id="mongodb-">MongoDB安装</h1>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre><span class="number">1</span> Download mongodb-linux-i686-<span class="number">2.4</span><span class="number">.9</span>.tgz
+<span class="number">2</span> tar xvf mongodb-linux-i686-<span class="number">2.4</span><span class="number">.9</span>.tgz
+<span class="number">3</span> mkdir -p /data/db/	//默认会在/data/db/存储数据库文件
+<span class="number">4</span> chown `id -u` /data/db
+**<span class="number">5</span> chown -R  mongodb:mongodb db/** 这个可重要了
+<span class="number">6</span> ./mongod
+
+OR
+
+<span class="number">1</span> sudo apt-get install mongodb-10gen
+Installing new version of config file /etc/mongodb.conf <span class="keyword">...</span>
+Installing new version of config file /etc/init/mongodb.conf <span class="keyword">...</span>
+</pre></td></tr></table></figure>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+</pre></td><td class="code"><pre>$mongod
+./mongod --help <span class="keyword">for</span> help <span class="keyword">and</span> startup options
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">50.735</span>
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">50.738</span> warning: <span class="number">32</span>-bit servers don't have journaling enabled by <span class="keyword">default</span>. Please <span class="keyword">use</span> --journal <span class="keyword">if</span> you want durability.
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">50.739</span>
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.037</span> [initandlisten] MongoDB starting : pid=<span class="number">19039</span> port=<span class="number">27017</span> dbpath=/data/db/ <span class="number">32</span>-bit host=ubuntu
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.039</span> [initandlisten]
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.040</span> [initandlisten] ** NOTE: This is a <span class="number">32</span> bit MongoDB binary.
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.041</span> [initandlisten] **       <span class="number">32</span> bit builds are limited <span class="keyword">to</span> less than <span class="number">2</span>GB <span class="keyword">of</span> data (<span class="keyword">or</span> less <span class="keyword">with</span> --journal).
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.042</span> [initandlisten] **       Note that journaling defaults <span class="keyword">to</span> off <span class="keyword">for</span> <span class="number">32</span> bit <span class="keyword">and</span> is currently off.
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.042</span> [initandlisten] **       See http:<span class="comment">//dochub.mongodb.org/core/32bit</span>
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.044</span> [initandlisten]
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.047</span> [initandlisten] db version v2<span class="number">.4</span><span class="number">.9</span>
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.047</span> [initandlisten] git version: <span class="number">52</span>fe0d21959e32a5bdbecdc62057db386e4e029c
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.047</span> [initandlisten] build info: Linux bs-linux32<span class="number">.10</span>gen.cc <span class="number">2.6</span><span class="number">.21</span><span class="number">.7</span>-<span class="number">2.</span>fc8xen #<span class="number">1</span> SMP Fri Feb <span class="number">15</span> <span class="number">12</span>:<span class="number">39</span>:<span class="number">36</span> EST <span class="number">2008</span> i686 BOOST_LIB_VERSION=<span class="number">1</span>_49
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.048</span> [initandlisten] allocator: system
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.048</span> [initandlisten] options: {}
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.271</span> [FileAllocator] allocating <span class="keyword">new</span> datafile /data/db/local.ns, filling <span class="keyword">with</span> zeroes...
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.273</span> [FileAllocator] creating directory /data/db/_tmp
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.355</span> [FileAllocator] <span class="keyword">done</span> allocating datafile /data/db/local.ns, size: <span class="number">16</span>MB,  took <span class="number">0.045</span> secs
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.357</span> [FileAllocator] allocating <span class="keyword">new</span> datafile /data/db/local<span class="number">.0</span>, filling <span class="keyword">with</span> zeroes...
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.432</span> [FileAllocator] <span class="keyword">done</span> allocating datafile /data/db/local<span class="number">.0</span>, size: <span class="number">16</span>MB,  took <span class="number">0.002</span> secs
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.510</span> [initandlisten] command local.$cmd command: { create: <span class="string">"startup_log"</span>, size: <span class="number">10485760</span>, capped: <span class="keyword">true</span> } ntoreturn:<span class="number">1</span> keyUpdates:<span class="number">0</span>  reslen:<span class="number">37</span> <span class="number">239</span>ms
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.520</span> [websvr] admin web console waiting <span class="keyword">for</span> connections on port <span class="number">28017</span>
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">27</span>:<span class="number">51.522</span> [initandlisten] waiting <span class="keyword">for</span> connections on port <span class="number">27017</span>
+</pre></td></tr></table></figure>
+
+<p>另起console</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="code"><pre>$mongo
+MongoDB <span class="built_in">shell</span> <span class="built_in">version</span>: <span class="number">2.4</span><span class="number">.9</span>
+connecting <span class="built_in">to</span>: test
+Welcome <span class="built_in">to</span> <span class="operator">the</span> MongoDB <span class="built_in">shell</span>.
+For interactive help, type <span class="string">"help"</span>.
+For more comprehensive documentation, see
+        <span class="keyword">http</span>://docs.mongodb.org/
+Questions? Try <span class="operator">the</span> support group
+        <span class="keyword">http</span>://groups.google.com/group/mongodb-user
+Server has startup warnings:
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">39</span>:<span class="number">22.629</span> [initandlisten]
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">39</span>:<span class="number">22.631</span> [initandlisten] ** NOTE: This is <span class="operator">a</span> <span class="number">32</span> bit MongoDB binary.
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">39</span>:<span class="number">22.631</span> [initandlisten] **       <span class="number">32</span> bit builds are limited <span class="built_in">to</span> less than <span class="number">2</span>GB <span class="operator">of</span> data (<span class="operator">or</span> less <span class="operator">with</span> <span class="comment">--journal).</span>
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">39</span>:<span class="number">22.632</span> [initandlisten] **       See <span class="keyword">http</span>://dochub.mongodb.org/core/<span class="number">32</span>bit
+Mon Mar  <span class="number">3</span> <span class="number">16</span>:<span class="number">39</span>:<span class="number">22.633</span> [initandlisten]
+&gt;
+</pre></td></tr></table></figure>
+
+<hr>
+<h1 id="-">设置开机启动</h1>
+<p><strong>以下这个是要自己写，要是应用apt-get install 的话是不需要的。</strong></p>
+<p>/etc/init.d/mongodb</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+</pre></td><td class="code"><pre><span class="shebang">#!/bin/sh
+ </span>
+<span class="comment">### BEGIN INIT INFO</span>
+<span class="comment"># Provides:     mongodb</span>
+<span class="comment"># Required-Start:</span>
+<span class="comment"># Required-Stop:</span>
+<span class="comment"># Default-Start:        2 3 4 5</span>
+<span class="comment"># Default-Stop:         0 1 6</span>
+<span class="comment"># Short-Description: mongodb</span>
+<span class="comment"># Description: mongo db server</span>
+<span class="comment">### END INIT INFO</span>
+ 
+. /lib/lsb/init-functions
+ 
+PROGRAM=/tools/mongodb-linux-i686-<span class="number">2.4</span>.<span class="number">9</span>/bin/mongod
+MONGOPID=`ps -ef | grep <span class="string">'mongod'</span> | grep -v grep | awk <span class="string">'{print $2}'</span>`
+ 
+test -x <span class="variable">$PROGRAM</span> || <span class="keyword">exit</span> <span class="number">0</span>
+ 
+<span class="keyword">case</span> <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span>
+  start)
+     ulimit -n <span class="number">3000</span>
+     log_begin_msg <span class="string">"Starting MongoDB server"</span> 
+     <span class="variable">$PROGRAM</span> --fork --quiet -journal -maxConns=<span class="number">2400</span> -rest --logpath /data/db/journal/mongdb.log
+     log_end_msg <span class="number">0</span>
+     ;;
+  stop)
+     log_begin_msg <span class="string">"Stopping MongoDB server"</span> 
+     <span class="keyword">if</span> [ ! -z <span class="string">"<span class="variable">$MONGOPID</span>"</span> ]; <span class="keyword">then</span> 
+        kill -<span class="number">15</span> <span class="variable">$MONGOPID</span>
+     <span class="keyword">fi</span>
+     log_end_msg <span class="number">0</span>
+     ;;
+  status)
+     ;;
+  *)
+     log_success_msg <span class="string">"Usage: /etc/init.d/mongodb {start|stop|status}"</span> 
+     <span class="keyword">exit</span> <span class="number">1</span>
+<span class="keyword">esac</span>
+ 
+<span class="keyword">exit</span> <span class="number">0</span>
+</pre></td></tr></table></figure>
+
+<p><strong>关闭/启动服务</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>sudo service mongodb stop
+sudo service mongodb <span class="operator"><span class="keyword">start</span>
+
+<span class="string">`http://192.168.6.129:27017/`</span>
+You <span class="keyword">are</span> trying <span class="keyword">to</span> access MongoDB <span class="keyword">on</span> the native driver port. <span class="keyword">For</span> http diagnostic access, <span class="keyword">add</span> <span class="number">1000</span> <span class="keyword">to</span> the port <span class="keyword">number</span></span>
+</pre></td></tr></table></figure>
+
+<p>手动粗暴启动mongodb server</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="built_in">.</span>/mongod <span class="attribute">-journal</span> <span class="attribute">-maxConns</span><span class="subst">=</span><span class="number">2400</span> <span class="attribute">-rest</span>
+<span class="attribute">-journal</span> 代表要写日志，<span class="attribute">-maxConns</span><span class="subst">=</span><span class="number">2400</span>代表mongodb 可以接受<span class="number">2400</span>个tcp连接，<span class="attribute">-rest</span>代表可以允许客户端通过rest API访问mongdb server<span class="built_in">.</span>
+还可以使用参数—quiet启动可以指定安静模式减少记录的项目数，注意使用该参数必须要同时指定日志路径,比如：
+—quiet —logpath /<span class="built_in">data</span>/db/journal/mongdb<span class="built_in">.</span><span class="keyword">log</span>
+</pre></td></tr></table></figure>
+
+<p><strong>修改系统允许的最大连接数</strong></br></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="code"><pre>上面的最大连接数目的限制原因是Linux系统默认一个进程最大文件打开数目为<span class="number">1024</span>，用ulimit -<span class="operator">a</span> 命令检查，可以看到下面这行:
+<span class="built_in">open</span> <span class="built_in">files</span>                      (-n) <span class="number">1024</span>
+
+修改/etc/security/limits.conf 配置文件。
+使用命令：sudo gedit /etc/security/limits.conf
+在文件中增加
+* soft nofile <span class="number">3000</span>
+* hard nofile <span class="number">20000</span>
+root soft nofile <span class="number">3000</span>
+root hard nofile <span class="number">20000</span>
+* 表示该配置对所有用户均有效,root用户要特别加两行。
+硬限制通常是根据系统硬件资源状况(主要是系统内存)计算出来的系统最多可同时打开的文件数量，软限制是在这个基础上进一步的限制。因此软限制数目要低于硬限制。
+nofile表示 <span class="built_in">max</span> <span class="built_in">number</span> <span class="operator">of</span> <span class="built_in">open</span> <span class="built_in">files</span>
+重新启动计算机，然后再用ulimit -<span class="operator">a</span> 命令查看：
+<span class="built_in">open</span> <span class="built_in">files</span>                      (-n) <span class="number">3000</span>
+已经生效了。现在再启动mongodb server，问题解决
+</pre></td></tr></table></figure>
+
+<hr>
+<h1 id="-">客户端登录服务器</h1>
+<p>启动日志如上，服务端启动如上，现在我们在另外一个终端测试服务器是否正常。</br>
+进入/usr/local/mongodb-linux-x86_64-2.0.2/bin,执行./mongo</br>
+出现</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>MongoDB <span class="built_in">shell</span> <span class="built_in">version</span>: <span class="number">2.0</span><span class="number">.2</span>
+connecting <span class="built_in">to</span>: test
+</pre></td></tr></table></figure>
+
+<p>执行</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>$db<span class="preprocessor">.foo</span><span class="preprocessor">.save</span>({<span class="number">1</span> : “Hello world”})
+$db<span class="preprocessor">.foo</span><span class="preprocessor">.find</span>()<span class="comment">;</span>
+{ <span class="string">"_id"</span> : ObjectId(<span class="string">"4e4b395986738efa2d0718b9"</span>), <span class="string">"1"</span> : <span class="string">"hello world"</span> }
+</pre></td></tr></table></figure>
+
+<p>执行到这里恭喜你，成功安装好了mongodb</br></p>
+<p>也可以通过下面这种方式连接远程的mongodb server,默认端口为27017,比如
+./mongo 192.168.6.129</p>
+<hr>
+<h1 id="-">创建数据库</h1>
+<p>如果没有mydb数据库的话，在客户端中使用命令：</br>
+use mydb</br>
+将创建mydb数据库，而且当前数据库切换为mydb.</br>
+此时show dbs不显示该数据库名称。使用db.stats()命令检查当前数据库状态。</br></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="variable">$db</span>     当前数据库
+</pre></td></tr></table></figure>
+
+<hr>
+<h1 id="-">标准检查流程</h1>
+<ul>
+<li>1.首先检查 ulimit -a
+查看open files (-n) 是否为设置的值</li>
+<li>2.ps -def | grep mongod
+查看该服务是否启动</li>
+<li>3.cd /var/log/
+cat mongdb.log</br>
+查看服务器是否正确</li>
+<li>4.进入<a href="http://192.168.6.129:28017" target="_blank">http://192.168.6.129:28017</a>
+看服务器是否启动正常</li>
+</ul>
+<hr>
+<h1 id="mongovue">MONGOVUE</h1>
+<p><a href="http://www.mongovue.com/" target="_blank">MongoVUE</a> is an innovative MongoDB desktop application for Windows OS that gives you an elegant and highly usable GUI interface to work with MongoDB. Now there is one less worry in managing your web-scale data.</p>
+<p><strong>Connection Congfig</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="attribute">Server</span>: <span class="string">192.168.6.129</span>
+<span class="attribute">Prot</span>: <span class="string">  27017</span>
+</pre></td></tr></table></figure>
+
+<hr>
+<h1 id="-">参考</h1>
+<p><a href="http://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/" target="_blank">Install MongoDB on Ubuntu</a>
+<a href="http://blog.csdn.net/fdipzone/article/details/7316240" target="_blank">Ubuntu安装MongoDB</a>
+<a href="http://www.cnblogs.com/xuqiang/archive/2011/03/27/1997158.html" target="_blank">初试MongoDB</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Mongo/">Mongo</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Mongo/">Mongo</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  
+
+	<!-- JiaThis Button BEGIN -->
+	<script type="text/javascript">
+	var jiathis_config = {data_track_clickback:'true'};
+	</script>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jiathis_r.js?move=0&amp;uid=1893583" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+
+
+
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2014/03/03/others-2/"  title="浅谈CSRF攻击方式(转)">
+ <strong>NEXT:</strong><br/> 
+ <span>浅谈CSRF攻击方式(转)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	
+	
+	<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"youfei"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = 'http://static.duoshuo.com/embed.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			|| document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+		</script>
+	<!-- Duoshuo Comment END -->
+	
+	
+	
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#mongodb-"><span class="toc-number">1.</span> <span class="toc-text">MongoDB安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">2.</span> <span class="toc-text">设置开机启动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">3.</span> <span class="toc-text">客户端登录服务器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">4.</span> <span class="toc-text">创建数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">5.</span> <span class="toc-text">标准检查流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mongovue"><span class="toc-number">6.</span> <span class="toc-text">MONGOVUE</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">7.</span> <span class="toc-text">参考</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Github Blog/" title="Github Blog">Github Blog<sup>3</sup></a></li>
+		
+			<li><a href="/categories/Golang/" title="Golang">Golang<sup>5</sup></a></li>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/categories/Mongo/" title="Mongo">Mongo<sup>1</sup></a></li>
+		
+			<li><a href="/categories/rabbit/" title="rabbit">rabbit<sup>1</sup></a></li>
+		
+			<li><a href="/categories/比较杂乱/" title="比较杂乱">比较杂乱<sup>2</sup></a></li>
+		
+			<li><a href="/categories/生活杂记/" title="生活杂记">生活杂记<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Git Page/" title="Git Page">Git Page<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Mongo/" title="Mongo">Mongo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/golang/" title="golang">golang<sup>5</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>5</sup></a></li>
+		
+			<li><a href="/tags/rabbit/" title="rabbit">rabbit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/比较杂乱/" title="比较杂乱">比较杂乱<sup>2</sup></a></li>
+		
+			<li><a href="/tags/生活杂记/" title="生活杂记">生活杂记<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/Git Page/" style="font-size: 10.00px;">Git Page</a><a href="/tags/Java/" style="font-size: 10.00px;">Java</a><a href="/tags/Mongo/" style="font-size: 10.00px;">Mongo</a><a href="/tags/golang/" style="font-size: 20.00px;">golang</a><a href="/tags/hexo/" style="font-size: 20.00px;">hexo</a><a href="/tags/rabbit/" style="font-size: 10.00px;">rabbit</a><a href="/tags/比较杂乱/" style="font-size: 15.00px;">比较杂乱</a><a href="/tags/生活杂记/" style="font-size: 10.00px;">生活杂记</a>
+    </div>
+  </div>
+
+
+  <div class="tagslist">
+	<p class="asidetitle">我的微博</p>
+	<iframe id="sina_widget_1656357677" style="width:100%; height:500px;" frameborder="0" scrolling="no" src="http://v.t.sina.com.cn/widget/widget_blog.php?uid=1656357677&height=500&skin=wd_02&showpic=1"></iframe>
+</div>
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+     <li><a href="http://hongbinzuo.github.io/" title="Hongbin Zuo's Blog">Hongbin Zuo</a></li>
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> 
+		
+		</br> © 2014 <a href="http://youfei.github.io" target="_blank" title="fei you">fei you</a>
+		<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1000271340'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/z_stat.php%3Fid%3D1000271340%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+		
+		</p>
+</div>
+	
+	
+	</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"null"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

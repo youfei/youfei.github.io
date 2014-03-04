@@ -76,7 +76,7 @@
     </p>
   <p class="article-time">
     <time datetime="2014-03-03T07:54:19.000Z" itemprop="datePublished">3月 3 2014</time>
-    更新日期:<time datetime="2014-03-03T08:07:33.000Z" itemprop="dateModified">3月 3 2014</time>
+    更新日期:<time datetime="2014-03-03T08:10:15.000Z" itemprop="dateModified">3月 3 2014</time>
     
   </p>
 </header>
@@ -119,12 +119,12 @@
 <h1 id="-csrf-">五.CSRF的防御</h1>
 <h2 id="1-csrf-">1.服务端进行CSRF防御</h2>
 <p>服务端的CSRF方式方法很多样，但总的思想都是一致的，就是在客户端页面增加伪随机数。</p>
-<p>　　(1).Cookie Hashing(所有表单都包含同一个伪随机值)：</p>
+<p>　  (1).Cookie Hashing(所有表单都包含同一个伪随机值)：</p>
 <p>　　这可能是最简单的解决方案了，因为攻击者不能获得第三方的Cookie(理论上)，所以表单中的数据也就构造失败了:&gt;</p>
 <p><strong>这个方法个人觉得已经可以杜绝99%的CSRF攻击了，那还有1%呢....由于用户的Cookie很容易由于网站的XSS漏洞而被盗取，这就另外的1%。一般的攻击者看到有需要算Hash值，基本都会放弃了，某些除外，所以如果需要100%的杜绝，这个不是最好的方法。</strong></p>
-<pre><code>(2).验证码
-</code></pre><p>　　这个方案的思路是：每次的用户提交都需要用户在表单中填写一个图片上的随机字符串，厄....这个方案可以完全解决CSRF，但个人觉得在易用性方面似乎不是太好，还有听闻是验证码图片的使用涉及了一个被称为MHTML的Bug，可能在某些版本的微软IE中受影响。</p>
-<p>　　(3).One-Time Tokens(不同的表单包含一个不同的伪随机值)</p>
+<p>   (2).验证码</p>
+<p>　　这个方案的思路是：每次的用户提交都需要用户在表单中填写一个图片上的随机字符串，厄....这个方案可以完全解决CSRF，但个人觉得在易用性方面似乎不是太好，还有听闻是验证码图片的使用涉及了一个被称为MHTML的Bug，可能在某些版本的微软IE中受影响。</p>
+<p>　 (3).One-Time Tokens(不同的表单包含一个不同的伪随机值)</p>
 <p>　　在实现One-Time Tokens时，需要注意一点：就是“并行会话的兼容”。如果用户在一个站点上同时打开了两个不同的表单，CSRF保护措施不应该影响到他对任何表单的提交。考虑一下如果每次表单被装入时站点生成一个伪随机值来覆盖以前的伪随机值将会发生什么情况：用户只能成功地提交他最后打开的表单，因为所有其他的表单都含有非法的伪随机值。必须小心操作以确保CSRF保护措施不会影响选项卡式的浏览或者利用多个浏览器窗口浏览一个站点。</p>
   
 	</div>
@@ -163,6 +163,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2014/03/03/mongo-g-1/" title="MongoDB初读">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  MongoDB初读</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2014/02/28/rabbit-g-1/"  title="RabbitMQ 初读">
@@ -220,6 +228,8 @@
 		
 			<li><a href="/categories/Java/" title="Java">Java<sup>1</sup></a></li>
 		
+			<li><a href="/categories/Mongo/" title="Mongo">Mongo<sup>1</sup></a></li>
+		
 			<li><a href="/categories/rabbit/" title="rabbit">rabbit<sup>1</sup></a></li>
 		
 			<li><a href="/categories/比较杂乱/" title="比较杂乱">比较杂乱<sup>2</sup></a></li>
@@ -239,6 +249,8 @@
 		
 			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
 		
+			<li><a href="/tags/Mongo/" title="Mongo">Mongo<sup>1</sup></a></li>
+		
 			<li><a href="/tags/golang/" title="golang">golang<sup>5</sup></a></li>
 		
 			<li><a href="/tags/hexo/" title="hexo">hexo<sup>5</sup></a></li>
@@ -257,7 +269,7 @@
   <div class="tagcloudlist">
     <p class="asidetitle">标签云</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/Git Page/" style="font-size: 10.00px;">Git Page</a><a href="/tags/Java/" style="font-size: 10.00px;">Java</a><a href="/tags/golang/" style="font-size: 20.00px;">golang</a><a href="/tags/hexo/" style="font-size: 20.00px;">hexo</a><a href="/tags/rabbit/" style="font-size: 10.00px;">rabbit</a><a href="/tags/比较杂乱/" style="font-size: 15.00px;">比较杂乱</a><a href="/tags/生活杂记/" style="font-size: 10.00px;">生活杂记</a>
+       <a href="/tags/Git Page/" style="font-size: 10.00px;">Git Page</a><a href="/tags/Java/" style="font-size: 10.00px;">Java</a><a href="/tags/Mongo/" style="font-size: 10.00px;">Mongo</a><a href="/tags/golang/" style="font-size: 20.00px;">golang</a><a href="/tags/hexo/" style="font-size: 20.00px;">hexo</a><a href="/tags/rabbit/" style="font-size: 10.00px;">rabbit</a><a href="/tags/比较杂乱/" style="font-size: 15.00px;">比较杂乱</a><a href="/tags/生活杂记/" style="font-size: 10.00px;">生活杂记</a>
     </div>
   </div>
 
