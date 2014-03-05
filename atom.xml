@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Good good study]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://youfei.github.io/"/>
-  <updated>2014-03-04T07:24:17.805Z</updated>
+  <updated>2014-03-05T03:52:46.354Z</updated>
   <id>http://youfei.github.io/</id>
   
   <author>
@@ -15,11 +15,351 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[MongoDB初读]]></title>
+    <title><![CDATA[MongoDB初读-2]]></title>
+    <link href="http://youfei.github.io/2014/03/04/mongo-g-2/"/>
+    <id>http://youfei.github.io/2014/03/04/mongo-g-2/</id>
+    <published>2014-03-04T07:42:05.000Z</published>
+    <updated>2014-03-05T03:52:26.000Z</updated>
+    <content type="html"><![CDATA[<p>MongoDB初读</p>
+<p><a id="more"></a></p>
+<h1 id="getting-started">Getting-started</h1>
+<p><a href="http://docs.mongodb.org/manual/tutorial/getting-started/" target="_blank">getting-started</a></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre></td><td class="code"><pre>show dbs
+
+use mydb
+
+db
+
+help
+
+j = { name : <span class="string">"mongo"</span> }
+k = { <span class="built_in">x</span> : <span class="number">3</span> }
+db<span class="preprocessor">.testData</span><span class="preprocessor">.insert</span>( j )
+db<span class="preprocessor">.testData</span><span class="preprocessor">.insert</span>( k )
+
+show collections
+
+db<span class="preprocessor">.testData</span><span class="preprocessor">.find</span>()
+
+var c = db<span class="preprocessor">.testData</span><span class="preprocessor">.find</span>()
+while ( c<span class="preprocessor">.hasNext</span>() ) printjson( c<span class="preprocessor">.next</span>() )
+
+var c = db<span class="preprocessor">.testData</span><span class="preprocessor">.find</span>()
+printjson( c [ <span class="number">1</span> ] )
+
+db<span class="preprocessor">.testData</span><span class="preprocessor">.find</span>( { <span class="built_in">x</span> : <span class="number">3</span> } )
+
+db<span class="preprocessor">.testData</span><span class="preprocessor">.findOne</span>()
+
+db<span class="preprocessor">.testData</span><span class="preprocessor">.find</span>()<span class="preprocessor">.limit</span>(<span class="number">3</span>)
+</pre></td></tr></table></figure>
+
+<h1 id="generate-test-data">Generate Test Data</h1>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="function"><span class="title">for</span> <span class="params">(var i = <span class="number">1</span>; i &lt;= <span class="number">25</span>; i++)</span> <span class="title">db</span>.<span class="title">testData</span>.<span class="title">insert</span><span class="params">( <span class="tuple">{ x : i }</span> )</span>
+
+<span class="title">db</span>.<span class="title">testData</span>.<span class="title">find</span><span class="params">()</span></span>
+</pre></td></tr></table></figure>
+
+<h1 id="mongodb-crud">MongoDB CRUD</h1>
+<p><a href="http://docs.mongodb.org/manual/reference/glossary/#term-bson" target="_blank">BSON</a></p>
+<p>MongoDB query operation
+<img src="http://docs.mongodb.org/manual/_images/crud-annotated-mongodb-find.png" alt="MongoDB query operation">
+the same query in SQL
+<img src="http://docs.mongodb.org/manual/_images/crud-annotated-sql-select.png" alt="the same query in SQL"></p>
+<blockquote><p><strong>Projections</strong></p>
+<p>&quot;_id&quot;: 0, &quot;name&quot;: 1 , &quot;email&quot;: 1 =&gt; select name, email</p>
+</blockquote>
+
+
+<blockquote><p><strong>Query Behavior</strong></p>
+<p>MongoDB queries exhibit the following behavior:</p>
+</blockquote>
+
+
+<p>
+All queries in MongoDB address a single collection.
+You can modify the query to impose <a href="http://docs.mongodb.org/manual/reference/method/cursor.limit/#cursor.limit" target="_blank">limits</a>, <a href="http://docs.mongodb.org/manual/reference/method/cursor.skip/#cursor.skip" target="_blank">skips</a>, and <a href="http://docs.mongodb.org/manual/reference/method/cursor.sort/#cursor.sort" target="_blank">sort orders</a>.
+The order of documents returned by a query is not defined unless you specify a sort().
+Operations that modify existing documents (i.e. updates) use the same query syntax as queries to select documents to update.
+In aggregation pipeline, the $match pipeline stage provides access to MongoDB queries.
+MongoDB provides a db.collection.findOne() method as a special case of find() that returns a single document.
+</p>
+
+<p><strong>Cursor Information</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="code"><pre>You can use <span class="keyword">the</span> command cursorInfo <span class="keyword">to</span> retrieve <span class="keyword">the</span> following information <span class="function_start"><span class="keyword">on</span></span> cursors:
+
+total <span class="type">number</span> <span class="keyword">of</span> open cursors
+size <span class="keyword">of</span> <span class="keyword">the</span> client cursors <span class="keyword">in</span> current use
+<span class="type">number</span> <span class="keyword">of</span> timed out cursors <span class="keyword">since</span> <span class="keyword">the</span> <span class="keyword">last</span> server restart
+Consider <span class="keyword">the</span> following example:
+
+db.runCommand( { cursorInfo: <span class="number">1</span> } )
+The <span class="constant">result</span> <span class="keyword">from</span> <span class="keyword">the</span> command returns <span class="keyword">the</span> following document:
+
+{
+  <span class="string">"totalOpen"</span> : &lt;<span class="type">number</span>&gt;,
+  <span class="string">"clientCursors_size"</span> : &lt;<span class="type">number</span>&gt;,
+  <span class="string">"timedOut"</span> : &lt;<span class="type">number</span>&gt;,
+  <span class="string">"ok"</span> : <span class="number">1</span>
+}
+</pre></td></tr></table></figure>
+
+<p><strong>Analyze Query Performance</strong>
+To use the explain() method, call the method on a cursor returned by find().</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="code"><pre>db.inventory.find( { <span class="built_in">type</span>: <span class="string">'food'</span> } ).<span class="function"><span class="title">explain</span></span>()
+
+{
+  <span class="string">"cursor"</span> : <span class="string">"BtreeCursor type_1"</span>,
+  <span class="string">"isMultiKey"</span> : <span class="literal">false</span>,
+  <span class="string">"n"</span> : <span class="number">5</span>,
+  <span class="string">"nscannedObjects"</span> : <span class="number">5</span>,
+  <span class="string">"nscanned"</span> : <span class="number">5</span>,
+  <span class="string">"nscannedObjectsAllPlans"</span> : <span class="number">5</span>,
+  <span class="string">"nscannedAllPlans"</span> : <span class="number">5</span>,
+  <span class="string">"scanAndOrder"</span> : <span class="literal">false</span>,
+  <span class="string">"indexOnly"</span> : <span class="literal">false</span>,
+  <span class="string">"nYields"</span> : <span class="number">0</span>,
+  <span class="string">"nChunkSkips"</span> : <span class="number">0</span>,
+  <span class="string">"millis"</span> : <span class="number">0</span>,
+  <span class="string">"indexBounds"</span> : { <span class="string">"type"</span> : [
+                                [ <span class="string">"food"</span>,
+                                  <span class="string">"food"</span> ]
+                             ] },
+  <span class="string">"server"</span> : <span class="string">"mongodbo0.example.net:27017"</span> }
+</pre></td></tr></table></figure>
+
+<blockquote><p><strong>With an upsert, applications can decide between performing an update or an insert operation using just a single call. Both the update() method and the save() method can perform an upsert. See update() and save() for details on performing an upsert with these methods.</strong></p>
+</blockquote>
+
+
+
+<p><a href="http://docs.mongodb.org/manual/reference/sql-comparison/" target="_blank">SQL to MongoDB Mapping Chart</a> for additional examples of MongoDB write operations and the corresponding SQL statements. !!!</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="code"><pre><span class="tag">db</span><span class="class">.inventory</span><span class="class">.insert</span>( <span class="rules">{ <span class="rule"><span class="attribute">_id</span>:<span class="value"> <span class="number">10</span>, type: <span class="string">"misc"</span>, item: <span class="string">"card"</span>, qty: <span class="number">15</span> </span></span></span>} )
+<span class="tag">db</span><span class="class">.inventory</span><span class="class">.update</span>(
+                     <span class="rules">{ <span class="rule"><span class="attribute">type</span>:<span class="value"> <span class="string">"book"</span>, item : <span class="string">"journal"</span> </span></span></span>},
+                     <span class="rules">{ <span class="rule">$<span class="attribute">set </span>:<span class="value"> { qty: <span class="number">10</span> </span></span></span>} },
+                     <span class="rules">{ <span class="rule"><span class="attribute">upsert </span>:<span class="value"> true </span></span></span>}
+                   )
+<span class="tag">db</span><span class="class">.inventory</span><span class="class">.save</span>( <span class="rules">{ <span class="rule"><span class="attribute">type</span>:<span class="value"> <span class="string">"book"</span>, item: <span class="string">"notebook"</span>, qty: <span class="number">40</span> </span></span></span>} )
+
+
+
+<span class="tag">db</span><span class="class">.inventory</span><span class="class">.find</span>( <span class="rules">{ <span class="rule"><span class="attribute">type</span>:<span class="value"> <span class="string">"snacks"</span> </span></span></span>} )
+<span class="tag">db</span><span class="class">.inventory</span><span class="class">.find</span>( <span class="rules">{ <span class="rule"><span class="attribute">type</span>:<span class="value"> { $in: [ <span class="string">'food'</span>, <span class="string">'snacks'</span> ] </span></span></span>} } )
+<span class="tag">db</span><span class="class">.inventory</span><span class="class">.find</span>( <span class="rules">{ <span class="rule"><span class="attribute">type</span>:<span class="value"> <span class="string">'food'</span>, price: { $lt: <span class="number">9.95</span> </span></span></span>} } )
+<span class="tag">db</span><span class="class">.inventory</span><span class="class">.find</span>(
+                   <span class="rules">{ <span class="rule">$<span class="attribute">or</span>:<span class="value"> [
+                            { qty: { $gt: <span class="number">100</span> </span></span></span>} },
+                            <span class="rules">{ <span class="rule"><span class="attribute">price</span>:<span class="value"> { $lt: <span class="number">9.95</span> </span></span></span>} }
+                          ]
+                   }
+                 )
+</pre></td></tr></table></figure>
+
+<p><strong>Specify AND as well as OR Conditions</strong></p>
+<p>With additional clauses, you can specify precise conditions for matching documents.</p>
+<p>In the following example, the compound query document selects all documents in the collection where the value of the type field is &#39;food&#39; and either the qty has a value greater than ($gt) 100 or the value of the price field is less than ($lt) 9.95:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="tag">db</span><span class="class">.inventory</span><span class="class">.find</span>( <span class="rules">{ <span class="rule"><span class="attribute">type</span>:<span class="value"> <span class="string">'food'</span>, $or: [ { qty: { $gt: <span class="number">100</span> </span></span></span>} },
+                                            <span class="rules">{ <span class="rule"><span class="attribute">price</span>:<span class="value"> { $lt: <span class="number">9.95</span> </span></span></span>} } ]
+                   } )
+</pre></td></tr></table></figure>
+
+<p>Details <code>http://docs.mongodb.org/manual/tutorial/query-documents/</code></p>
+<p><strong>Remove Documents</strong></p>
+<blockquote><p><strong>Remove All Documents</strong>
+The following example removes all documents from the <strong>inventory</strong> collection:
+<code>db.inventory.remove()</code></p>
+<p><strong>Remove Documents that Matches a Condition</strong>
+<code>db.inventory.remove( { type : &quot;food&quot; } )</code></p>
+<p><strong>Remove a Single Document that Matches a Condition</strong>
+To remove a single document, call the remove() method with the justOne parameter set to true or 1.
+<code>db.inventory.remove( { type : &quot;food&quot; }, 1 )</code></p>
+</blockquote>
+
+
+
+<p><strong>Query Cursor Methods</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre>Name  Description
+cursor.count()  Returns <span class="operator">a</span> count <span class="operator">of</span> <span class="operator">the</span> documents <span class="operator">in</span> <span class="operator">a</span> cursor.
+cursor.explain()  Reports <span class="command"><span class="keyword">on</span> <span class="title">the</span> <span class="title">query</span> <span class="title">execution</span> <span class="title">plan</span>, <span class="title">including</span> <span class="title">index</span> <span class="title">use</span>, <span class="title">for</span> <span class="title">a</span> <span class="title">cursor</span>.</span>
+cursor.hint() Forces MongoDB <span class="built_in">to</span> use <span class="operator">a</span> specific index <span class="keyword">for</span> <span class="operator">a</span> query.
+cursor.limit()  Constrains <span class="operator">the</span> size <span class="operator">of</span> <span class="operator">a</span> cursor’s <span class="built_in">result</span> <span class="built_in">set</span>.
+cursor.next() Returns <span class="operator">the</span> next document <span class="operator">in</span> <span class="operator">a</span> cursor.
+cursor.skip() Returns <span class="operator">a</span> cursor that <span class="operator">begins</span> returning results only <span class="keyword">after</span> passing <span class="operator">or</span> skipping <span class="operator">a</span> <span class="built_in">number</span> <span class="operator">of</span> documents.
+cursor.<span class="built_in">sort</span>() Returns results ordered according <span class="built_in">to</span> <span class="operator">a</span> <span class="built_in">sort</span> specification.
+cursor.toArray()  Returns <span class="operator">an</span> array that <span class="operator">contains</span> all documents returned <span class="keyword">by</span> <span class="operator">the</span> cursor.
+</pre></td></tr></table></figure>
+
+<p><strong>Query and Data Manipulation Collection Methods</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre>Name  Description
+db.collection.count() Wraps count <span class="built_in">to</span> <span class="constant">return</span> <span class="operator">a</span> count <span class="operator">of</span> <span class="operator">the</span> <span class="built_in">number</span> <span class="operator">of</span> documents <span class="operator">in</span> <span class="operator">a</span> collection <span class="operator">or</span> matching <span class="operator">a</span> query.
+db.collection.distinct()  Returns <span class="operator">an</span> array <span class="operator">of</span> documents that have distinct values <span class="keyword">for</span> <span class="operator">the</span> specified field.
+db.collection.find()  Performs <span class="operator">a</span> query <span class="command"><span class="keyword">on</span> <span class="title">a</span> <span class="title">collection</span> <span class="title">and</span> <span class="title">returns</span> <span class="title">a</span> <span class="title">cursor</span> <span class="title">object</span>.</span>
+db.collection.findOne() Performs <span class="operator">a</span> query <span class="operator">and</span> returns <span class="operator">a</span> single document.
+db.collection.insert()  Creates <span class="operator">a</span> <span class="built_in">new</span> document <span class="operator">in</span> <span class="operator">a</span> collection.
+db.collection.remove()  Deletes documents <span class="built_in">from</span> <span class="operator">a</span> collection.
+db.collection.save()  Provides <span class="operator">a</span> wrapper around <span class="operator">an</span> insert() <span class="operator">and</span> update() <span class="built_in">to</span> insert <span class="built_in">new</span> documents.
+db.collection.update()  Modifies <span class="operator">a</span> document <span class="operator">in</span> <span class="operator">a</span> collection.
+</pre></td></tr></table></figure>
+
+<p><strong>DBrefs</strong></p>
+<p>个人觉得：MongoDB 是以key-value模式进行存储的，所以是不建议复杂关联关系的。</br>
+<a href="http://chenzhou123520.iteye.com/blog/1637397" target="_blank">Mongodb联合查询</a></br>
+<a href="http://blog.csdn.net/tornadowp/article/details/7196764" target="_blank">MongoDB的多表关联操作</a></br></p>
+<p><strong>ObjectId</strong></p>
+<p><strong>ObjectId is a 12-byte BSON type, constructed using:</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="operator">a</span> <span class="number">4</span>-<span class="keyword">byte</span> <span class="built_in">value</span> representing <span class="operator">the</span> <span class="built_in">seconds</span> since <span class="operator">the</span> Unix epoch,
+<span class="operator">a</span> <span class="number">3</span>-<span class="keyword">byte</span> machine identifier,
+<span class="operator">a</span> <span class="number">2</span>-<span class="keyword">byte</span> <span class="built_in">process</span> id, <span class="operator">and</span>
+<span class="operator">a</span> <span class="number">3</span>-<span class="keyword">byte</span> counter, starting <span class="operator">with</span> <span class="operator">a</span> <span class="built_in">random</span> <span class="built_in">value</span>.
+</pre></td></tr></table></figure>
+
+<blockquote><p><strong>ObjectId</strong> 是一个很有意思的东东，</p>
+<pre><code>&gt; ObjectId(&quot;507c7f79bcf86cd7994f6c0e&quot;).getTimestamp()
+ISODate(&quot;2012-10-15T21:26:17Z&quot;)
+</code></pre><ul>
+<li>1 in the mongo shell, you can access the creation time of the ObjectId, using the getTimestamp() method.</li>
+<li>2 sorting on an _id field that stores ObjectId values is roughly equivalent to sorting by creation time.</li>
+</ul>
+</blockquote>
+
+
+<p><strong>Enable Authentication</strong></p>
+<p><a href="http://docs.mongodb.org/manual/tutorial/enable-authentication/" target="_blank">Security &gt; Security Tutorials &gt; Access Control Tutorials &gt; Enable Authentication</a></p>
+<h1 id="mongodb-limits-and-thresholds">MongoDB Limits and Thresholds</h1>
+<p><a href="http://docs.mongodb.org/manual/reference/limits/#limit-bson-document-size" target="_blank">MongoDB Limits and Thresholds</a></p>
+<h1 id="mongodb-drivers-and-client-libraries">MongoDB Drivers and Client Libraries</h1>
+<p><a href="http://docs.mongodb.org/manual/applications/drivers/" target="_blank">MongoDB Drivers and Client Libraries</a></p>
+<p>突然发现还有个<a href="https://www.mongodb.com/products/training" target="_blank">Mongo training</a>呢</br>
+<a href="http://www.cnblogs.com/tippoint/p/3441160.html" target="_blank">使用MMS(MongoDB Monitoring Service)监控MongoDB</a></br></p>
+]]></content>
+    <summary type="html"><![CDATA[<p>MongoDB初读</p>
+<p>]]></summary>
+    
+      <category term="Mongo" scheme="http://youfei.github.io/tags/Mongo/"/>
+    
+      <category term="Mongo" scheme="http://youfei.github.io/categories/Mongo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[MongoDB初读-1]]></title>
     <link href="http://youfei.github.io/2014/03/03/mongo-g-1/"/>
     <id>http://youfei.github.io/2014/03/03/mongo-g-1/</id>
     <published>2014-03-03T08:22:09.000Z</published>
-    <updated>2014-03-04T07:23:59.000Z</updated>
+    <updated>2014-03-04T07:41:19.000Z</updated>
     <content type="html"><![CDATA[<p>MongoDB初读</p>
 <a id="more"></a>
 
@@ -342,9 +682,9 @@ cat mongdb.log</br>
 
 <hr>
 <h1 id="-">参考</h1>
-<p><a href="http://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/" target="_blank">Install MongoDB on Ubuntu</a>
-<a href="http://blog.csdn.net/fdipzone/article/details/7316240" target="_blank">Ubuntu安装MongoDB</a>
-<a href="http://www.cnblogs.com/xuqiang/archive/2011/03/27/1997158.html" target="_blank">初试MongoDB</a></p>
+<p><a href="http://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/" target="_blank">Install MongoDB on Ubuntu</a></br>
+<a href="http://blog.csdn.net/fdipzone/article/details/7316240" target="_blank">Ubuntu安装MongoDB</a></br>
+<a href="http://www.cnblogs.com/xuqiang/archive/2011/03/27/1997158.html" target="_blank">初试MongoDB</a></br></p>
 ]]></content>
     <summary type="html"><![CDATA[<p>MongoDB初读</p>
 ]]></summary>
