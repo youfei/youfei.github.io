@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>solr初读 | youfei&#39;s blog</title>
+    <title>solr初读-1 | youfei&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="fei you">
@@ -68,7 +68,7 @@ zyb243380456的专栏">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/03/06/solr-g-1/" title="solr初读" itemprop="url">solr初读</a>
+      <a href="/2014/03/06/solr-g-1/" title="solr初读-1" itemprop="url">solr初读-1</a>
   </h1>
   <p class="article-author">By
     
@@ -76,7 +76,7 @@ zyb243380456的专栏">
     </p>
   <p class="article-time">
     <time datetime="2014-03-06T02:06:16.000Z" itemprop="datePublished">3月 6 2014</time>
-    更新日期:<time datetime="2014-03-06T05:28:42.000Z" itemprop="dateModified">3月 6 2014</time>
+    更新日期:<time datetime="2014-03-06T06:13:20.000Z" itemprop="dateModified">3月 6 2014</time>
     
   </p>
 </header>
@@ -85,7 +85,7 @@ zyb243380456的专栏">
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-solr-"><span class="toc-number">1.</span> <span class="toc-text">1.solr认识</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-web-solr-"><span class="toc-number">2.</span> <span class="toc-text">2.快速的为你的web应用提供solr全文检索服务</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#-jar-"><span class="toc-number">2.1.</span> <span class="toc-text">需要的jar:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-solr-home-"><span class="toc-number">2.2.</span> <span class="toc-text">的主要目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solr-servlet-solr-home-"><span class="toc-number">2.3.</span> <span class="toc-text">solr如何与servlet容器相关联[配置solr.home]</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#3-solr-"><span class="toc-number">3.</span> <span class="toc-text">3.solr相关包的概要</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#-jar-"><span class="toc-number">3.1.</span> <span class="toc-text">首先需要的jar包有:</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#apache-solr-core-3-2-0-jar-"><span class="toc-number">3.1.1.</span> <span class="toc-text">apache-solr-core-3.2.0.jar;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#org-apache-solr-highlight"><span class="toc-number">3.1.2.</span> <span class="toc-text">org.apache.solr.highlight</span></a></li></ol></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#4-corecontainer-"><span class="toc-number">4.</span> <span class="toc-text">4.如何配置多实例的CoreContainer容器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-solr-"><span class="toc-number">5.</span> <span class="toc-text">5.分布式solr服务的搭建配置方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-solr-http-"><span class="toc-number">6.</span> <span class="toc-text">6.一个请求solr服务的http请求的执行顺序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-solr-core-code-"><span class="toc-number">7.</span> <span class="toc-text">7.solr分布式索引分发的全过程以及中间core code:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-solrj-solrcore-api-"><span class="toc-number">8.</span> <span class="toc-text">7.solrj提供了控制solrcore容器的api包括范围配置信息等</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">9.</span> <span class="toc-text">参考</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-solr-"><span class="toc-number">1.</span> <span class="toc-text">1.solr认识</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-web-solr-"><span class="toc-number">2.</span> <span class="toc-text">2.快速的为你的web应用提供solr全文检索服务</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#tomcat-uriencoding"><span class="toc-number">2.1.</span> <span class="toc-text">Tomcat URIEncoding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-jar-"><span class="toc-number">2.2.</span> <span class="toc-text">需要的jar:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-solr-home-"><span class="toc-number">2.3.</span> <span class="toc-text">的主要目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solr-servlet-solr-home-"><span class="toc-number">2.4.</span> <span class="toc-text">solr如何与servlet容器相关联[配置solr.home]</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#3-solr-"><span class="toc-number">3.</span> <span class="toc-text">3.solr相关包的概要</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#-jar-"><span class="toc-number">3.1.</span> <span class="toc-text">首先需要的jar包有:</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#apache-solr-core-3-2-0-jar-"><span class="toc-number">3.1.1.</span> <span class="toc-text">apache-solr-core-3.2.0.jar;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#org-apache-solr-highlight"><span class="toc-number">3.1.2.</span> <span class="toc-text">org.apache.solr.highlight</span></a></li></ol></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#4-corecontainer-"><span class="toc-number">4.</span> <span class="toc-text">4.如何配置多实例的CoreContainer容器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-solr-"><span class="toc-number">5.</span> <span class="toc-text">5.分布式solr服务的搭建配置方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-solr-http-"><span class="toc-number">6.</span> <span class="toc-text">6.一个请求solr服务的http请求的执行顺序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-solr-core-code-"><span class="toc-number">7.</span> <span class="toc-text">7.solr分布式索引分发的全过程以及中间core code:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-solrj-solrcore-api-"><span class="toc-number">8.</span> <span class="toc-text">7.solrj提供了控制solrcore容器的api包括范围配置信息等</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">9.</span> <span class="toc-text">参考</span></a></li></ol>
 		</div>
 		
 		<p>看Solr 的时候偶尔看到了一个博客，写的太和俺的胃口了,加到友情链接里面，嘿嘿</br>
@@ -98,8 +98,20 @@ zyb243380456的专栏">
 web应用提供简单的检索服务，也可以搭建复杂的集群环境进行全文检索，例如如果索引文件很大大概
 有7-90GB的索引文件就需要做分布式了应为这样的数据量一台机器的检索数据的速度太慢，如果需要
 进行集群demo测试可以在本机多开启几个web应用服务器就可以了。</p>
+<p><strong>Solr4 结构图</strong>
+<img src="http://img1.51cto.com/attachment/201304/164703786.png" alt="Solr4 结构图*"></p>
 <hr>
 <h1 id="2-web-solr-">2.快速的为你的web应用提供solr全文检索服务</h1>
+<h2 id="tomcat-uriencoding">Tomcat URIEncoding</h2>
+<p><strong>server.xml</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">Connector</span> <span class="attribute">port</span>=<span class="value">"8080"</span> <span class="attribute">protocol</span>=<span class="value">"HTTP/1.1"</span>  
+           <span class="attribute">connectionTimeout</span>=<span class="value">"20000"</span>  
+           <span class="attribute">redirectPort</span>=<span class="value">"8443"</span> <span class="attribute">URIEncoding</span>=<span class="value">"UTF-8"</span>/&gt;</span>
+</pre></td></tr></table></figure>
+
 <h2 id="-jar-">需要的jar:</h2>
 <p><strong>apache-solr-core-3.2.0.jar</strong> </br>
 <strong>apache-solr-solrj-3.2.0.jar</strong>--&gt;用于提供测试solr全文检索的java客户端</p>
@@ -1083,6 +1095,14 @@ SnapPuller的内部类:SnapPuller$FileFetcher
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2014/03/06/solr-g-2/" title="solr初读-2">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  solr初读-2</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2014/03/04/mongo-g-2/"  title="MongoDB初读-2">
@@ -1122,7 +1142,7 @@ SnapPuller的内部类:SnapPuller$FileFetcher
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-solr-"><span class="toc-number">1.</span> <span class="toc-text">1.solr认识</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-web-solr-"><span class="toc-number">2.</span> <span class="toc-text">2.快速的为你的web应用提供solr全文检索服务</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#-jar-"><span class="toc-number">2.1.</span> <span class="toc-text">需要的jar:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-solr-home-"><span class="toc-number">2.2.</span> <span class="toc-text">的主要目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solr-servlet-solr-home-"><span class="toc-number">2.3.</span> <span class="toc-text">solr如何与servlet容器相关联[配置solr.home]</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#3-solr-"><span class="toc-number">3.</span> <span class="toc-text">3.solr相关包的概要</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#-jar-"><span class="toc-number">3.1.</span> <span class="toc-text">首先需要的jar包有:</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#apache-solr-core-3-2-0-jar-"><span class="toc-number">3.1.1.</span> <span class="toc-text">apache-solr-core-3.2.0.jar;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#org-apache-solr-highlight"><span class="toc-number">3.1.2.</span> <span class="toc-text">org.apache.solr.highlight</span></a></li></ol></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#4-corecontainer-"><span class="toc-number">4.</span> <span class="toc-text">4.如何配置多实例的CoreContainer容器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-solr-"><span class="toc-number">5.</span> <span class="toc-text">5.分布式solr服务的搭建配置方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-solr-http-"><span class="toc-number">6.</span> <span class="toc-text">6.一个请求solr服务的http请求的执行顺序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-solr-core-code-"><span class="toc-number">7.</span> <span class="toc-text">7.solr分布式索引分发的全过程以及中间core code:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-solrj-solrcore-api-"><span class="toc-number">8.</span> <span class="toc-text">7.solrj提供了控制solrcore容器的api包括范围配置信息等</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">9.</span> <span class="toc-text">参考</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-solr-"><span class="toc-number">1.</span> <span class="toc-text">1.solr认识</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-web-solr-"><span class="toc-number">2.</span> <span class="toc-text">2.快速的为你的web应用提供solr全文检索服务</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#tomcat-uriencoding"><span class="toc-number">2.1.</span> <span class="toc-text">Tomcat URIEncoding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-jar-"><span class="toc-number">2.2.</span> <span class="toc-text">需要的jar:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-solr-home-"><span class="toc-number">2.3.</span> <span class="toc-text">的主要目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solr-servlet-solr-home-"><span class="toc-number">2.4.</span> <span class="toc-text">solr如何与servlet容器相关联[配置solr.home]</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#3-solr-"><span class="toc-number">3.</span> <span class="toc-text">3.solr相关包的概要</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#-jar-"><span class="toc-number">3.1.</span> <span class="toc-text">首先需要的jar包有:</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#apache-solr-core-3-2-0-jar-"><span class="toc-number">3.1.1.</span> <span class="toc-text">apache-solr-core-3.2.0.jar;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#org-apache-solr-highlight"><span class="toc-number">3.1.2.</span> <span class="toc-text">org.apache.solr.highlight</span></a></li></ol></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#4-corecontainer-"><span class="toc-number">4.</span> <span class="toc-text">4.如何配置多实例的CoreContainer容器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-solr-"><span class="toc-number">5.</span> <span class="toc-text">5.分布式solr服务的搭建配置方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-solr-http-"><span class="toc-number">6.</span> <span class="toc-text">6.一个请求solr服务的http请求的执行顺序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-solr-core-code-"><span class="toc-number">7.</span> <span class="toc-text">7.solr分布式索引分发的全过程以及中间core code:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-solrj-solrcore-api-"><span class="toc-number">8.</span> <span class="toc-text">7.solrj提供了控制solrcore容器的api包括范围配置信息等</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">9.</span> <span class="toc-text">参考</span></a></li></ol>
   </div>
 
 <div id="asidepart">
@@ -1134,6 +1154,10 @@ SnapPuller的内部类:SnapPuller$FileFetcher
 	<p class="asidetitle">分类</p>
 		<ul>
 		
+			<li><a href="/categories/Bootstrap/" title="Bootstrap">Bootstrap<sup>1</sup></a></li>
+		
+			<li><a href="/categories/Design/" title="Design">Design<sup>1</sup></a></li>
+		
 			<li><a href="/categories/Github Blog/" title="Github Blog">Github Blog<sup>3</sup></a></li>
 		
 			<li><a href="/categories/Golang/" title="Golang">Golang<sup>5</sup></a></li>
@@ -1142,9 +1166,11 @@ SnapPuller的内部类:SnapPuller$FileFetcher
 		
 			<li><a href="/categories/Mongo/" title="Mongo">Mongo<sup>2</sup></a></li>
 		
+			<li><a href="/categories/mapinfo/" title="mapinfo">mapinfo<sup>1</sup></a></li>
+		
 			<li><a href="/categories/rabbit/" title="rabbit">rabbit<sup>1</sup></a></li>
 		
-			<li><a href="/categories/solr/" title="solr">solr<sup>1</sup></a></li>
+			<li><a href="/categories/solr/" title="solr">solr<sup>2</sup></a></li>
 		
 			<li><a href="/categories/比较杂乱/" title="比较杂乱">比较杂乱<sup>2</sup></a></li>
 		
@@ -1159,6 +1185,10 @@ SnapPuller的内部类:SnapPuller$FileFetcher
 	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
+			<li><a href="/tags/Bootstrap/" title="Bootstrap">Bootstrap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Design/" title="Design">Design<sup>1</sup></a></li>
+		
 			<li><a href="/tags/Git Page/" title="Git Page">Git Page<sup>1</sup></a></li>
 		
 			<li><a href="/tags/Java/" title="Java">Java<sup>1</sup></a></li>
@@ -1169,9 +1199,11 @@ SnapPuller的内部类:SnapPuller$FileFetcher
 		
 			<li><a href="/tags/hexo/" title="hexo">hexo<sup>5</sup></a></li>
 		
+			<li><a href="/tags/mapinfo/" title="mapinfo">mapinfo<sup>1</sup></a></li>
+		
 			<li><a href="/tags/rabbit/" title="rabbit">rabbit<sup>1</sup></a></li>
 		
-			<li><a href="/tags/solr/" title="solr">solr<sup>1</sup></a></li>
+			<li><a href="/tags/solr/" title="solr">solr<sup>2</sup></a></li>
 		
 			<li><a href="/tags/比较杂乱/" title="比较杂乱">比较杂乱<sup>2</sup></a></li>
 		
@@ -1185,7 +1217,7 @@ SnapPuller的内部类:SnapPuller$FileFetcher
   <div class="tagcloudlist">
     <p class="asidetitle">标签云</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/Git Page/" style="font-size: 10.00px;">Git Page</a><a href="/tags/Java/" style="font-size: 10.00px;">Java</a><a href="/tags/Mongo/" style="font-size: 15.00px;">Mongo</a><a href="/tags/golang/" style="font-size: 20.00px;">golang</a><a href="/tags/hexo/" style="font-size: 20.00px;">hexo</a><a href="/tags/rabbit/" style="font-size: 10.00px;">rabbit</a><a href="/tags/solr/" style="font-size: 10.00px;">solr</a><a href="/tags/比较杂乱/" style="font-size: 15.00px;">比较杂乱</a><a href="/tags/生活杂记/" style="font-size: 10.00px;">生活杂记</a>
+       <a href="/tags/Bootstrap/" style="font-size: 10.00px;">Bootstrap</a><a href="/tags/Design/" style="font-size: 10.00px;">Design</a><a href="/tags/Git Page/" style="font-size: 10.00px;">Git Page</a><a href="/tags/Java/" style="font-size: 10.00px;">Java</a><a href="/tags/Mongo/" style="font-size: 15.00px;">Mongo</a><a href="/tags/golang/" style="font-size: 20.00px;">golang</a><a href="/tags/hexo/" style="font-size: 20.00px;">hexo</a><a href="/tags/mapinfo/" style="font-size: 10.00px;">mapinfo</a><a href="/tags/rabbit/" style="font-size: 10.00px;">rabbit</a><a href="/tags/solr/" style="font-size: 15.00px;">solr</a><a href="/tags/比较杂乱/" style="font-size: 15.00px;">比较杂乱</a><a href="/tags/生活杂记/" style="font-size: 10.00px;">生活杂记</a>
     </div>
   </div>
 
