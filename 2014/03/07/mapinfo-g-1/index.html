@@ -9,7 +9,7 @@
     
     <meta name="author" content="fei you">
     
-    <meta name="description" content="Mapinfo的数据库采用混合型的空间数据库结构，分别使用不同的模块存储空间数据和属性数据。属性数据存储在关系数据库的若干属性表中，而空间数据则以Mapinfo的自定义格式保存于若干文件之中，两者之间通过一定的索引机制联系起来。为了提高查询和处理效率，Mapinfo采用层次结构对空间数据进行组织，即">
+    <meta name="description" content="Mapinfo的数据库采用混合型的空间数据库结构，分别使用不同的模块存储空间数据和属性数据。属性数据存储在关系数据库的若干属性表中，而空间数据则以Mapinfo的自定义格式保存于若干文件之中，两者之间通过一定的索引机制联系起来。为了提高查询和处理效率，Mapinfo采用层次结构对空间数据进行组织，即根据不同的专题将地图分层，每个图层由5个文件组成">
     
     
     
@@ -75,7 +75,7 @@
     </p>
   <p class="article-time">
     <time datetime="2014-03-07T05:41:36.000Z" itemprop="datePublished">3月 7 2014</time>
-    更新日期:<time datetime="2014-03-11T08:41:38.000Z" itemprop="dateModified">3月 11 2014</time>
+    更新日期:<time datetime="2014-03-17T08:34:53.000Z" itemprop="dateModified">3月 17 2014</time>
     
   </p>
 </header>
@@ -84,10 +84,13 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">1.</span> <span class="toc-text">图层文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#gis-cad-database-spatial-operation"><span class="toc-number">2.</span> <span class="toc-text">GIS = CAD + DAtabASE + Spatial Operation</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#gis-"><span class="toc-number">2.1.</span> <span class="toc-text">GIS 的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mapinfo-mapping-information"><span class="toc-number">2.2.</span> <span class="toc-text">MapInfo = Mapping + Information</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#-"><span class="toc-number">2.2.1.</span> <span class="toc-text">栅格图像的获取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mapinfo-7-"><span class="toc-number">2.2.2.</span> <span class="toc-text">MapInfo 支持7中栅格图像：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-mapinfo-widget-tool-bar-"><span class="toc-number">2.2.3.</span> <span class="toc-text">MapInfo widget tool bar</strong></span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-what-data-can-i-use-in-mapinfo-professional-"><span class="toc-number">2.2.4.</span> <span class="toc-text">What Data Can I Use in MapInfo Professional?</strong></span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-support-for-raster-images-"><span class="toc-number">2.2.5.</span> <span class="toc-text">Support for Raster Images</strong></span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-using-workspaces-"><span class="toc-number">2.2.6.</span> <span class="toc-text">Using Workspaces</strong></span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-supported-export-formats-"><span class="toc-number">2.2.7.</span> <span class="toc-text">Supported Export Formats</strong></span></a></li></ol>
 		</div>
 		
 		<p>Mapinfo的数据库采用混合型的空间数据库结构，分别使用不同的模块存储空间数据和属性数据。属性数据存储在关系数据库的若干属性表中，而空间数据则以Mapinfo的自定义格式保存于若干文件之中，两者之间通过一定的索引机制联系起来。为了提高查询和处理效率，Mapinfo采用层次结构对空间数据进行组织，即根据不同的专题将地图分层，每个图层由5个文件组成</p>
+<a id="more"></a>
+
+<h1 id="-">图层文件</h1>
 <ul>
 <li>属性数据的表结构文件(.TAB) </li>
 </ul>
@@ -108,8 +111,8 @@
 <li>索引文件(.IND) </li>
 </ul>
 <p>它不是必须的，只有当用户规定了数据库的索引字段后，系统才会自动产生它。 </p>
-<p>GIS = CAD + DAtabASE + Spatial Operation</p>
-<p>GIS 的工作原理</p>
+<h1 id="gis-cad-database-spatial-operation">GIS = CAD + DAtabASE + Spatial Operation</h1>
+<h2 id="gis-">GIS 的工作原理</h2>
 <p>1 空间模型
 GIS 将现实世界抽象为互相联接不同特征的层面（LAYER）组合</p>
 <p>2 地理参考系
@@ -118,23 +121,32 @@ GIS 将现实世界抽象为互相联接不同特征的层面（LAYER）组合</
 GIS 数据包括矢量和栅格两种基本模式。
 矢量数据以点、线、面方式编码并以（x，y）坐标串存储管理，是表现离散空间特性的最佳方式。
 栅格数据（扫描图像或照片）是通过一系列网格单元表达连续地理特征。</p>
-<p>MapInfo = Mapping + Information</p>
+<h2 id="mapinfo-mapping-information">MapInfo = Mapping + Information</h2>
 <p>栅格图像是由一行行细小的点（像素）组成，所以也可以称之为位图，是后续工作即图层分解的基础，又称作基图。</p>
-<p>栅格图像的获取
-1， 扫描仪/数码相机
+<h3 id="-">栅格图像的获取</h3>
+<p>1， 扫描仪/数码相机
 2， 通过图形软件包将图像保存或转存为栅格文件格式，tif
 3， 在MapInfo 购买已配准的栅格图像。</p>
-<p>MapInfo 支持7中栅格图像：
-1，gif
+<h3 id="mapinfo-7-">MapInfo 支持7中栅格图像：</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>1，gif
 2, jpg
 3, tif
 4, pcx
 5, bmp
 6, tda
-7, bll （spot卫星图像）</p>
+7, bll （spot卫星图像）
+</pre></td></tr></table></figure>
+
 <p>地图对象：点，线，面</p>
-<p><strong>MapInfo widget tool bar</strong>
-1 Web Services:
+<h3 id="-mapinfo-widget-tool-bar-"><strong>MapInfo widget tool bar</strong></h3>
+<p>1 Web Services:
     从MapInfo Server获取数据，此处的Web Server指的是“MapInfo公司”的Web服务
 2 DBMS 
     ODBC联接数据库
@@ -142,25 +154,38 @@ GIS 数据包括矢量和栅格两种基本模式。
     在Image上画图工具
 4 Main
     各种Select工具：图片、工作区、图层、link</p>
-<p><strong>What Data Can I Use in MapInfo Professional?</strong>
-Data file choices include:
-• Microsoft Access
+<h3 id="-what-data-can-i-use-in-mapinfo-professional-"><strong>What Data Can I Use in MapInfo Professional?</strong></h3>
+<p>Data file choices include:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre>• Microsoft Access
 • Microsoft Excel
 • dBASE DBF
 • ESRI ® shapefiles
-• Raster Images
-• Grid Images
-• ASCII Delimited Text        ---》二进制文件，格式？
-• Lotus 1–2–3
+• <span class="keyword">Raster</span> Images
+• <span class="keyword">Grid</span> Images
+• ASCII Delimited <span class="keyword">Text</span>		---》二进制文件，格式？
+• Lotus <span class="number">1</span>–<span class="number">2</span>–<span class="number">3</span>
 • Remote Databases (Oracle, SQL Server, PostGIS)
 • Workspace
-• Comma Delimited CSV files</p>
+• Comma Delimited CSV files
+</pre></td></tr></table></figure>
+
 <blockquote>
 <p>So we can choose Excel/CSV as Data Source</p>
 <p>During the .TAB file creation process, the original file is in no way altered. The file retains its
 original properties.</p>
 </blockquote>
-<p><strong>Support for Raster Images</strong></p>
+<h3 id="-support-for-raster-images-"><strong>Support for Raster Images</strong></h3>
 <blockquote>
 <p>支持栅格图像，需要 License</p>
 </blockquote>
@@ -174,8 +199,8 @@ you purchase from MapInfo Professional will already be registered.</p>
 <p>For a full discussion of raster image display, see Registering SPOT Images in the Help System.</p>
 </blockquote>
 <p><strong>There is a two Giga Byte (2 GB) file limit on these files MapInfo Professional</strong></p>
-<p><strong>Using Workspaces</strong>
-<strong>A .WOR</strong> file is MapInfo Professional workspace file containing un-compiled MapBasic code that
+<h3 id="-using-workspaces-"><strong>Using Workspaces</strong></h3>
+<p><strong>A .WOR</strong> file is MapInfo Professional workspace file containing un-compiled MapBasic code that
 MapInfo Professional interprets to open a session with tables, windows, and settings the way a user
 left it. It is MapInfo Professional version specific depending on features used in it.
 <strong>A .MWS</strong> workspace file originates from the MapXtreme product line and is comprised of XML code
@@ -183,21 +208,37 @@ to do things similar to a MapInfo Workspace *.wor with some limitations.</p>
 <blockquote>
 <p>whithout License, the layer can not be edited.</p>
 </blockquote>
-<p><strong>Supported Export Formats</strong>
-• Windows Bitmap (<em>.BMP)
-• Windows Metafile (</em>.WMF)
-• Windows Enhanced Metafile (<em>.EMF)
-• EMF + Metafile (</em>.EMF)
-• EMF + Dual Metafile (<em>.EMF)
-• JPEG File Interchange Format (</em>.JPG)
-• JPEG 2000 (<em>.JP2)
-• Portable Network Graphics Format (</em>.PNG)
-• Tagged Image File Format (<em>TIF)
-• TIFF CMYK (</em>.TIF)
-• TIFF CCITT Group 4 (<em>.TIF)
-• TIFF LZW (</em>.TIF)
-• Graphic Interchange Format (<em>.GIF)
-• Photoshop 3.0 (</em>.PSD)</p>
+<h3 id="-supported-export-formats-"><strong>Supported Export Formats</strong></h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre>• Windows Bitmap (*<span class="preprocessor">.BMP</span>)
+• Windows Metafile (*<span class="preprocessor">.WMF</span>)
+• Windows Enhanced Metafile (*<span class="preprocessor">.EMF</span>)
+• EMF + Metafile (*<span class="preprocessor">.EMF</span>)
+• EMF + Dual Metafile (*<span class="preprocessor">.EMF</span>)
+• JPEG File Interchange Format (*<span class="preprocessor">.JPG</span>)
+• JPEG <span class="number">2000</span> (*<span class="preprocessor">.JP</span>2)
+• Portable Network Graphics Format (*<span class="preprocessor">.PNG</span>)
+• Tagged Image File Format (*TIF)
+• TIFF CMYK (*<span class="preprocessor">.TIF</span>)
+• TIFF CCITT Group <span class="number">4</span> (*<span class="preprocessor">.TIF</span>)
+• TIFF LZW (*<span class="preprocessor">.TIF</span>)
+• Graphic Interchange Format (*<span class="preprocessor">.GIF</span>)
+• Photoshop <span class="number">3.0</span> (*<span class="preprocessor">.PSD</span>)
+</pre></td></tr></table></figure>
+
 <p><strong>mporting and Exporting Data in AutoCAD Format</strong></p>
 <blockquote>
 <p>Web Services – Sets refresh, timeout values, server options and other default settings for Proxy
@@ -250,9 +291,9 @@ Servers, WMS, WFS, Geocode server, Drivetime server, and Map Tile server web ser
 
 
 <div class="next">
-<a href="/2014/03/06/solr-g-2/"  title="solr初读-2">
+<a href="/2014/03/06/solr-g-1/"  title="solr初读-1">
  <strong>NEXT:</strong><br/> 
- <span>solr初读-2
+ <span>solr初读-1
 </span>
 </a>
 </div>
@@ -287,7 +328,7 @@ Servers, WMS, WFS, Geocode server, Drivetime server, and Map Tile server web ser
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">1.</span> <span class="toc-text">图层文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#gis-cad-database-spatial-operation"><span class="toc-number">2.</span> <span class="toc-text">GIS = CAD + DAtabASE + Spatial Operation</span></a></li><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#gis-"><span class="toc-number">2.1.</span> <span class="toc-text">GIS 的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mapinfo-mapping-information"><span class="toc-number">2.2.</span> <span class="toc-text">MapInfo = Mapping + Information</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#-"><span class="toc-number">2.2.1.</span> <span class="toc-text">栅格图像的获取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mapinfo-7-"><span class="toc-number">2.2.2.</span> <span class="toc-text">MapInfo 支持7中栅格图像：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-mapinfo-widget-tool-bar-"><span class="toc-number">2.2.3.</span> <span class="toc-text">MapInfo widget tool bar</strong></span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-what-data-can-i-use-in-mapinfo-professional-"><span class="toc-number">2.2.4.</span> <span class="toc-text">What Data Can I Use in MapInfo Professional?</strong></span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-support-for-raster-images-"><span class="toc-number">2.2.5.</span> <span class="toc-text">Support for Raster Images</strong></span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-using-workspaces-"><span class="toc-number">2.2.6.</span> <span class="toc-text">Using Workspaces</strong></span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-supported-export-formats-"><span class="toc-number">2.2.7.</span> <span class="toc-text">Supported Export Formats</strong></span></a></li></ol>
   </div>
 
 <div id="asidepart">
@@ -315,7 +356,11 @@ Servers, WMS, WFS, Geocode server, Drivetime server, and Map Tile server web ser
 		
 			<li><a href="/categories/rabbit/" title="rabbit">rabbit<sup>1</sup></a></li>
 		
+			<li><a href="/categories/scala/" title="scala">scala<sup>1</sup></a></li>
+		
 			<li><a href="/categories/solr/" title="solr">solr<sup>2</sup></a></li>
+		
+			<li><a href="/categories/svg/" title="svg">svg<sup>1</sup></a></li>
 		
 			<li><a href="/categories/比较杂乱/" title="比较杂乱">比较杂乱<sup>2</sup></a></li>
 		
@@ -348,7 +393,11 @@ Servers, WMS, WFS, Geocode server, Drivetime server, and Map Tile server web ser
 		
 			<li><a href="/tags/rabbit/" title="rabbit">rabbit<sup>1</sup></a></li>
 		
+			<li><a href="/tags/scala/" title="scala">scala<sup>1</sup></a></li>
+		
 			<li><a href="/tags/solr/" title="solr">solr<sup>2</sup></a></li>
+		
+			<li><a href="/tags/svg/" title="svg">svg<sup>1</sup></a></li>
 		
 			<li><a href="/tags/比较杂乱/" title="比较杂乱">比较杂乱<sup>2</sup></a></li>
 		
@@ -362,7 +411,7 @@ Servers, WMS, WFS, Geocode server, Drivetime server, and Map Tile server web ser
   <div class="tagcloudlist">
     <p class="asidetitle">标签云</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/Bootstrap/" style="font-size: 10.00px;">Bootstrap</a><a href="/tags/Design/" style="font-size: 10.00px;">Design</a><a href="/tags/Git Page/" style="font-size: 10.00px;">Git Page</a><a href="/tags/Java/" style="font-size: 10.00px;">Java</a><a href="/tags/Mongo/" style="font-size: 15.00px;">Mongo</a><a href="/tags/golang/" style="font-size: 20.00px;">golang</a><a href="/tags/hexo/" style="font-size: 20.00px;">hexo</a><a href="/tags/mapinfo/" style="font-size: 10.00px;">mapinfo</a><a href="/tags/rabbit/" style="font-size: 10.00px;">rabbit</a><a href="/tags/solr/" style="font-size: 15.00px;">solr</a><a href="/tags/比较杂乱/" style="font-size: 15.00px;">比较杂乱</a><a href="/tags/生活杂记/" style="font-size: 10.00px;">生活杂记</a>
+       <a href="/tags/Bootstrap/" style="font-size: 10.00px;">Bootstrap</a><a href="/tags/Design/" style="font-size: 10.00px;">Design</a><a href="/tags/Git Page/" style="font-size: 10.00px;">Git Page</a><a href="/tags/Java/" style="font-size: 10.00px;">Java</a><a href="/tags/Mongo/" style="font-size: 15.00px;">Mongo</a><a href="/tags/golang/" style="font-size: 20.00px;">golang</a><a href="/tags/hexo/" style="font-size: 20.00px;">hexo</a><a href="/tags/mapinfo/" style="font-size: 10.00px;">mapinfo</a><a href="/tags/rabbit/" style="font-size: 10.00px;">rabbit</a><a href="/tags/scala/" style="font-size: 10.00px;">scala</a><a href="/tags/solr/" style="font-size: 15.00px;">solr</a><a href="/tags/svg/" style="font-size: 10.00px;">svg</a><a href="/tags/比较杂乱/" style="font-size: 15.00px;">比较杂乱</a><a href="/tags/生活杂记/" style="font-size: 10.00px;">生活杂记</a>
     </div>
   </div>
 

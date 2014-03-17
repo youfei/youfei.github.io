@@ -4,12 +4,12 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>领域驱动设计(DDD:Domain-Driven Design) | youfei&#39;s blog</title>
+    <title>领域驱动设计 | youfei&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="fei you">
     
-    <meta name="description" content="读文章&lt;&lt;领域驱动设计(DDD:Domain-Driven Design)&gt;&gt;
+    <meta name="description" content="读文章&lt;&lt;领域驱动设计(DDD:Domain-Driven Design)&gt;&gt; 
 Eric Evans的“Domain-Driven Design领域驱动设计”简称DDD">
     
     
@@ -68,7 +68,7 @@ Eric Evans的“Domain-Driven Design领域驱动设计”简称DDD">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/03/14/design-1/" title="领域驱动设计(DDD:Domain-Driven Design)" itemprop="url">领域驱动设计(DDD:Domain-Driven Design)</a>
+      <a href="/2014/03/14/design-1/" title="领域驱动设计" itemprop="url">领域驱动设计</a>
   </h1>
   <p class="article-author">By
     
@@ -76,7 +76,7 @@ Eric Evans的“Domain-Driven Design领域驱动设计”简称DDD">
     </p>
   <p class="article-time">
     <time datetime="2014-03-14T08:01:46.000Z" itemprop="datePublished">3月 14 2014</time>
-    更新日期:<time datetime="2014-03-14T09:15:03.000Z" itemprop="dateModified">3月 14 2014</time>
+    更新日期:<time datetime="2014-03-17T08:29:46.000Z" itemprop="dateModified">3月 17 2014</time>
     
   </p>
 </header>
@@ -85,54 +85,79 @@ Eric Evans的“Domain-Driven Design领域驱动设计”简称DDD">
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">1.</span> <span class="toc-text">服务器后端发展三个阶段</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">2.</span> <span class="toc-text">四个编程模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">3.</span> <span class="toc-text">四种程序架构</span></a></li></ol>
 		</div>
 		
-		<p>读文章&lt;&lt;<a href="http://www.jdon.com/ddd.html" target="_blank">领域驱动设计(DDD:Domain-Driven Design)</a>&gt;&gt;
+		<p>读文章&lt;&lt;<a href="http://www.jdon.com/ddd.html" target="_blank">领域驱动设计(DDD:Domain-Driven Design)</a>&gt;&gt; </br>
 Eric Evans的“Domain-Driven Design领域驱动设计”简称<strong>DDD</strong></p>
 <a id="more"></a>
 
-<p><strong>服务器后端发展三个阶段：</strong></p>
+<h1 id="-">服务器后端发展三个阶段</h1>
 <p><img src="http://www.jdon.com/img/uploadShowAction.shtml?id=23140&amp;oid=23142654" alt=""></p>
 <ul>
 <li><p>UI+DataBase的两层架构，这种面向数据库的架构(上图table    module )没有灵活性。</p>
 </li>
-<li><p>UI+Service+DataBase的多层SOA架构，这种服务+表模型的架构易使服务变得囊肿，难于维护拓展，伸缩性能差，见这里讨论或Spring Web 应用的最大败笔.<a href="http://www.jdon.com/45857" target="_blank">The Biggest Flaw of Spring Web Applications | Java</a></p>
+<li><p>UI+Service+DataBase的多层SOA架构，这种服务+表模型的架构易使服务变得囊肿，难于维护拓展，伸缩性能差，见这里讨论或Spring Web 应用的最大败笔.<a href="http://www.jdon.com/45857" target="_blank">The Biggest Flaw of Spring Web Applications | Java</a> 真是败笔吗？ I do not think so.</p>
 </li>
 <li><p>DDD+SOA的事件驱动的CQRS读写分离架构，应付复杂业务逻辑，以聚合模型替代数据表模型，以并发的事件驱动替代串联的消息驱动。真正实现以业务实体为核心的灵活拓展。</p>
 </li>
 </ul>
-<p><strong>失血模型</strong>
+<h1 id="-">四个编程模型</h1>
+<p><strong>失血模型</strong> </br>
 失血模型简单来说，就是domain object只有属性的getter/setter方法的纯数据类，所有的业务逻辑完全由business object来完成(又称 
 TransactionScript)，这种模型下的domain object被Martin Fowler称之为“贫血的domain object”。</p>
-<p><strong>贫血模型</strong>
+<p><strong>贫血模型</strong> </br>
 简单来说，就是domain ojbect包含了不依赖于持久化的领域逻辑，而那些依赖持久化的领域逻辑被分离到Service层。 
 Service(业务逻辑，事务封装) --&gt; DAO ---&gt; domain object </p>
-<p>这种模型的优点： 
-1、各层单向依赖，结构清楚，易于实现和维护 
-2、设计简单易行，底层模型非常稳定 
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>这种模型的优点： 
+<span class="number">1</span>、各层单向依赖，结构清楚，易于实现和维护 
+<span class="number">2</span>、设计简单易行，底层模型非常稳定 
 这种模型的缺点： 
-1、domain object的部分比较紧密依赖的持久化domain logic被分离到Service层，显得不够OO 
-2、Service层过于厚重 </p>
-<p><strong>充血模型</strong>
+<span class="number">1</span>、domain <span class="keyword">object</span>的部分比较紧密依赖的持久化domain logic被分离到Service层，显得不够OO 
+<span class="number">2</span>、Service层过于厚重
+</pre></td></tr></table></figure>
+
+<p><strong>充血模型</strong> </br>
 充血模型和第二种模型差不多，所不同的就是如何划分业务逻辑，即认为，绝大多业务逻辑都应该被放在domain object里面(包括持久化逻辑) 
 ，而Service层应该是很薄的一层，仅仅封装事务和少量逻辑，不和DAO层打交道。 
 Service(事务封装) ---&gt; domain object &lt;---&gt; DAO </p>
-<p>这种模型的优点： 
-1、更加符合OO的原则 
-2、Service层很薄，只充当Facade的角色，不和DAO打交道。 
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre>这种模型的优点： 
+<span class="number">1</span>、更加符合OO的原则 
+<span class="number">2</span>、Service层很薄，只充当Facade的角色，不和DAO打交道。 
 这种模型的缺点： 
-1、DAO和domain object形成了双向依赖，复杂的双向依赖会导致很多潜在的问题。 
-2、如何划分Service层逻辑和domain层逻辑是非常含混的，在实际项目中，由于设计和开发人员的水平差异，可能导致整个结构的混乱无序。 
-3、考虑到Service层的事务封装特性，Service层必须对所有的domain object的逻辑提供相应的事务封装方法，其结果就是Service完全重定义 
+<span class="number">1</span>、DAO和domain object形成了双向依赖，复杂的双向依赖会导致很多潜在的问题。 
+<span class="number">2</span>、如何划分Service层逻辑和domain层逻辑是非常含混的，在实际项目中，由于设计和开发人员的水平差异，可能导致整个结构的混乱无序。 
+<span class="number">3</span>、考虑到Service层的事务封装特性，Service层必须对所有的domain object的逻辑提供相应的事务封装方法，其结果就是Service完全重定义 
 一遍所有的domain logic，非常烦琐，而且Service的事务化封装其意义就等于把OO的domain logic转换为过程的Service TransactionScript 
 。该充血模型辛辛苦苦在domain层实现的OO在Service层又变成了过程式，对于Web层程序员的角度来看，和贫血模型没有什么区别了。 
-1.事务我是不希望由Item管理的，而是由容器或更高一层的业务类来管理。 
-2.如果Item不脱离持久层的管理，如JDO的pm，那么itemDao.update(this); 是不需要的，也就是说Item是在事务过程中从数据库拿出来的，并 
+<span class="number">1.</span>事务我是不希望由<span class="keyword">Item</span>管理的，而是由容器或更高一层的业务类来管理。 
+<span class="number">2.</span>如果<span class="keyword">Item</span>不脱离持久层的管理，如JDO的pm，那么itemDao.update(this); 是不需要的，也就是说<span class="keyword">Item</span>是在事务过程中从数据库拿出来的，并 
 且声明周期不超出当前事务的范围。 
-3.如果Item是脱离持久层，也就是在Item的生命周期超出了事务的范围，那就要必须显示调用update或attach之类的持久化方法的，这种时候 
-就应该是按robbin所说的第2种模型来做。 </p>
-<p><strong>胀血模型</strong>
+<span class="number">3.</span>如果<span class="keyword">Item</span>是脱离持久层，也就是在<span class="keyword">Item</span>的生命周期超出了事务的范围，那就要必须显示调用update或attach之类的持久化方法的，这种时候 
+就应该是按robbin所说的第<span class="number">2</span>种模型来做。
+</pre></td></tr></table></figure>
+
+<p><strong>胀血模型</strong> </br>
 基于充血模型的第三个缺点，有同学提出，干脆取消Service层，只剩下domain object和DAO两层，在domain object的domain logic上面封装 
 事务。 
 domain object(事务封装，业务逻辑) &lt;---&gt; DAO 
@@ -145,15 +170,15 @@ domain object(事务封装，业务逻辑) &lt;---&gt; DAO
 2、domain object暴露给web层过多的信息，可能引起意想不到的副作用。 </p>
 <blockquote>
 <p>个人认为 
-失血是Hibernate的流行引起的，数据逻辑被分在Dao/imple 层实现
-贫血恰恰就是Spring frame的经典MVC，现在在web开发中还是很好的，不够OO？这都不是个事。
-充血、胀血没有概念，不过没有看出明显的好处，反而感觉这样做的话，逻辑会很混乱，对于指令编程体系来说，这可不是个好消息。
+失血是Hibernate的流行引起的，数据逻辑被分在Dao/imple 层实现</br>
+贫血恰恰就是Spring frame的经典MVC，现在在web开发中还是很好的，不够OO？这都不是个事。</br>
+充血、胀血没有概念，不过没有看出明显的好处，反而感觉这样做的话，逻辑会很混乱，对于指令编程体系来说，这可不是个好消息。</br>
 So，首选还是贫血。至少现在是这么认为的。</p>
 </blockquote>
 <p>DDD 属于充血模型</p>
 <p>DDD最大的好处是：接触到需求第一步就是考虑领域模型，而不是将其切割成数据和行为，然后数据用数据库实现，行为使用服务实现，最后造成需求的首肢分离。DDD让你首先考虑的是业务语言，而不是数据。重点不同导致编程世界观不同。</p>
 <p>DDD在软件生产流程中定位i如下图，DDD落地实现离不开in-memory缓存、 CQRS、 DCI、 EDA或Event Source几大大相关领域。</p>
-<p><strong>四种伟大的程序架构</strong></p>
+<h1 id="-">四种程序架构</h1>
 <ul>
 <li>Clean架构</li>
 </ul>
@@ -162,13 +187,13 @@ So，首选还是贫血。至少现在是这么认为的。</p>
 <ul>
 <li>DCI架构</li>
 </ul>
-<p><a href="http://www.artima.com/articles/dci_vision.html" target="_blank">DCI</a> (<a href="http://www.jdon.com/37976" target="_blank">http://www.jdon.com/37976</a>)
+<p><a href="http://www.artima.com/articles/dci_vision.html" target="_blank">DCI</a> (<a href="http://www.jdon.com/37976" target="_blank">http://www.jdon.com/37976</a>) </br>
 DCI是数据Data 场景Context 交互Interactions的简称，DCI是一种特别关注行为的模式(可以对应GoF行为模式)，而MVC模式是一种结构性模式，MVC模式由于结构化，而可能忽视了行为事件。DCI Architecture是将“是什么”和“做什么”进行分离，然后根据需求在不同场景动态结合，还是桥模式的味道。
 <img src="http://www.artima.com/images/dci/Figure2.jpg" alt=""></p>
 <ul>
 <li>DDD/CQRS 领域驱动设计</li>
 </ul>
-<p><a href="http://prezi.com/akrfq7jyau8w/ddd-cqrs-leaven-v20/" target="_blank">DDD/CQRS</a>, <a href="http://www.jdon.com/cqrs.html" target="_blank">CQES</a></p>
+<p><a href="http://prezi.com/akrfq7jyau8w/ddd-cqrs-leaven-v20/" target="_blank">DDD/CQRS</a>, <a href="http://www.jdon.com/cqrs.html" target="_blank">CQES</a> </br></p>
 <p>CQRS: 命令查询的责任分离Command Query Responsibility Segregation (简称CQRS)模式是一种架构体系模式，能够使改变模型的状态的命令和模型状态的查询实现分离。这属于DDD应用领域的一个模式，主要解决DDD在数据库报表输出上处理方式。
 <img src="http://www.jdon.com/jdonframework/jivejdon3/images/cqrs.png" alt=""></p>
 <ul>
@@ -177,7 +202,7 @@ DCI是数据Data 场景Context 交互Interactions的简称，DCI是一种特别�
 <p>允许应用程序都是由用户，程序，自动化测试或批处理脚本驱动的，在<strong>事件驱动</strong>和数据库环境下被开发和隔离测试。一个事件从外面世界到达一个端口，特定技术的适配器将其转换成可用的程序调用或消息，并将其传递给应用程序。该应用程序是可以无需了解输入设备的性质(调用者是哪个)。当应用程序有结果需要发出时，它会通过一个端口适配器发送它，这个适配器会创建接收技术（人类或自动）所需的相应信号。该应用程序与在它各方面的适配器形成语义良性互动，但是实际上不知道适配器的另一端的谁在处理任务。
 <img src="http://alistair.cockburn.us/get/2301" alt=""></p>
 <blockquote>
-<p>看的头痛！！！</p>
+<p>心得： 看的头痛！！！</p>
 </blockquote>
   
 	</div>
@@ -216,11 +241,19 @@ DCI是数据Data 场景Context 交互Interactions的简称，DCI是一种特别�
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2014/03/17/scala-g-1/" title="scala看看">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  scala看看</span>
+</a>
+</div>
+
 
 <div class="next">
-<a href="/2014/03/12/svg-g-1/"  title="svg-g-1">
+<a href="/2014/03/12/svg-g-1/"  title="svg">
  <strong>NEXT:</strong><br/> 
- <span>svg-g-1
+ <span>svg
 </span>
 </a>
 </div>
@@ -255,7 +288,7 @@ DCI是数据Data 场景Context 交互Interactions的简称，DCI是一种特别�
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">1.</span> <span class="toc-text">服务器后端发展三个阶段</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">2.</span> <span class="toc-text">四个编程模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-"><span class="toc-number">3.</span> <span class="toc-text">四种程序架构</span></a></li></ol>
   </div>
 
 <div id="asidepart">
@@ -283,7 +316,11 @@ DCI是数据Data 场景Context 交互Interactions的简称，DCI是一种特别�
 		
 			<li><a href="/categories/rabbit/" title="rabbit">rabbit<sup>1</sup></a></li>
 		
+			<li><a href="/categories/scala/" title="scala">scala<sup>1</sup></a></li>
+		
 			<li><a href="/categories/solr/" title="solr">solr<sup>2</sup></a></li>
+		
+			<li><a href="/categories/svg/" title="svg">svg<sup>1</sup></a></li>
 		
 			<li><a href="/categories/比较杂乱/" title="比较杂乱">比较杂乱<sup>2</sup></a></li>
 		
@@ -316,7 +353,11 @@ DCI是数据Data 场景Context 交互Interactions的简称，DCI是一种特别�
 		
 			<li><a href="/tags/rabbit/" title="rabbit">rabbit<sup>1</sup></a></li>
 		
+			<li><a href="/tags/scala/" title="scala">scala<sup>1</sup></a></li>
+		
 			<li><a href="/tags/solr/" title="solr">solr<sup>2</sup></a></li>
+		
+			<li><a href="/tags/svg/" title="svg">svg<sup>1</sup></a></li>
 		
 			<li><a href="/tags/比较杂乱/" title="比较杂乱">比较杂乱<sup>2</sup></a></li>
 		
@@ -330,7 +371,7 @@ DCI是数据Data 场景Context 交互Interactions的简称，DCI是一种特别�
   <div class="tagcloudlist">
     <p class="asidetitle">标签云</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/Bootstrap/" style="font-size: 10.00px;">Bootstrap</a><a href="/tags/Design/" style="font-size: 10.00px;">Design</a><a href="/tags/Git Page/" style="font-size: 10.00px;">Git Page</a><a href="/tags/Java/" style="font-size: 10.00px;">Java</a><a href="/tags/Mongo/" style="font-size: 15.00px;">Mongo</a><a href="/tags/golang/" style="font-size: 20.00px;">golang</a><a href="/tags/hexo/" style="font-size: 20.00px;">hexo</a><a href="/tags/mapinfo/" style="font-size: 10.00px;">mapinfo</a><a href="/tags/rabbit/" style="font-size: 10.00px;">rabbit</a><a href="/tags/solr/" style="font-size: 15.00px;">solr</a><a href="/tags/比较杂乱/" style="font-size: 15.00px;">比较杂乱</a><a href="/tags/生活杂记/" style="font-size: 10.00px;">生活杂记</a>
+       <a href="/tags/Bootstrap/" style="font-size: 10.00px;">Bootstrap</a><a href="/tags/Design/" style="font-size: 10.00px;">Design</a><a href="/tags/Git Page/" style="font-size: 10.00px;">Git Page</a><a href="/tags/Java/" style="font-size: 10.00px;">Java</a><a href="/tags/Mongo/" style="font-size: 15.00px;">Mongo</a><a href="/tags/golang/" style="font-size: 20.00px;">golang</a><a href="/tags/hexo/" style="font-size: 20.00px;">hexo</a><a href="/tags/mapinfo/" style="font-size: 10.00px;">mapinfo</a><a href="/tags/rabbit/" style="font-size: 10.00px;">rabbit</a><a href="/tags/scala/" style="font-size: 10.00px;">scala</a><a href="/tags/solr/" style="font-size: 15.00px;">solr</a><a href="/tags/svg/" style="font-size: 10.00px;">svg</a><a href="/tags/比较杂乱/" style="font-size: 15.00px;">比较杂乱</a><a href="/tags/生活杂记/" style="font-size: 10.00px;">生活杂记</a>
     </div>
   </div>
 

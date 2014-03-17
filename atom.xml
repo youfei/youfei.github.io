@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Good good study]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://youfei.github.io/"/>
-  <updated>2014-03-14T09:15:37.683Z</updated>
+  <updated>2014-03-17T08:45:14.664Z</updated>
   <id>http://youfei.github.io/</id>
   
   <author>
@@ -15,56 +15,235 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[领域驱动设计(DDD:Domain-Driven Design)]]></title>
+    <title><![CDATA[scala看看]]></title>
+    <link href="http://youfei.github.io/2014/03/17/scala-g-1/"/>
+    <id>http://youfei.github.io/2014/03/17/scala-g-1/</id>
+    <published>2014-03-17T01:45:17.000Z</published>
+    <updated>2014-03-17T08:44:46.000Z</updated>
+    <content type="html"><![CDATA[<p>Scala地看看，记点小Tips</p>
+<a id="more"></a>
+
+<h4 id="until-to">until &amp; to</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="number">1</span> scala&gt; <span class="keyword">for</span> (i &lt;- <span class="number">0</span> <span class="keyword">until</span> <span class="number">2</span>) println(<span class="string">"Hello"</span>)<span class="comment"> //&lt;2</span>
+Hello
+Hello
+
+<span class="number">2</span> scala&gt; <span class="keyword">for</span> (i &lt;- <span class="number">0</span> <span class="built_in">to</span> <span class="number">2</span>) println(<span class="string">"Hello"</span>)<span class="comment"> //&lt;=2</span>
+Hello
+Hello
+Hello
+</pre></td></tr></table></figure>
+
+<h4 id="-">函数套函数</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="number">3</span> def <span class="built_in">add</span>(more:Int) = (x:Int)=&gt; x+more
+
+val <span class="keyword">int1</span> = <span class="built_in">add</span>(<span class="number">1</span>) <span class="comment"> // init more = 1</span>
+<span class="keyword">int1</span>(<span class="number">10</span>)          <span class="comment"> // will call function x+1 = 11</span>
+</pre></td></tr></table></figure>
+
+<h4 id="_-">_*</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="number">4</span> <span class="function"><span class="keyword">def</span> </span>echo(args <span class="symbol">:String*</span>) = <span class="keyword">for</span>(arg-&gt;args) println(arg)
+
+val arr = <span class="constant">Array</span>(<span class="string">"what's"</span>, <span class="string">"up"</span>, <span class="string">"doc?"</span>)
+
+echo(<span class="symbol">arr:</span><span class="number">_</span>*)
+what<span class="string">'s
+up
+doc?</span>
+</pre></td></tr></table></figure>
+
+<h4 id="highrt-order-function">Highrt Order function</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre><span class="number">5</span> 高阶函数：higher-order-<span class="function"><span class="keyword">function</span> 带其他函数做参数的函数
+
+<span class="title">def</span> <span class="title">filesMatching</span><span class="params">(query:<span class="keyword">String</span>, matcher:(<span class="keyword">String</span>, <span class="keyword">String</span>)</span>=&gt; <span class="title">Boolean</span>) =<span class="comment">{  // matcher:(String, String)=&gt; Boolean
+	for(file &lt;- filesHere; if matcher(file.getName, query)) yield file  // matcher(file.getName, query)
+}</span>
+
+<span class="title">def</span> <span class="title">filesEnding</span><span class="params">(query:<span class="keyword">String</span>)</span> = <span class="title">filesMatching</span><span class="params">(query, _.endWith(_)</span>)
+
+<span class="title">def</span> <span class="title">filesContaining</span><span class="params">(query:<span class="keyword">String</span>)</span> = <span class="title">filesMatching</span><span class="params">(query, _.contains(_)</span>)
+
+<span class="title">def</span> <span class="title">filesRegex</span><span class="params">(query:<span class="keyword">String</span>)</span> = <span class="title">filesMatching</span><span class="params">(query, _.matches(_)</span>)</span>
+</pre></td></tr></table></figure>
+
+<h4 id="curry">Curry</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="code"><pre>6 Curry化
+柯里化声称“如果你固定某些参数，你将得到接受余下参数的一个函数”。所以对于有两个变量的函数y^x，如果固定了 y=2，则得到有一个变量的函数 2^x
+
+def first(x:Int) = (y:Int) =&gt; x+y
+first: (Int)(Int) =&gt; Int
+
+
+def twice(op: Int =&gt; Int, x:Int) = op(op(x))  //高阶函数
+
+<span class="header">twice(_ + 1, 5)
+===</span>
+op(x) = x + 1
+|
+<span class="header">op(op(x))
+===</span>
+</pre></td></tr></table></figure>
+
+<h4 id="-">读书笔记</h4>
+<blockquote>
+<p><strong>貸出模式</strong> Loan Pattern</br>
+该模式大概说： 对于那些资源密集型（resource-intensive）对象应使用这一模式</br>
+既然是资源密集在一个对象中，那么用户代码就不能一直保持获得所有资源，而应该在需要时就向资源供给方进行借贷，使用完后应立即归还。</p>
+<p><strong>脆基类</strong></br>
+派生类对基类有十分紧密的耦合，同时这个闭合的连接是不受欢迎的。设计师们因此给这种行为起了一个绰号——“脆基类问题”。基类是被认为十分脆弱的，因为你可以通过一个表面上十分安全的方法修改一个基类，但这个新的行为，当被派生类继承的时候，可能会造成派生类运行出错。你不能简单孤立地通过检查基类的方法来判断你对基类的改变是不是安全；你也必须查看（并测试）所有的派生类。此外，你必须检查所有+同时使用了基类和派生类对象的代码，因为这些代码可能会被新的行为所破坏。对关键的基类的小小的改变都会导致整个程序无法运行。&amp;oq=派生类对基类有十分紧密的耦合，同时这个闭合的连接是不受欢迎的。设计师们因此给这种行为起了一个绰号——“脆基类问题”。基类是被认为十分脆弱的，因为你可以通过一个表面上十分安全的方法修改一个基类，但这个新的行为，当被派生类继承的时候，可能会造成派生类运行出错。你不能简单孤立地通过检查基类的方法来判断你对基类的改变是不是安全；你也必须查看（并测试）所有的派生类。此外，你必须检查所有+同时使用了基类和派生类对象的代码，因为这些代码可能会被新的行为所破坏。对关键的基类的小小的改变都会导致整个程序无法运行。</p>
+<p><strong>object看成是特殊的class，可以认为他是class的单例</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>===
+Any
+|
+class
+|
+<span class="header">Nothing/Null
+===</span>
+</pre></td></tr></table></figure>
+
+<p><strong>Scala类层次结构</strong>
+<img src="http://images.51cto.com/files/uploadimg/20090806/141440204.jpg" alt=""></p>
+<p><strong>trait</strong> 有点抽象接口的意思</p>
+</blockquote>
+]]></content>
+    <summary type="html"><![CDATA[<p>Scala地看看，记点小Tips</p>
+]]></summary>
+    
+      <category term="scala" scheme="http://youfei.github.io/tags/scala/"/>
+    
+      <category term="scala" scheme="http://youfei.github.io/categories/scala/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[领域驱动设计]]></title>
     <link href="http://youfei.github.io/2014/03/14/design-1/"/>
     <id>http://youfei.github.io/2014/03/14/design-1/</id>
     <published>2014-03-14T08:01:46.000Z</published>
-    <updated>2014-03-14T09:15:03.000Z</updated>
-    <content type="html"><![CDATA[<p>读文章&lt;&lt;<a href="http://www.jdon.com/ddd.html" target="_blank">领域驱动设计(DDD:Domain-Driven Design)</a>&gt;&gt;
+    <updated>2014-03-17T08:29:46.000Z</updated>
+    <content type="html"><![CDATA[<p>读文章&lt;&lt;<a href="http://www.jdon.com/ddd.html" target="_blank">领域驱动设计(DDD:Domain-Driven Design)</a>&gt;&gt; </br>
 Eric Evans的“Domain-Driven Design领域驱动设计”简称<strong>DDD</strong></p>
 <a id="more"></a>
 
-<p><strong>服务器后端发展三个阶段：</strong></p>
+<h1 id="-">服务器后端发展三个阶段</h1>
 <p><img src="http://www.jdon.com/img/uploadShowAction.shtml?id=23140&amp;oid=23142654" alt=""></p>
 <ul>
 <li><p>UI+DataBase的两层架构，这种面向数据库的架构(上图table    module )没有灵活性。</p>
 </li>
-<li><p>UI+Service+DataBase的多层SOA架构，这种服务+表模型的架构易使服务变得囊肿，难于维护拓展，伸缩性能差，见这里讨论或Spring Web 应用的最大败笔.<a href="http://www.jdon.com/45857" target="_blank">The Biggest Flaw of Spring Web Applications | Java</a></p>
+<li><p>UI+Service+DataBase的多层SOA架构，这种服务+表模型的架构易使服务变得囊肿，难于维护拓展，伸缩性能差，见这里讨论或Spring Web 应用的最大败笔.<a href="http://www.jdon.com/45857" target="_blank">The Biggest Flaw of Spring Web Applications | Java</a> 真是败笔吗？ I do not think so.</p>
 </li>
 <li><p>DDD+SOA的事件驱动的CQRS读写分离架构，应付复杂业务逻辑，以聚合模型替代数据表模型，以并发的事件驱动替代串联的消息驱动。真正实现以业务实体为核心的灵活拓展。</p>
 </li>
 </ul>
-<p><strong>失血模型</strong>
+<h1 id="-">四个编程模型</h1>
+<p><strong>失血模型</strong> </br>
 失血模型简单来说，就是domain object只有属性的getter/setter方法的纯数据类，所有的业务逻辑完全由business object来完成(又称 
 TransactionScript)，这种模型下的domain object被Martin Fowler称之为“贫血的domain object”。</p>
-<p><strong>贫血模型</strong>
+<p><strong>贫血模型</strong> </br>
 简单来说，就是domain ojbect包含了不依赖于持久化的领域逻辑，而那些依赖持久化的领域逻辑被分离到Service层。 
 Service(业务逻辑，事务封装) --&gt; DAO ---&gt; domain object </p>
-<p>这种模型的优点： 
-1、各层单向依赖，结构清楚，易于实现和维护 
-2、设计简单易行，底层模型非常稳定 
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>这种模型的优点： 
+<span class="number">1</span>、各层单向依赖，结构清楚，易于实现和维护 
+<span class="number">2</span>、设计简单易行，底层模型非常稳定 
 这种模型的缺点： 
-1、domain object的部分比较紧密依赖的持久化domain logic被分离到Service层，显得不够OO 
-2、Service层过于厚重 </p>
-<p><strong>充血模型</strong>
+<span class="number">1</span>、domain <span class="keyword">object</span>的部分比较紧密依赖的持久化domain logic被分离到Service层，显得不够OO 
+<span class="number">2</span>、Service层过于厚重
+</pre></td></tr></table></figure>
+
+<p><strong>充血模型</strong> </br>
 充血模型和第二种模型差不多，所不同的就是如何划分业务逻辑，即认为，绝大多业务逻辑都应该被放在domain object里面(包括持久化逻辑) 
 ，而Service层应该是很薄的一层，仅仅封装事务和少量逻辑，不和DAO层打交道。 
 Service(事务封装) ---&gt; domain object &lt;---&gt; DAO </p>
-<p>这种模型的优点： 
-1、更加符合OO的原则 
-2、Service层很薄，只充当Facade的角色，不和DAO打交道。 
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre>这种模型的优点： 
+<span class="number">1</span>、更加符合OO的原则 
+<span class="number">2</span>、Service层很薄，只充当Facade的角色，不和DAO打交道。 
 这种模型的缺点： 
-1、DAO和domain object形成了双向依赖，复杂的双向依赖会导致很多潜在的问题。 
-2、如何划分Service层逻辑和domain层逻辑是非常含混的，在实际项目中，由于设计和开发人员的水平差异，可能导致整个结构的混乱无序。 
-3、考虑到Service层的事务封装特性，Service层必须对所有的domain object的逻辑提供相应的事务封装方法，其结果就是Service完全重定义 
+<span class="number">1</span>、DAO和domain object形成了双向依赖，复杂的双向依赖会导致很多潜在的问题。 
+<span class="number">2</span>、如何划分Service层逻辑和domain层逻辑是非常含混的，在实际项目中，由于设计和开发人员的水平差异，可能导致整个结构的混乱无序。 
+<span class="number">3</span>、考虑到Service层的事务封装特性，Service层必须对所有的domain object的逻辑提供相应的事务封装方法，其结果就是Service完全重定义 
 一遍所有的domain logic，非常烦琐，而且Service的事务化封装其意义就等于把OO的domain logic转换为过程的Service TransactionScript 
 。该充血模型辛辛苦苦在domain层实现的OO在Service层又变成了过程式，对于Web层程序员的角度来看，和贫血模型没有什么区别了。 
-1.事务我是不希望由Item管理的，而是由容器或更高一层的业务类来管理。 
-2.如果Item不脱离持久层的管理，如JDO的pm，那么itemDao.update(this); 是不需要的，也就是说Item是在事务过程中从数据库拿出来的，并 
+<span class="number">1.</span>事务我是不希望由<span class="keyword">Item</span>管理的，而是由容器或更高一层的业务类来管理。 
+<span class="number">2.</span>如果<span class="keyword">Item</span>不脱离持久层的管理，如JDO的pm，那么itemDao.update(this); 是不需要的，也就是说<span class="keyword">Item</span>是在事务过程中从数据库拿出来的，并 
 且声明周期不超出当前事务的范围。 
-3.如果Item是脱离持久层，也就是在Item的生命周期超出了事务的范围，那就要必须显示调用update或attach之类的持久化方法的，这种时候 
-就应该是按robbin所说的第2种模型来做。 </p>
-<p><strong>胀血模型</strong>
+<span class="number">3.</span>如果<span class="keyword">Item</span>是脱离持久层，也就是在<span class="keyword">Item</span>的生命周期超出了事务的范围，那就要必须显示调用update或attach之类的持久化方法的，这种时候 
+就应该是按robbin所说的第<span class="number">2</span>种模型来做。
+</pre></td></tr></table></figure>
+
+<p><strong>胀血模型</strong> </br>
 基于充血模型的第三个缺点，有同学提出，干脆取消Service层，只剩下domain object和DAO两层，在domain object的domain logic上面封装 
 事务。 
 domain object(事务封装，业务逻辑) &lt;---&gt; DAO 
@@ -77,15 +256,15 @@ domain object(事务封装，业务逻辑) &lt;---&gt; DAO
 2、domain object暴露给web层过多的信息，可能引起意想不到的副作用。 </p>
 <blockquote>
 <p>个人认为 
-失血是Hibernate的流行引起的，数据逻辑被分在Dao/imple 层实现
-贫血恰恰就是Spring frame的经典MVC，现在在web开发中还是很好的，不够OO？这都不是个事。
-充血、胀血没有概念，不过没有看出明显的好处，反而感觉这样做的话，逻辑会很混乱，对于指令编程体系来说，这可不是个好消息。
+失血是Hibernate的流行引起的，数据逻辑被分在Dao/imple 层实现</br>
+贫血恰恰就是Spring frame的经典MVC，现在在web开发中还是很好的，不够OO？这都不是个事。</br>
+充血、胀血没有概念，不过没有看出明显的好处，反而感觉这样做的话，逻辑会很混乱，对于指令编程体系来说，这可不是个好消息。</br>
 So，首选还是贫血。至少现在是这么认为的。</p>
 </blockquote>
 <p>DDD 属于充血模型</p>
 <p>DDD最大的好处是：接触到需求第一步就是考虑领域模型，而不是将其切割成数据和行为，然后数据用数据库实现，行为使用服务实现，最后造成需求的首肢分离。DDD让你首先考虑的是业务语言，而不是数据。重点不同导致编程世界观不同。</p>
 <p>DDD在软件生产流程中定位i如下图，DDD落地实现离不开in-memory缓存、 CQRS、 DCI、 EDA或Event Source几大大相关领域。</p>
-<p><strong>四种伟大的程序架构</strong></p>
+<h1 id="-">四种程序架构</h1>
 <ul>
 <li>Clean架构</li>
 </ul>
@@ -94,13 +273,13 @@ So，首选还是贫血。至少现在是这么认为的。</p>
 <ul>
 <li>DCI架构</li>
 </ul>
-<p><a href="http://www.artima.com/articles/dci_vision.html" target="_blank">DCI</a> (<a href="http://www.jdon.com/37976" target="_blank">http://www.jdon.com/37976</a>)
+<p><a href="http://www.artima.com/articles/dci_vision.html" target="_blank">DCI</a> (<a href="http://www.jdon.com/37976" target="_blank">http://www.jdon.com/37976</a>) </br>
 DCI是数据Data 场景Context 交互Interactions的简称，DCI是一种特别关注行为的模式(可以对应GoF行为模式)，而MVC模式是一种结构性模式，MVC模式由于结构化，而可能忽视了行为事件。DCI Architecture是将“是什么”和“做什么”进行分离，然后根据需求在不同场景动态结合，还是桥模式的味道。
 <img src="http://www.artima.com/images/dci/Figure2.jpg" alt=""></p>
 <ul>
 <li>DDD/CQRS 领域驱动设计</li>
 </ul>
-<p><a href="http://prezi.com/akrfq7jyau8w/ddd-cqrs-leaven-v20/" target="_blank">DDD/CQRS</a>, <a href="http://www.jdon.com/cqrs.html" target="_blank">CQES</a></p>
+<p><a href="http://prezi.com/akrfq7jyau8w/ddd-cqrs-leaven-v20/" target="_blank">DDD/CQRS</a>, <a href="http://www.jdon.com/cqrs.html" target="_blank">CQES</a> </br></p>
 <p>CQRS: 命令查询的责任分离Command Query Responsibility Segregation (简称CQRS)模式是一种架构体系模式，能够使改变模型的状态的命令和模型状态的查询实现分离。这属于DDD应用领域的一个模式，主要解决DDD在数据库报表输出上处理方式。
 <img src="http://www.jdon.com/jdonframework/jivejdon3/images/cqrs.png" alt=""></p>
 <ul>
@@ -109,10 +288,10 @@ DCI是数据Data 场景Context 交互Interactions的简称，DCI是一种特别�
 <p>允许应用程序都是由用户，程序，自动化测试或批处理脚本驱动的，在<strong>事件驱动</strong>和数据库环境下被开发和隔离测试。一个事件从外面世界到达一个端口，特定技术的适配器将其转换成可用的程序调用或消息，并将其传递给应用程序。该应用程序是可以无需了解输入设备的性质(调用者是哪个)。当应用程序有结果需要发出时，它会通过一个端口适配器发送它，这个适配器会创建接收技术（人类或自动）所需的相应信号。该应用程序与在它各方面的适配器形成语义良性互动，但是实际上不知道适配器的另一端的谁在处理任务。
 <img src="http://alistair.cockburn.us/get/2301" alt=""></p>
 <blockquote>
-<p>看的头痛！！！</p>
+<p>心得： 看的头痛！！！</p>
 </blockquote>
 ]]></content>
-    <summary type="html"><![CDATA[<p>读文章&lt;&lt;<a href="http://www.jdon.com/ddd.html" target="_blank">领域驱动设计(DDD:Domain-Driven Design)</a>&gt;&gt;
+    <summary type="html"><![CDATA[<p>读文章&lt;&lt;<a href="http://www.jdon.com/ddd.html" target="_blank">领域驱动设计(DDD:Domain-Driven Design)</a>&gt;&gt; </br>
 Eric Evans的“Domain-Driven Design领域驱动设计”简称<strong>DDD</strong></p>
 ]]></summary>
     
@@ -123,11 +302,11 @@ Eric Evans的“Domain-Driven Design领域驱动设计”简称<strong>DDD</stro
   </entry>
   
   <entry>
-    <title><![CDATA[svg-g-1]]></title>
+    <title><![CDATA[svg]]></title>
     <link href="http://youfei.github.io/2014/03/12/svg-g-1/"/>
     <id>http://youfei.github.io/2014/03/12/svg-g-1/</id>
     <published>2014-03-12T03:03:30.000Z</published>
-    <updated>2014-03-12T09:07:20.000Z</updated>
+    <updated>2014-03-17T08:35:43.000Z</updated>
     <content type="html"><![CDATA[<p><strong>可缩放矢量图形(Scalable Vector Graphics，简称SVG)</strong>是一种使用XML来描述二维图形的语言(SVG严格遵从XML语法)。 </p>
 <a id="more"></a>
 
@@ -394,6 +573,10 @@ font的相关属性：font-family, font-style, font-weight, font-variant, font-s
     <summary type="html"><![CDATA[<p><strong>可缩放矢量图形(Scalable Vector Graphics，简称SVG)</strong>是一种使用XML来描述二维图形的语言(SVG严格遵从XML语法)。 </p>
 ]]></summary>
     
+      <category term="svg" scheme="http://youfei.github.io/tags/svg/"/>
+    
+      <category term="svg" scheme="http://youfei.github.io/categories/svg/"/>
+    
   </entry>
   
   <entry>
@@ -422,8 +605,11 @@ font的相关属性：font-family, font-style, font-weight, font-variant, font-s
     <link href="http://youfei.github.io/2014/03/07/mapinfo-g-1/"/>
     <id>http://youfei.github.io/2014/03/07/mapinfo-g-1/</id>
     <published>2014-03-07T05:41:36.000Z</published>
-    <updated>2014-03-11T08:41:38.000Z</updated>
+    <updated>2014-03-17T08:34:53.000Z</updated>
     <content type="html"><![CDATA[<p>Mapinfo的数据库采用混合型的空间数据库结构，分别使用不同的模块存储空间数据和属性数据。属性数据存储在关系数据库的若干属性表中，而空间数据则以Mapinfo的自定义格式保存于若干文件之中，两者之间通过一定的索引机制联系起来。为了提高查询和处理效率，Mapinfo采用层次结构对空间数据进行组织，即根据不同的专题将地图分层，每个图层由5个文件组成</p>
+<a id="more"></a>
+
+<h1 id="-">图层文件</h1>
 <ul>
 <li>属性数据的表结构文件(.TAB) </li>
 </ul>
@@ -444,8 +630,8 @@ font的相关属性：font-family, font-style, font-weight, font-variant, font-s
 <li>索引文件(.IND) </li>
 </ul>
 <p>它不是必须的，只有当用户规定了数据库的索引字段后，系统才会自动产生它。 </p>
-<p>GIS = CAD + DAtabASE + Spatial Operation</p>
-<p>GIS 的工作原理</p>
+<h1 id="gis-cad-database-spatial-operation">GIS = CAD + DAtabASE + Spatial Operation</h1>
+<h2 id="gis-">GIS 的工作原理</h2>
 <p>1 空间模型
 GIS 将现实世界抽象为互相联接不同特征的层面（LAYER）组合</p>
 <p>2 地理参考系
@@ -454,23 +640,32 @@ GIS 将现实世界抽象为互相联接不同特征的层面（LAYER）组合</
 GIS 数据包括矢量和栅格两种基本模式。
 矢量数据以点、线、面方式编码并以（x，y）坐标串存储管理，是表现离散空间特性的最佳方式。
 栅格数据（扫描图像或照片）是通过一系列网格单元表达连续地理特征。</p>
-<p>MapInfo = Mapping + Information</p>
+<h2 id="mapinfo-mapping-information">MapInfo = Mapping + Information</h2>
 <p>栅格图像是由一行行细小的点（像素）组成，所以也可以称之为位图，是后续工作即图层分解的基础，又称作基图。</p>
-<p>栅格图像的获取
-1， 扫描仪/数码相机
+<h3 id="-">栅格图像的获取</h3>
+<p>1， 扫描仪/数码相机
 2， 通过图形软件包将图像保存或转存为栅格文件格式，tif
 3， 在MapInfo 购买已配准的栅格图像。</p>
-<p>MapInfo 支持7中栅格图像：
-1，gif
+<h3 id="mapinfo-7-">MapInfo 支持7中栅格图像：</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>1，gif
 2, jpg
 3, tif
 4, pcx
 5, bmp
 6, tda
-7, bll （spot卫星图像）</p>
+7, bll （spot卫星图像）
+</pre></td></tr></table></figure>
+
 <p>地图对象：点，线，面</p>
-<p><strong>MapInfo widget tool bar</strong>
-1 Web Services:
+<h3 id="-mapinfo-widget-tool-bar-"><strong>MapInfo widget tool bar</strong></h3>
+<p>1 Web Services:
     从MapInfo Server获取数据，此处的Web Server指的是“MapInfo公司”的Web服务
 2 DBMS 
     ODBC联接数据库
@@ -478,25 +673,38 @@ GIS 数据包括矢量和栅格两种基本模式。
     在Image上画图工具
 4 Main
     各种Select工具：图片、工作区、图层、link</p>
-<p><strong>What Data Can I Use in MapInfo Professional?</strong>
-Data file choices include:
-• Microsoft Access
+<h3 id="-what-data-can-i-use-in-mapinfo-professional-"><strong>What Data Can I Use in MapInfo Professional?</strong></h3>
+<p>Data file choices include:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre>• Microsoft Access
 • Microsoft Excel
 • dBASE DBF
 • ESRI ® shapefiles
-• Raster Images
-• Grid Images
-• ASCII Delimited Text        ---》二进制文件，格式？
-• Lotus 1–2–3
+• <span class="keyword">Raster</span> Images
+• <span class="keyword">Grid</span> Images
+• ASCII Delimited <span class="keyword">Text</span>		---》二进制文件，格式？
+• Lotus <span class="number">1</span>–<span class="number">2</span>–<span class="number">3</span>
 • Remote Databases (Oracle, SQL Server, PostGIS)
 • Workspace
-• Comma Delimited CSV files</p>
+• Comma Delimited CSV files
+</pre></td></tr></table></figure>
+
 <blockquote>
 <p>So we can choose Excel/CSV as Data Source</p>
 <p>During the .TAB file creation process, the original file is in no way altered. The file retains its
 original properties.</p>
 </blockquote>
-<p><strong>Support for Raster Images</strong></p>
+<h3 id="-support-for-raster-images-"><strong>Support for Raster Images</strong></h3>
 <blockquote>
 <p>支持栅格图像，需要 License</p>
 </blockquote>
@@ -510,8 +718,8 @@ you purchase from MapInfo Professional will already be registered.</p>
 <p>For a full discussion of raster image display, see Registering SPOT Images in the Help System.</p>
 </blockquote>
 <p><strong>There is a two Giga Byte (2 GB) file limit on these files MapInfo Professional</strong></p>
-<p><strong>Using Workspaces</strong>
-<strong>A .WOR</strong> file is MapInfo Professional workspace file containing un-compiled MapBasic code that
+<h3 id="-using-workspaces-"><strong>Using Workspaces</strong></h3>
+<p><strong>A .WOR</strong> file is MapInfo Professional workspace file containing un-compiled MapBasic code that
 MapInfo Professional interprets to open a session with tables, windows, and settings the way a user
 left it. It is MapInfo Professional version specific depending on features used in it.
 <strong>A .MWS</strong> workspace file originates from the MapXtreme product line and is comprised of XML code
@@ -519,32 +727,1036 @@ to do things similar to a MapInfo Workspace *.wor with some limitations.</p>
 <blockquote>
 <p>whithout License, the layer can not be edited.</p>
 </blockquote>
-<p><strong>Supported Export Formats</strong>
-• Windows Bitmap (<em>.BMP)
-• Windows Metafile (</em>.WMF)
-• Windows Enhanced Metafile (<em>.EMF)
-• EMF + Metafile (</em>.EMF)
-• EMF + Dual Metafile (<em>.EMF)
-• JPEG File Interchange Format (</em>.JPG)
-• JPEG 2000 (<em>.JP2)
-• Portable Network Graphics Format (</em>.PNG)
-• Tagged Image File Format (<em>TIF)
-• TIFF CMYK (</em>.TIF)
-• TIFF CCITT Group 4 (<em>.TIF)
-• TIFF LZW (</em>.TIF)
-• Graphic Interchange Format (<em>.GIF)
-• Photoshop 3.0 (</em>.PSD)</p>
+<h3 id="-supported-export-formats-"><strong>Supported Export Formats</strong></h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre>• Windows Bitmap (*<span class="preprocessor">.BMP</span>)
+• Windows Metafile (*<span class="preprocessor">.WMF</span>)
+• Windows Enhanced Metafile (*<span class="preprocessor">.EMF</span>)
+• EMF + Metafile (*<span class="preprocessor">.EMF</span>)
+• EMF + Dual Metafile (*<span class="preprocessor">.EMF</span>)
+• JPEG File Interchange Format (*<span class="preprocessor">.JPG</span>)
+• JPEG <span class="number">2000</span> (*<span class="preprocessor">.JP</span>2)
+• Portable Network Graphics Format (*<span class="preprocessor">.PNG</span>)
+• Tagged Image File Format (*TIF)
+• TIFF CMYK (*<span class="preprocessor">.TIF</span>)
+• TIFF CCITT Group <span class="number">4</span> (*<span class="preprocessor">.TIF</span>)
+• TIFF LZW (*<span class="preprocessor">.TIF</span>)
+• Graphic Interchange Format (*<span class="preprocessor">.GIF</span>)
+• Photoshop <span class="number">3.0</span> (*<span class="preprocessor">.PSD</span>)
+</pre></td></tr></table></figure>
+
 <p><strong>mporting and Exporting Data in AutoCAD Format</strong></p>
 <blockquote>
 <p>Web Services – Sets refresh, timeout values, server options and other default settings for Proxy
 Servers, WMS, WFS, Geocode server, Drivetime server, and Map Tile server web services.</p>
 </blockquote>
 ]]></content>
-    
+    <summary type="html"><![CDATA[<p>Mapinfo的数据库采用混合型的空间数据库结构，分别使用不同的模块存储空间数据和属性数据。属性数据存储在关系数据库的若干属性表中，而空间数据则以Mapinfo的自定义格式保存于若干文件之中，两者之间通过一定的索引机制联系起来。为了提高查询和处理效率，Mapinfo采用层次结构对空间数据进行组织，即根据不同的专题将地图分层，每个图层由5个文件组成</p>
+]]></summary>
     
       <category term="mapinfo" scheme="http://youfei.github.io/tags/mapinfo/"/>
     
       <category term="mapinfo" scheme="http://youfei.github.io/categories/mapinfo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[solr初读-1]]></title>
+    <link href="http://youfei.github.io/2014/03/06/solr-g-1/"/>
+    <id>http://youfei.github.io/2014/03/06/solr-g-1/</id>
+    <published>2014-03-06T02:06:16.000Z</published>
+    <updated>2014-03-06T06:13:20.000Z</updated>
+    <content type="html"><![CDATA[<p>看Solr 的时候偶尔看到了一个博客，写的太和俺的胃口了,加到友情链接里面，嘿嘿</br>
+<a href="http://blog.csdn.net/zyb243380456/article/details/7225768" target="_blank">zyb243380456的专栏</a></p>
+<a id="more"></a>
+
+
+<h1 id="1-solr-">1.solr认识</h1>
+<p>solr是基于lucene开发包而搭建起来的一个依赖于Servlet容器的一个全文检索组件，他可以为自己的
+web应用提供简单的检索服务，也可以搭建复杂的集群环境进行全文检索，例如如果索引文件很大大概
+有7-90GB的索引文件就需要做分布式了应为这样的数据量一台机器的检索数据的速度太慢，如果需要
+进行集群demo测试可以在本机多开启几个web应用服务器就可以了。</p>
+<p><strong>Solr4 结构图</strong>
+<img src="http://img1.51cto.com/attachment/201304/164703786.png" alt="Solr4 结构图*"></p>
+<hr>
+<h1 id="2-web-solr-">2.快速的为你的web应用提供solr全文检索服务</h1>
+<h2 id="tomcat-uriencoding">Tomcat URIEncoding</h2>
+<p><strong>server.xml</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">Connector</span> <span class="attribute">port</span>=<span class="value">"8080"</span> <span class="attribute">protocol</span>=<span class="value">"HTTP/1.1"</span>  
+           <span class="attribute">connectionTimeout</span>=<span class="value">"20000"</span>  
+           <span class="attribute">redirectPort</span>=<span class="value">"8443"</span> <span class="attribute">URIEncoding</span>=<span class="value">"UTF-8"</span>/&gt;</span>
+</pre></td></tr></table></figure>
+
+<h2 id="-jar-">需要的jar:</h2>
+<p><strong>apache-solr-core-3.2.0.jar</strong> </br>
+<strong>apache-solr-solrj-3.2.0.jar</strong>--&gt;用于提供测试solr全文检索的java客户端</p>
+<h2 id="-solr-home-">如何配置你的<code>solr.home</code>的主要目录结构</h2>
+<p> 可以以任意名字的目录进行配置, 但是在这个目录的里面需要按照solr的要求来配置
+ 在xxx目录里面有<strong>bin</strong>, <strong>data</strong>, <strong>conf</strong>和<strong>solr.xml</strong>三个目录和一个配置文件,这个配置文件用于
+ 配置<strong>CoreContainer</strong>容器的多实例通过这个配置实现</p>
+<p> 在<code>bin</code>里面是solr插件的第三方jar包; 也就是你需要为solr添加的插件包放在这个里面</br></p>
+<p> <code>data</code>下面有index,和spellcheck两个目录分别是存放索引文件和拼写检查的什么东西</br></p>
+<p> 在<code>conf</code>下面全部是与当前solrcore实例相关的一些配置文件，例如 <code>solrconfig.xml</code>, <code>schema.xml</code></br></p>
+<p> <code>scripts.conf</code>这三个文件是最重要的;</p>
+<ul>
+<li>第一个用于配置当前solrcore如何对外提供全文检索服务</li>
+<li>第二个用于配置当前solrcore实例的索引文档的格式以及文档的字段信息</li>
+<li>第三个用于做solr分布式索引分发以及同步的配置文件</li>
+</ul>
+<h2 id="solr-servlet-solr-home-">solr如何与servlet容器相关联[配置solr.home]</h2>
+<blockquote>
+<p>上面已经配置好solr的木要目录结构然后只要让solrDispatchFilter在实例化的时候找到这个目录就能够初始化我们的solr.home了</br></p>
+<p>可以在过滤器或者监听器构造函数中通过设置jvm系统参数的形式</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>  System<span class="preprocessor">.setProperty</span>(<span class="string">"solr.solr.home"</span>,<span class="string">"dir"</span>)<span class="comment">;</span>
+</pre></td></tr></table></figure>
+
+<blockquote>
+<p>web.xml中进行描述,上面已经复制过通过在tomcat的JNDI容器中进行指定就是那个context.xml中</p>
+</blockquote>
+<p>在web.xml中配置SolrDispatchFilter.java</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre><span class="comment">&lt;!-- 过滤所有与solr相关的http请求  --&gt;</span>
+<span class="tag">&lt;<span class="title">filter</span>&gt;</span>
+	<span class="tag">&lt;<span class="title">filter-name</span>&gt;</span>SolrRequestFilter<span class="tag">&lt;/<span class="title">filter-name</span>&gt;</span>
+	<span class="tag">&lt;<span class="title">filter-class</span>&gt;</span>org.apache.solr.servlet.SolrDispatchFilter<span class="tag">&lt;/<span class="title">filter-class</span>&gt;</span>
+	<span class="tag">&lt;<span class="title">init-param</span>&gt;</span>
+	        <span class="comment">&lt;!-- 通过一特定开头的字符标志需要solr服务 --&gt;</span>
+		<span class="tag">&lt;<span class="title">param-name</span>&gt;</span>path-prefix<span class="tag">&lt;/<span class="title">param-name</span>&gt;</span>
+		<span class="tag">&lt;<span class="title">param-value</span>&gt;</span>solrservice<span class="tag">&lt;/<span class="title">param-value</span>&gt;</span>
+	<span class="tag">&lt;/<span class="title">init-param</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">filter</span>&gt;</span>
+<span class="tag">&lt;<span class="title">filter-mapping</span>&gt;</span>
+ <span class="tag">&lt;<span class="title">filter-name</span>&gt;</span>SolrRequestFilter<span class="tag">&lt;/<span class="title">filter-name</span>&gt;</span>
+ <span class="tag">&lt;<span class="title">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="title">url-pattern</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">filter-mapping</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<hr>
+<h1 id="3-solr-">3.solr相关包的概要</h1>
+<h2 id="-jar-">首先需要的jar包有:</h2>
+<h3 id="apache-solr-core-3-2-0-jar-">apache-solr-core-3.2.0.jar;</h3>
+<p>这是jar包中所包含的包:</p>
+<blockquote>
+<p>org.apache.solr.analysis</br></p>
+</blockquote>
+<p>这个包主要解决分词问题，学习solr之前必须对lucene的简单结构
+进行了解如何分词lucene中已经提到过</p>
+<blockquote>
+<p>org.apache.solr.client.solrj.embedded</br></p>
+</blockquote>
+<p>solrj主要提供方便的方式去应用solr全文检索的功能</p>
+<blockquote>
+<p>org.apache.solr.core</br></p>
+</blockquote>
+<p>包含的主要类介绍</br>
+org.apache.solr.core.CoreContainer.java,</br>
+org.apache.solr.core.Config.java,</br>
+org.apache.solr.core.SolrConfig.java,</br>
+org.apache.solr.core.SolrCore.java</br>
+org.apache.solr.core.CoreDescriptor.java,</br>
+org.apache.solr.core.DirectoryFactory.java,</br>
+org.apache.solr.core.SolrResourceLoader.java</p>
+<p>不管你有多少个solrcore实例那么solrcore的实例都会存放在我们的CoreContainer的</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="keyword">protected</span> final <span class="keyword">Map</span>&lt;<span class="typename">String</span>, SolrCore&gt; cores = <span class="keyword">new</span> LinkedHashMap&lt;<span class="typename">String</span>, SolrCore&gt;();
+</pre></td></tr></table></figure>
+
+<p>这个属性中也就是用于保存solrcore实例，那么solrCore是如何被创建的，他是根据SolrConfig创建的</br>
+<strong>solrConfig</strong>继承自Config类Config类提供的xPath的方式去解析xml文件</br>
+<strong>solrConfig</strong>对应到我们的SolrConfig.xml文件，然后SolrResourceLoader是用来加载配置文件的并且用于定位solr.home</br>
+<strong>solr.home</strong>在SolrResourceLoader是怎么定位到<code>solr.home</code>的：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+</pre></td><td class="code"><pre><span class="keyword">public</span> static <span class="built_in">String</span> locateSolrHome() {
+    <span class="built_in">String</span> home <span class="subst">=</span> <span class="built_in">null</span>;
+    <span class="comment">// 功过JNDI的方式定位到solrHome的主要目录</span>
+    <span class="comment">// 他可以在web.xml中这样配置</span>
+    <span class="comment">//&lt;env-entry&gt;</span>
+	<span class="comment">//&lt;env-entry-name&gt;solr/home&lt;/env-entry-name&gt;</span>
+	<span class="comment">//&lt;env-entry-value&gt;C:\\apache-tomcat-6.0.35-windows-x64\\apache-tomcat-6.0.35\\webapps\\solr&lt;/env-entry-value&gt;</span>
+	<span class="comment">//&lt;env-entry-type&gt;java.lang.String&lt;/env-entry-type&gt;</span>
+    <span class="comment">//&lt;/env-entry&gt;</span>
+    try {
+      Context c <span class="subst">=</span> <span class="literal">new</span> InitialContext();
+      home <span class="subst">=</span> (<span class="built_in">String</span>)c<span class="built_in">.</span>lookup(<span class="string">"java:comp/env/"</span><span class="subst">+</span>project<span class="subst">+</span><span class="string">"/home"</span>);
+      <span class="keyword">log</span><span class="built_in">.</span>info(<span class="string">"Using JNDI solr.home: "</span><span class="subst">+</span>home );
+    } catch (NoInitialContextException e) {
+      <span class="keyword">log</span><span class="built_in">.</span>info(<span class="string">"JNDI not configured for "</span><span class="subst">+</span>project<span class="subst">+</span><span class="string">" (NoInitialContextEx)"</span>);
+    } catch (NamingException e) {
+      <span class="keyword">log</span><span class="built_in">.</span>info(<span class="string">"No /"</span><span class="subst">+</span>project<span class="subst">+</span><span class="string">"/home in JNDI"</span>);
+    } catch( RuntimeException ex ) {
+      <span class="keyword">log</span><span class="built_in">.</span>warn(<span class="string">"Odd RuntimeException while testing for JNDI: "</span> <span class="subst">+</span> ex<span class="built_in">.</span>getMessage());
+    } 
+    
+    <span class="comment">// 如果JNDI没有找到主要目录的话就会尝试在System.getProperty("solr.solr.home");</span>
+    <span class="comment">// 也就是JVM的系统参数中进行一个查找只要是在同一个JVM中都是可以找到的</span>
+    <span class="comment">// 你也可以在某个监听器或者过滤器中指定solrhome他是这样指定的</span>
+    <span class="comment">// 需要注意的是你的过滤器必须要在SolrDispatchFilter.java这个过滤器之前因为</span>
+    <span class="comment">// 容器初始化过滤器的时候是根据配置文件的顺序进行实例话的</span>
+    <span class="comment">// 在SolrDispatchFilter.java过滤器实例化的时候进行了很多的solr初始化服务包括容器的初始化等</span>
+    <span class="comment">// 所以必须要在这个过滤器实例化之前指定solrhome的主要目录</span>
+    <span class="comment">// System.setProperty("solr.solr.home","dir");</span>
+    <span class="keyword">if</span>( home <span class="subst">==</span> <span class="built_in">null</span> ) {
+      <span class="built_in">String</span> prop <span class="subst">=</span> project <span class="subst">+</span> <span class="string">".solr.home"</span>;
+      home <span class="subst">=</span> System<span class="built_in">.</span>getProperty(prop);
+      <span class="keyword">if</span>( home <span class="subst">!=</span> <span class="built_in">null</span> ) {
+        <span class="keyword">log</span><span class="built_in">.</span>info(<span class="string">"using system property "</span><span class="subst">+</span>prop<span class="subst">+</span><span class="string">": "</span> <span class="subst">+</span> home );
+      }
+    }
+    
+    <span class="comment">// 如果上面的两种方式都没有找到就会到web应用的主目录下就行查找</span>
+    <span class="comment">// 如果你的web应用名字叫test的话他就到test目录下去找solr这个目录</span>
+    <span class="keyword">if</span>( home <span class="subst">==</span> <span class="built_in">null</span> ) {
+      home <span class="subst">=</span> project <span class="subst">+</span> <span class="string">'/'</span>;
+      <span class="keyword">log</span><span class="built_in">.</span>info(project <span class="subst">+</span> <span class="string">" home defaulted to '"</span> <span class="subst">+</span> home <span class="subst">+</span> <span class="string">"' (could not find system property or JNDI)"</span>);
+    }
+    <span class="keyword">return</span> normalizeDir( home );
+  }
+</pre></td></tr></table></figure>
+
+<p>定位到<code>solr.home</code>的主要目录后也就可以根据特定的目录层次结构进行加载配置文件然后实例容器然后向容器中添加solrcore实例了。</br></p>
+<p><strong>CoreDescriptor</strong>这个类主要是用来描述一个solrcore实例特征的相当于介绍这个solrcore有几个处理器，并且
+有chema.xml文件在那个位置然后这个solrcore的名字叫什么他的数据索引文件存放在哪个位置等...</br>
+<strong>DirectoryFactory</strong>这个类对应的lucene中的FSDirectory他是找到所有索引文件所在的目录。</br></p>
+<blockquote>
+<p>org.apache.solr.handler</p>
+</blockquote>
+<p>这个包中有提供了大部分solr提供的服务功能的实现</br>
+处理器也就是处理提出的各种不同的solr的全文检索服务要求 </br>
+包括crud和控制我们的容器对象和solrcore实例对象的一些处理方式</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>org<span class="preprocessor">.apache</span><span class="preprocessor">.solr</span><span class="preprocessor">.handler</span><span class="preprocessor">.admin</span><span class="preprocessor">.AdminHandlers</span><span class="preprocessor">.java</span>
+</pre></td></tr></table></figure>
+
+<p>AdminHandlers相当于<strong>solr.home</strong>的主人，他将掌管这个家庭的成员也就是solrcore实例，
+等多方面的功能。</p>
+<blockquote>
+<p>org.apache.solr.handler.ReplicationHandler.java</p>
+</blockquote>
+<p>ReplicationHandler需要在做solr分布式的时候用到，在默认的情况下solr的<code>solrconfig.xml</code></br></p>
+<p>主机和从机上的索引文件是一样的他是通过他们两个之间的版本号的差别来进行一个两个索引库之间的索引同步操作来实现solr的分布式索引库的维护，这个目的主要是为了提供更好和更快速的检索服务，</br></p>
+<p>主机用于提供维护操作，而从机用于提供检索服务，我们还可以提供多个这样的组合,并且对外提供一台检索服务的机器,然后当有查询请求的时候,通过这台主机将查询语句发送到下面所有的从机上去.然后将这些查询结构做一个统一，</br></p>
+<p>这样的功能solr已经提供的非常好了，只是如何去搭建大的分布式检索架构需要考虑一下主机的配置:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre></td><td class="code"><pre> <span class="tag">&lt;<span class="title">requestHandler</span> <span class="attribute">name</span>=<span class="value">"/replication"</span> <span class="attribute">class</span>=<span class="value">"solr.ReplicationHandler"</span> &gt;</span>
+      <span class="tag">&lt;<span class="title">lst</span> <span class="attribute">name</span>=<span class="value">"master"</span>&gt;</span> 
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"replicateAfter"</span>&gt;</span>commit<span class="tag">&lt;/<span class="title">str</span>&gt;</span> <span class="comment">&lt;!--在索引分发后自动提交 --&gt;</span>
+	    <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"httpConnTimeout"</span>&gt;</span>50000000<span class="tag">&lt;/<span class="title">str</span>&gt;</span> <span class="comment">&lt;!-- 当索引分连接达到这么长的时间后连接超时--&gt;</span>
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"httpReadTimeout"</span>&gt;</span>10000000<span class="tag">&lt;/<span class="title">str</span>&gt;</span>  <span class="comment">&lt;!-- 当读取索引文件达到这个时间的时候操作超时--&gt;</span>
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"confFiles"</span>&gt;</span>schema.xml,stopwords.txt,elevate.xml<span class="tag">&lt;/<span class="title">str</span>&gt;</span> <span class="comment">&lt;!-- 当有从机有要求和主机做同步的时候需要分发的配置文件 --&gt;</span>
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"commitReserveDuration"</span>&gt;</span>00:05:00<span class="tag">&lt;/<span class="title">str</span>&gt;</span> <span class="comment">&lt;!-- 提交受保护的时间段长度 --&gt;</span>
+        <span class="tag">&lt;/<span class="title">lst</span>&gt;</span>  
+  <span class="tag">&lt;/<span class="title">requestHandler</span>&gt;</span>
+  从机的配置:
+  <span class="tag">&lt;<span class="title">requestHandler</span> <span class="attribute">name</span>=<span class="value">"/replication"</span> <span class="attribute">class</span>=<span class="value">"solr.ReplicationHandler"</span> &gt;</span>
+      <span class="tag">&lt;<span class="title">lst</span> <span class="attribute">name</span>=<span class="value">"slave"</span>&gt;</span> 
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"masterUrl"</span>&gt;</span>http://localhost:8080/mysolr/collection1/replication<span class="tag">&lt;/<span class="title">str</span>&gt;</span>
+	    <span class="comment">&lt;!--translate is:http://host_name:port/webapp_name/solrcore_name/replicationHandler_name/ --&gt;</span>
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"pollInterval"</span>&gt;</span>00:05:00<span class="tag">&lt;/<span class="title">str</span>&gt;</span><span class="comment">&lt;!-- 间隔多长时间到master上去检测索引的version和generation--&gt;</span>   
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"compression"</span>&gt;</span>internal<span class="tag">&lt;/<span class="title">str</span>&gt;</span> 
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"httpConnTimeout"</span>&gt;</span>50000000<span class="tag">&lt;/<span class="title">str</span>&gt;</span> 
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"httpReadTimeout"</span>&gt;</span>10000000<span class="tag">&lt;/<span class="title">str</span>&gt;</span> 
+           <span class="comment">&lt;!--  &lt;str name="httpBasicAuthUser"&gt;123&lt;/str&gt; 
+           &lt;str name="httpBasicAuthPassword"&gt;123&lt;/str&gt; --&gt;</span><span class="comment">&lt;!-- 为了安全可以设置可以进行这些操作的请求的密码只有密码正确的请求才能执行分发操作--&gt;</span>
+         <span class="tag">&lt;/<span class="title">lst</span>&gt;</span>  
+     <span class="tag">&lt;/<span class="title">requestHandler</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<blockquote>
+<p>org.apache.solr.handler.RequestHandlerBase.java</p>
+</blockquote>
+<p>他是所有Handler的基类,他提供了最基本的操作方式</br>
+其中重要的方法:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+</pre></td><td class="code"><pre><span class="comment">// 用于处理处理solr的服务请求操作</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleRequest</span>(SolrQueryRequest req, SolrQueryResponse rsp) {
+    numRequests++;
+    <span class="keyword">try</span> {
+      SolrPluginUtils.setDefaults(req,defaults,appends,invariants);
+      rsp.setHttpCaching(httpCaching);
+      handleRequestBody( req, rsp );
+      <span class="comment">// count timeouts</span>
+      NamedList header = rsp.getResponseHeader();
+      <span class="keyword">if</span>(header != <span class="keyword">null</span>) {
+        Object partialResults = header.get(<span class="string">"partialResults"</span>);
+        <span class="keyword">boolean</span> timedOut = partialResults == <span class="keyword">null</span> ? <span class="keyword">false</span> : (Boolean)partialResults;
+        <span class="keyword">if</span>( timedOut ) {
+          numTimeouts++;
+          rsp.setHttpCaching(<span class="keyword">false</span>);
+        }
+      }
+    } <span class="keyword">catch</span> (Exception e) {
+      SolrException.log(SolrCore.log,e);
+      <span class="keyword">if</span> (e <span class="keyword">instanceof</span> ParseException) {
+        e = <span class="keyword">new</span> SolrException(SolrException.ErrorCode.BAD_REQUEST, e);
+      }
+      rsp.setException(e);
+      numErrors++;
+    }
+    totalTime += rsp.getEndTime() - req.getStartTime();
+  }
+
+
+<span class="comment">// 这个方法是一个抽象方法也就是真正的实现实在重写这个方法的子类身上进行实现了</span>
+<span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">handleRequestBody</span>( SolrQueryRequest req, SolrQueryResponse rsp ) <span class="keyword">throws</span> Exception;
+<span class="comment">// 在replicationHandler中的实现:</span>
+ <span class="annotation">@Override</span>
+  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleRequestBody</span>(SolrQueryRequest req, SolrQueryResponse rsp) <span class="keyword">throws</span> Exception {
+    rsp.setHttpCaching(<span class="keyword">false</span>);
+    <span class="keyword">final</span> SolrParams solrParams = req.getParams();
+    String command = solrParams.get(COMMAND);<span class="comment">// 得到与这个solr实例需要进行分布式操作的命令</span>
+    <span class="keyword">if</span> (command == <span class="keyword">null</span>) {
+      rsp.add(STATUS, OK_STATUS);
+      rsp.add(<span class="string">"message"</span>, <span class="string">"No command"</span>);
+      <span class="keyword">return</span>;
+    }
+    <span class="comment">// This command does not give the current index version of the master</span>
+    <span class="comment">// 这个命令不提供当前主机的索引版本的信息</span>
+    <span class="comment">// It gives the current 'replicateable' index version</span>
+    <span class="comment">// 他提供当前需要复制的索引版本信息</span>
+   <span class="keyword">if</span> (command.equals(CMD_INDEX_VERSION)) {
+      IndexCommit commitPoint = indexCommitPoint;  <span class="comment">// make a copy so it won't change</span>
+      <span class="keyword">if</span> (commitPoint != <span class="keyword">null</span> && replicationEnabled.get()) {
+        <span class="comment">//</span>
+        <span class="comment">// There is a race condition here.  The commit point may be changed / deleted by the time</span>
+        <span class="comment">// we get around to reserving it.  This is a very small window though, and should not result</span>
+        <span class="comment">// in a catastrophic failure, but will result in the client getting an empty file list for</span>
+        <span class="comment">// the CMD_GET_FILE_LIST command.</span>
+        <span class="comment">//</span>
+        core.getDeletionPolicy().setReserveDuration(commitPoint.getVersion(), reserveCommitDuration);
+        rsp.add(CMD_INDEX_VERSION, commitPoint.getVersion());
+        rsp.add(GENERATION, commitPoint.getGeneration());
+      } <span class="keyword">else</span> {
+        <span class="comment">// This happens when replication is not configured to happen after startup and no commit/optimize</span>
+        <span class="comment">// has happened yet.</span>
+        rsp.add(CMD_INDEX_VERSION, <span class="number">0</span>L);
+        rsp.add(GENERATION, <span class="number">0</span>L);
+      }
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_GET_FILE)) {
+      getFileStream(solrParams, rsp);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_GET_FILE_LIST)) {
+      getFileList(solrParams, rsp);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_BACKUP)) {
+      doSnapShoot(<span class="keyword">new</span> ModifiableSolrParams(solrParams), rsp,req);
+      rsp.add(STATUS, OK_STATUS);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_FETCH_INDEX)) {
+      String masterUrl = solrParams.get(MASTER_URL);
+      <span class="keyword">if</span> (!isSlave && masterUrl == <span class="keyword">null</span>) {
+        rsp.add(STATUS,ERR_STATUS);
+        rsp.add(<span class="string">"message"</span>,<span class="string">"No slave configured or no 'masterUrl' Specified"</span>);
+        <span class="keyword">return</span>;
+      }
+      <span class="keyword">final</span> SolrParams paramsCopy = <span class="keyword">new</span> ModifiableSolrParams(solrParams);
+      <span class="keyword">new</span> Thread() {
+        <span class="annotation">@Override</span>
+        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {
+          doFetch(paramsCopy);
+        }
+      }.start();
+      rsp.add(STATUS, OK_STATUS);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_DISABLE_POLL)) {
+      <span class="keyword">if</span> (snapPuller != <span class="keyword">null</span>){
+        snapPuller.disablePoll();
+        rsp.add(STATUS, OK_STATUS);
+      } <span class="keyword">else</span> {
+        rsp.add(STATUS, ERR_STATUS);
+        rsp.add(<span class="string">"message"</span>,<span class="string">"No slave configured"</span>);
+      }
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_ENABLE_POLL)) {
+      <span class="keyword">if</span> (snapPuller != <span class="keyword">null</span>){
+        snapPuller.enablePoll();
+        rsp.add(STATUS, OK_STATUS);
+      }<span class="keyword">else</span> {
+        rsp.add(STATUS,ERR_STATUS);
+        rsp.add(<span class="string">"message"</span>,<span class="string">"No slave configured"</span>);
+      }
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_ABORT_FETCH)) {
+      <span class="keyword">if</span> (snapPuller != <span class="keyword">null</span>){
+        snapPuller.abortPull();
+        rsp.add(STATUS, OK_STATUS);
+      } <span class="keyword">else</span> {
+        rsp.add(STATUS,ERR_STATUS);
+        rsp.add(<span class="string">"message"</span>,<span class="string">"No slave configured"</span>);
+      }
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_FILE_CHECKSUM)) {
+      <span class="comment">// this command is not used by anyone</span>
+      getFileChecksum(solrParams, rsp);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_SHOW_COMMITS)) {
+      rsp.add(CMD_SHOW_COMMITS, getCommits());
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_DETAILS)) {
+      rsp.add(CMD_DETAILS, getReplicationDetails(solrParams.getBool(<span class="string">"slave"</span>,<span class="keyword">true</span>)));
+      RequestHandlerUtils.addExperimentalFormatWarning(rsp);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (CMD_ENABLE_REPL.equalsIgnoreCase(command)) {
+      replicationEnabled.set(<span class="keyword">true</span>);
+      rsp.add(STATUS, OK_STATUS);
+   } <span class="keyword">else</span> <span class="keyword">if</span> (CMD_DISABLE_REPL.equalsIgnoreCase(command)) {
+     replicationEnabled.set(<span class="keyword">false</span>);
+     rsp.add(STATUS, OK_STATUS);
+   }
+  }
+</pre></td></tr></table></figure>
+
+<h3 id="org-apache-solr-highlight">org.apache.solr.highlight</h3>
+<p>为检索到的文本提供高亮服务的包;</p>
+<blockquote>
+<p>org.apache.solr.request</p>
+</blockquote>
+<p>这个包主要通过<code>org.apache.solr.servlet.SolrRequestParser.java</code>类
+根据HttpServletRequest对象的请求参数分析成符合solr应用的请求参数</br>
+主要方法是:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="code"><pre> <span class="keyword">public</span> SolrQueryRequest <span class="title">parse</span>( SolrCore core, String path, HttpServletRequest req ) throws Exception
+  {
+    SolrRequestParser parser = standard;
+    
+    <span class="comment">// TODO -- in the future, we could pick a different parser based on the request</span>
+    
+    <span class="comment">// Pick the parser from the request...</span>
+    ArrayList&lt;ContentStream&gt; streams = <span class="keyword">new</span> ArrayList&lt;ContentStream&gt;(<span class="number">1</span>);
+    SolrParams <span class="keyword">params</span> = parser.parseParamsAndFillStreams( req, streams );
+    SolrQueryRequest sreq = buildRequestFrom( core, <span class="keyword">params</span>, streams );
+
+    <span class="comment">// Handlers and login will want to know the path. If it contains a ':'</span>
+    <span class="comment">// the handler could use it for RESTful URLs</span>
+    sreq.getContext().put( <span class="string">"path"</span>, path );<span class="comment">// 在一个solr的请求处理中也有solr请求的上下文</span>
+    <span class="comment">// 应为处理这个请求的话这个请求将会被当作很多发放的参数所以设置一个方法的上下文环境</span>
+    <span class="comment">// 保存许多很重要的执行信息</span>
+    <span class="keyword">return</span> sreq;
+}
+</pre></td></tr></table></figure>
+
+<blockquote>
+<p>org.apache.solr.response</p>
+</blockquote>
+<p>关于solr的响应的信息的封装</p>
+<blockquote>
+<p>org.apache.solr.schema</p>
+</blockquote>
+<p>对应到封装schema.xml这个里面提供的一些功能的实现</p>
+<blockquote>
+<p>org.apache.solr.search
+org.apache.solr.servlet
+org.apache.solr.servlet.SolrDispatchFilter.java</p>
+</blockquote>
+<p>这个类是开启solr服务的关键过滤器一般需要在web.xml部署描述符中进行配置后
+才能够提供solr全文检索服务,他的doFilter方法是所有solr服务的入口。</p>
+<blockquote>
+<p>org.apache.solr.spelling
+org.apache.solr.update
+org.apache.solr.util</p>
+</blockquote>
+<hr>
+<h1 id="4-corecontainer-">4.如何配置多实例的CoreContainer容器</h1>
+<p>在solr的主目录下找到solr.xml进行配置就行了然后指定好solrcore
+实例子所在的索引库以及配置还有依赖包所在的目录</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">solr</span> <span class="attribute">persistent</span>=<span class="value">"false"</span>&gt;</span>
+  <span class="comment">&lt;!--
+  adminPath: RequestHandler path to manage cores.
+  管理员path:请求处理器所映射的管理路径然后去管理容器中的solrcore实例
+    If 'null' (or absent), cores will not be manageable via request handler
+    如果是null或者缺省的话,容器中的实例将不能通过请求处理器进行有效的管理
+    也就是同一个web应用下面有多个solrcore的应用在检索的时候需要指定你需要检索
+    的是那个solrcore:
+    http://host_name:port/webapp_name/solrcore_name/admin/cores/ 
+    这样就可以进行管理容器中的solrcore实例
+  --&gt;</span>
+  <span class="tag">&lt;<span class="title">cores</span> <span class="attribute">adminPath</span>=<span class="value">"/admin/cores"</span> <span class="attribute">defaultCoreName</span>=<span class="value">"collection1"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">core</span> <span class="attribute">name</span>=<span class="value">"collection1"</span> <span class="attribute">instanceDir</span>=<span class="value">"."</span> /&gt;</span>
+    <span class="tag">&lt;<span class="title">core</span> <span class="attribute">name</span>=<span class="value">"collection2"</span> <span class="attribute">instanceDir</span>=<span class="value">"f:\\hh"</span> /&gt;</span>
+  <span class="tag">&lt;/<span class="title">cores</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">solr</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<hr>
+<h1 id="5-solr-">5.分布式solr服务的搭建配置方式</h1>
+<p>首先找到需要进行分布式应用的solrcore实例的配置所在目录然后在solrconfig.xml中</br>
+ 将用于处理分布式服务的请求处理器的配置加上去,还需要在scripts.conf中进行指定一些
+ 信息就可以了</p>
+<blockquote>
+<p>master</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre> <span class="tag">&lt;<span class="title">requestHandler</span> <span class="attribute">name</span>=<span class="value">"/replication"</span> <span class="attribute">class</span>=<span class="value">"solr.ReplicationHandler"</span> &gt;</span>
+      <span class="tag">&lt;<span class="title">lst</span> <span class="attribute">name</span>=<span class="value">"master"</span>&gt;</span> 
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"replicateAfter"</span>&gt;</span>commit<span class="tag">&lt;/<span class="title">str</span>&gt;</span> <span class="comment">&lt;!--在索引分发后自动提交 --&gt;</span>
+	    <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"httpConnTimeout"</span>&gt;</span>50000000<span class="tag">&lt;/<span class="title">str</span>&gt;</span> <span class="comment">&lt;!-- 当索引分连接达到这么长的时间后连接超时--&gt;</span>
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"httpReadTimeout"</span>&gt;</span>10000000<span class="tag">&lt;/<span class="title">str</span>&gt;</span>  <span class="comment">&lt;!-- 当读取索引文件达到这个时间的时候操作超时--&gt;</span>
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"confFiles"</span>&gt;</span>schema.xml,stopwords.txt,elevate.xml<span class="tag">&lt;/<span class="title">str</span>&gt;</span> <span class="comment">&lt;!-- 当有从机有要求和主机做同步的时候需要分发的配置文件 --&gt;</span>
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"commitReserveDuration"</span>&gt;</span>00:05:00<span class="tag">&lt;/<span class="title">str</span>&gt;</span> <span class="comment">&lt;!-- 提交受保护的时间段长度 --&gt;</span>
+        <span class="tag">&lt;/<span class="title">lst</span>&gt;</span>  
+  <span class="tag">&lt;/<span class="title">requestHandler</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<blockquote>
+<p>slave</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre>    <span class="tag">&lt;<span class="title">requestHandler</span> <span class="attribute">name</span>=<span class="value">"/replication"</span> <span class="attribute">class</span>=<span class="value">"solr.ReplicationHandler"</span> &gt;</span>
+      <span class="tag">&lt;<span class="title">lst</span> <span class="attribute">name</span>=<span class="value">"slave"</span>&gt;</span> 
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"masterUrl"</span>&gt;</span>http://localhost:8080/mysolr/collection1/replication<span class="tag">&lt;/<span class="title">str</span>&gt;</span>
+	    <span class="comment">&lt;!--translate is:http://host_name:port/webapp_name/solrcore_name/replicationHandler_name/ --&gt;</span>
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"pollInterval"</span>&gt;</span>00:05:00<span class="tag">&lt;/<span class="title">str</span>&gt;</span><span class="comment">&lt;!-- 间隔多长时间到master上去检测索引的version和generation--&gt;</span>   
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"compression"</span>&gt;</span>internal<span class="tag">&lt;/<span class="title">str</span>&gt;</span> 
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"httpConnTimeout"</span>&gt;</span>50000000<span class="tag">&lt;/<span class="title">str</span>&gt;</span> 
+            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"httpReadTimeout"</span>&gt;</span>10000000<span class="tag">&lt;/<span class="title">str</span>&gt;</span> 
+           <span class="comment">&lt;!--  &lt;str name="httpBasicAuthUser"&gt;123&lt;/str&gt; 
+           &lt;str name="httpBasicAuthPassword"&gt;123&lt;/str&gt; --&gt;</span><span class="comment">&lt;!-- 为了安全可以设置可以进行这些操作的请求的密码只有密码正确的请求才能执行分发操作--&gt;</span>
+         <span class="tag">&lt;/<span class="title">lst</span>&gt;</span>  
+     <span class="tag">&lt;/<span class="title">requestHandler</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<hr>
+<h1 id="6-solr-http-">6.一个请求solr服务的http请求的执行顺序</h1>
+<blockquote>
+<p><a href="http://host_name:port/webapp_name/solrcore_name/someSolrServiceParameters" target="_blank">http://host_name:port/webapp_name/solrcore_name/someSolrServiceParameters</a> </br></p>
+</blockquote>
+<p>  因为配置了SolrDispatchFilter过滤器所以这个请求肯定会通过这个过滤器的doFilter方法。
+  进入到doFilter方法后</br></p>
+<p>  1 首先这个过滤器做为一个普通的类他拥有Corecontainer这个容器属性也就是说所有的solrcore实例都在这个类中可以拿到。
+      那么这个拿到了什么都好说,并且他做的第一件事情是将这个coreContainer实例保存到了我们的请求中也就是HttpServletRequest对象的内置map属性中了，
+      那么通过这个过滤器后我们还可以访问到很多与solr相关的东西
+      <code>request.setAttribute(&quot;org.apache.solr.CoreContainer&quot;, cores);</code></br></p>
+<p>  2 下一步是根据我们的httpServletRequest中的请求参数得到对应的solr请求对象也就是得到<code>solrQueryRequest</code>
+    他是通过一个解析器来得到solrQueryRequest这个实例的在SolrQueryRequest的parse方法中需要传入 
+    <code>public SolrQueryRequest parse( SolrCore core, String path, HttpServletRequest req )</code></p>
+<p>  3 然后返回一个solrQueryRequest，也就是将httpServletRequest对象中的参数转换成solr容器知道这个请求
+  需要什么东西的一个对象，请求什么服务的对象已经构造好了，然后就是构造怎么处理这个请求的一个请求处理器
+  这个请求处理器在solrQueryRequest中已经描述出来了，所以只需要在一个集合中根据键值对进行取得就可以了
+  这个处理器
+  <code>handler = core.getRequestHandler( path );</code>
+  在solrcore实例中已经配置好了许多这样的请求处理器只要从中拿一个就可以了。根据参数构造了需要什么样的服务的对象出来，并且针对这个服务的处理器出来了，</p>
+<p>  4 下一步就是执行了<code>this.execute( req, handler, solrReq, solrRsp );</code>这一步是处理所有的solr服务的入口，如果想知道solr是怎么实现的一切都从这里开始。</p>
+<hr>
+<h1 id="7-solr-core-code-">7.solr分布式索引分发的全过程以及中间core code:</h1>
+<blockquote>
+<p>如何以http请求方式进行主从索引文件同步</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre>&gt; master HTTP 管理 API：
+      启用复制， <span class="keyword">http</span>://master_name:port/solr-master/replication?<span class="command"><span class="keyword">command</span>=<span class="title">enablereplication</span></span>
+      禁用复制， <span class="keyword">http</span>://master_name:port/solr-master/replication?<span class="command"><span class="keyword">command</span>=<span class="title">disablereplication</span></span>
+      备份：     <span class="keyword">http</span>://master_name:port/solr-master/replication?<span class="command"><span class="keyword">command</span>=<span class="title">backup</span></span>
+
+&gt; slave TTTP 管理 API：
+      复制索引，        <span class="keyword">http</span>://slave_host:port/solr-slave/replication?<span class="command"><span class="keyword">command</span>=<span class="title">fetchindex</span></span>
+      终止索引的复制，  <span class="keyword">http</span>://slave_host:port/solr-slave/replication?<span class="command"><span class="keyword">command</span>=<span class="title">abortfetch</span></span>
+      启动轮询复制索引，<span class="keyword">http</span>://slave_host:port/solr-slave/replication?<span class="command"><span class="keyword">command</span>=<span class="title">enablepoll</span></span>
+      禁用轮询复制索引，<span class="keyword">http</span>://slave_host:port/solr-slave/replication?<span class="command"><span class="keyword">command</span>=<span class="title">disablepoll</span></span>
+      索引详细，        <span class="keyword">http</span>://slave_host:port/solr-slave/replication?<span class="command"><span class="keyword">command</span>=<span class="title">details</span> </span>
+    
+&gt; public TTTP 管理 API:
+      取索引版本号，    <span class="keyword">http</span>://host_name:port/solr-slave/replication?<span class="command"><span class="keyword">command</span>=<span class="title">indexversion</span></span>
+</pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>分布式处理的关键类:</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>org<span class="preprocessor">.apache</span><span class="preprocessor">.solr</span><span class="preprocessor">.handler</span><span class="preprocessor">.ReplicationHandler</span><span class="preprocessor">.java</span>
+org<span class="preprocessor">.apache</span><span class="preprocessor">.solr</span><span class="preprocessor">.handler</span><span class="preprocessor">.SnapPuller</span><span class="preprocessor">.java</span>
+SnapPuller的内部类:SnapPuller$FileFetcher
+</pre></td></tr></table></figure>
+
+<blockquote>
+<p>browser:发送get请求</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="keyword">http</span>://slave_host:port/solr-slave/replication?<span class="command"><span class="keyword">command</span>=<span class="title">fetchindex</span></span>
+</pre></td></tr></table></figure>
+
+<p>经过SolrDispatchFilter过滤器的doFilter方法然后得到SolrQueryRequest对象和SolrRequestHandler对象实例，</br>
+让后调用<code>this.execute( req, handler, solrReq, solrRsp );</code>方法进入ReplicationHandler内部的HandleRequest</br>这个发放是从父类继承过滤在父类中调用了子类的HandlRequestBody方法然后开始处理分布式相关的操作</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+</pre></td><td class="code"><pre><span class="annotation">@Override</span>
+  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleRequestBody</span>(SolrQueryRequest req, SolrQueryResponse rsp) <span class="keyword">throws</span> Exception {
+    rsp.setHttpCaching(<span class="keyword">false</span>);
+    <span class="keyword">final</span> SolrParams solrParams = req.getParams();
+    String command = solrParams.get(COMMAND);
+    <span class="keyword">if</span> (command == <span class="keyword">null</span>) {
+      rsp.add(STATUS, OK_STATUS);
+      rsp.add(<span class="string">"message"</span>, <span class="string">"No command"</span>);
+      <span class="keyword">return</span>;
+    }
+    <span class="comment">// This command does not give the current index version of the master</span>
+    <span class="comment">// It gives the current 'replicateable' index version</span>
+   <span class="keyword">if</span> (command.equals(CMD_INDEX_VERSION)) {
+      IndexCommit commitPoint = indexCommitPoint;  <span class="comment">// make a copy so it won't change</span>
+      <span class="keyword">if</span> (commitPoint != <span class="keyword">null</span> && replicationEnabled.get()) {
+        <span class="comment">//</span>
+        <span class="comment">// There is a race condition here.  The commit point may be changed / deleted by the time</span>
+        <span class="comment">// we get around to reserving it.  This is a very small window though, and should not result</span>
+        <span class="comment">// in a catastrophic failure, but will result in the client getting an empty file list for</span>
+        <span class="comment">// the CMD_GET_FILE_LIST command.</span>
+        <span class="comment">//</span>
+        core.getDeletionPolicy().setReserveDuration(commitPoint.getVersion(), reserveCommitDuration);
+        rsp.add(CMD_INDEX_VERSION, commitPoint.getVersion());
+        rsp.add(GENERATION, commitPoint.getGeneration());
+      } <span class="keyword">else</span> {
+        <span class="comment">// This happens when replication is not configured to happen after startup and no commit/optimize</span>
+        <span class="comment">// has happened yet.</span>
+        rsp.add(CMD_INDEX_VERSION, <span class="number">0</span>L);
+        rsp.add(GENERATION, <span class="number">0</span>L);
+      }
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_GET_FILE)) {
+      getFileStream(solrParams, rsp);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_GET_FILE_LIST)) {
+      getFileList(solrParams, rsp);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_BACKUP)) {
+      doSnapShoot(<span class="keyword">new</span> ModifiableSolrParams(solrParams), rsp,req);
+      rsp.add(STATUS, OK_STATUS);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_FETCH_INDEX)) {
+      String masterUrl = solrParams.get(MASTER_URL);
+      <span class="keyword">if</span> (!isSlave && masterUrl == <span class="keyword">null</span>) {
+        rsp.add(STATUS,ERR_STATUS);
+        rsp.add(<span class="string">"message"</span>,<span class="string">"No slave configured or no 'masterUrl' Specified"</span>);
+        <span class="keyword">return</span>;
+      }
+      <span class="keyword">final</span> SolrParams paramsCopy = <span class="keyword">new</span> ModifiableSolrParams(solrParams);
+      <span class="keyword">new</span> Thread() {
+        <span class="annotation">@Override</span>
+        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {
+          doFetch(paramsCopy);<span class="javadoc">/** 进行关键的处理*/</span>
+        }
+      }.start();
+      rsp.add(STATUS, OK_STATUS);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_DISABLE_POLL)) {
+      <span class="keyword">if</span> (snapPuller != <span class="keyword">null</span>){
+        snapPuller.disablePoll();
+        rsp.add(STATUS, OK_STATUS);
+      } <span class="keyword">else</span> {
+        rsp.add(STATUS, ERR_STATUS);
+        rsp.add(<span class="string">"message"</span>,<span class="string">"No slave configured"</span>);
+      }
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_ENABLE_POLL)) {
+      <span class="keyword">if</span> (snapPuller != <span class="keyword">null</span>){
+        snapPuller.enablePoll();
+        rsp.add(STATUS, OK_STATUS);
+      }<span class="keyword">else</span> {
+        rsp.add(STATUS,ERR_STATUS);
+        rsp.add(<span class="string">"message"</span>,<span class="string">"No slave configured"</span>);
+      }
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_ABORT_FETCH)) {
+      <span class="keyword">if</span> (snapPuller != <span class="keyword">null</span>){
+        snapPuller.abortPull();
+        rsp.add(STATUS, OK_STATUS);
+      } <span class="keyword">else</span> {
+        rsp.add(STATUS,ERR_STATUS);
+        rsp.add(<span class="string">"message"</span>,<span class="string">"No slave configured"</span>);
+      }
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_FILE_CHECKSUM)) {
+      <span class="comment">// this command is not used by anyone</span>
+      getFileChecksum(solrParams, rsp);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_SHOW_COMMITS)) {
+      rsp.add(CMD_SHOW_COMMITS, getCommits());
+    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_DETAILS)) {
+      rsp.add(CMD_DETAILS, getReplicationDetails(solrParams.getBool(<span class="string">"slave"</span>,<span class="keyword">true</span>)));
+      RequestHandlerUtils.addExperimentalFormatWarning(rsp);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (CMD_ENABLE_REPL.equalsIgnoreCase(command)) {
+      replicationEnabled.set(<span class="keyword">true</span>);
+      rsp.add(STATUS, OK_STATUS);
+   } <span class="keyword">else</span> <span class="keyword">if</span> (CMD_DISABLE_REPL.equalsIgnoreCase(command)) {
+     replicationEnabled.set(<span class="keyword">false</span>);
+     rsp.add(STATUS, OK_STATUS);
+   }
+  }
+</pre></td></tr></table></figure>
+
+<hr>
+<h1 id="7-solrj-solrcore-api-">7.solrj提供了控制solrcore容器的api包括范围配置信息等</h1>
+<blockquote>
+<p>SolrRequest 的子类</p>
+</blockquote>
+<p> 用于控制一个web应用中的coreContainer容器如查询,添加实例,添加文档等对应到的有SolrResponse</p>
+<hr>
+<h1 id="-">参考</h1>
+<p><a href="http://blog.csdn.net/zyb243380456/article/details/7225768" target="_blank">solr 应用全面解析，简单的应用，多实例，分布式索引分发,如何在客户端配置注册多实例</a></p>
+]]></content>
+    <summary type="html"><![CDATA[<p>看Solr 的时候偶尔看到了一个博客，写的太和俺的胃口了,加到友情链接里面，嘿嘿</br>
+<a href="http://blog.csdn.net/zyb243380456/article/details/7225768" target="_blank">zyb243380456的专栏</a></p>
+]]></summary>
+    
+      <category term="solr" scheme="http://youfei.github.io/tags/solr/"/>
+    
+      <category term="solr" scheme="http://youfei.github.io/categories/solr/"/>
     
   </entry>
   
@@ -6469,993 +7681,6 @@ Servers, WMS, WFS, Geocode server, Drivetime server, and Map Tile server web ser
   </entry>
   
   <entry>
-    <title><![CDATA[solr初读-1]]></title>
-    <link href="http://youfei.github.io/2014/03/06/solr-g-1/"/>
-    <id>http://youfei.github.io/2014/03/06/solr-g-1/</id>
-    <published>2014-03-06T02:06:16.000Z</published>
-    <updated>2014-03-06T06:13:20.000Z</updated>
-    <content type="html"><![CDATA[<p>看Solr 的时候偶尔看到了一个博客，写的太和俺的胃口了,加到友情链接里面，嘿嘿</br>
-<a href="http://blog.csdn.net/zyb243380456/article/details/7225768" target="_blank">zyb243380456的专栏</a></p>
-<a id="more"></a>
-
-
-<h1 id="1-solr-">1.solr认识</h1>
-<p>solr是基于lucene开发包而搭建起来的一个依赖于Servlet容器的一个全文检索组件，他可以为自己的
-web应用提供简单的检索服务，也可以搭建复杂的集群环境进行全文检索，例如如果索引文件很大大概
-有7-90GB的索引文件就需要做分布式了应为这样的数据量一台机器的检索数据的速度太慢，如果需要
-进行集群demo测试可以在本机多开启几个web应用服务器就可以了。</p>
-<p><strong>Solr4 结构图</strong>
-<img src="http://img1.51cto.com/attachment/201304/164703786.png" alt="Solr4 结构图*"></p>
-<hr>
-<h1 id="2-web-solr-">2.快速的为你的web应用提供solr全文检索服务</h1>
-<h2 id="tomcat-uriencoding">Tomcat URIEncoding</h2>
-<p><strong>server.xml</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">Connector</span> <span class="attribute">port</span>=<span class="value">"8080"</span> <span class="attribute">protocol</span>=<span class="value">"HTTP/1.1"</span>  
-           <span class="attribute">connectionTimeout</span>=<span class="value">"20000"</span>  
-           <span class="attribute">redirectPort</span>=<span class="value">"8443"</span> <span class="attribute">URIEncoding</span>=<span class="value">"UTF-8"</span>/&gt;</span>
-</pre></td></tr></table></figure>
-
-<h2 id="-jar-">需要的jar:</h2>
-<p><strong>apache-solr-core-3.2.0.jar</strong> </br>
-<strong>apache-solr-solrj-3.2.0.jar</strong>--&gt;用于提供测试solr全文检索的java客户端</p>
-<h2 id="-solr-home-">如何配置你的<code>solr.home</code>的主要目录结构</h2>
-<p> 可以以任意名字的目录进行配置, 但是在这个目录的里面需要按照solr的要求来配置
- 在xxx目录里面有<strong>bin</strong>, <strong>data</strong>, <strong>conf</strong>和<strong>solr.xml</strong>三个目录和一个配置文件,这个配置文件用于
- 配置<strong>CoreContainer</strong>容器的多实例通过这个配置实现</p>
-<p> 在<code>bin</code>里面是solr插件的第三方jar包; 也就是你需要为solr添加的插件包放在这个里面</br></p>
-<p> <code>data</code>下面有index,和spellcheck两个目录分别是存放索引文件和拼写检查的什么东西</br></p>
-<p> 在<code>conf</code>下面全部是与当前solrcore实例相关的一些配置文件，例如 <code>solrconfig.xml</code>, <code>schema.xml</code></br></p>
-<p> <code>scripts.conf</code>这三个文件是最重要的;</p>
-<ul>
-<li>第一个用于配置当前solrcore如何对外提供全文检索服务</li>
-<li>第二个用于配置当前solrcore实例的索引文档的格式以及文档的字段信息</li>
-<li>第三个用于做solr分布式索引分发以及同步的配置文件</li>
-</ul>
-<h2 id="solr-servlet-solr-home-">solr如何与servlet容器相关联[配置solr.home]</h2>
-<blockquote>
-<p>上面已经配置好solr的木要目录结构然后只要让solrDispatchFilter在实例化的时候找到这个目录就能够初始化我们的solr.home了</br></p>
-<p>可以在过滤器或者监听器构造函数中通过设置jvm系统参数的形式</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>  System<span class="preprocessor">.setProperty</span>(<span class="string">"solr.solr.home"</span>,<span class="string">"dir"</span>)<span class="comment">;</span>
-</pre></td></tr></table></figure>
-
-<blockquote>
-<p>web.xml中进行描述,上面已经复制过通过在tomcat的JNDI容器中进行指定就是那个context.xml中</p>
-</blockquote>
-<p>在web.xml中配置SolrDispatchFilter.java</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-</pre></td><td class="code"><pre><span class="comment">&lt;!-- 过滤所有与solr相关的http请求  --&gt;</span>
-<span class="tag">&lt;<span class="title">filter</span>&gt;</span>
-	<span class="tag">&lt;<span class="title">filter-name</span>&gt;</span>SolrRequestFilter<span class="tag">&lt;/<span class="title">filter-name</span>&gt;</span>
-	<span class="tag">&lt;<span class="title">filter-class</span>&gt;</span>org.apache.solr.servlet.SolrDispatchFilter<span class="tag">&lt;/<span class="title">filter-class</span>&gt;</span>
-	<span class="tag">&lt;<span class="title">init-param</span>&gt;</span>
-	        <span class="comment">&lt;!-- 通过一特定开头的字符标志需要solr服务 --&gt;</span>
-		<span class="tag">&lt;<span class="title">param-name</span>&gt;</span>path-prefix<span class="tag">&lt;/<span class="title">param-name</span>&gt;</span>
-		<span class="tag">&lt;<span class="title">param-value</span>&gt;</span>solrservice<span class="tag">&lt;/<span class="title">param-value</span>&gt;</span>
-	<span class="tag">&lt;/<span class="title">init-param</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">filter</span>&gt;</span>
-<span class="tag">&lt;<span class="title">filter-mapping</span>&gt;</span>
- <span class="tag">&lt;<span class="title">filter-name</span>&gt;</span>SolrRequestFilter<span class="tag">&lt;/<span class="title">filter-name</span>&gt;</span>
- <span class="tag">&lt;<span class="title">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="title">url-pattern</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">filter-mapping</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-<hr>
-<h1 id="3-solr-">3.solr相关包的概要</h1>
-<h2 id="-jar-">首先需要的jar包有:</h2>
-<h3 id="apache-solr-core-3-2-0-jar-">apache-solr-core-3.2.0.jar;</h3>
-<p>这是jar包中所包含的包:</p>
-<blockquote>
-<p>org.apache.solr.analysis</br></p>
-</blockquote>
-<p>这个包主要解决分词问题，学习solr之前必须对lucene的简单结构
-进行了解如何分词lucene中已经提到过</p>
-<blockquote>
-<p>org.apache.solr.client.solrj.embedded</br></p>
-</blockquote>
-<p>solrj主要提供方便的方式去应用solr全文检索的功能</p>
-<blockquote>
-<p>org.apache.solr.core</br></p>
-</blockquote>
-<p>包含的主要类介绍</br>
-org.apache.solr.core.CoreContainer.java,</br>
-org.apache.solr.core.Config.java,</br>
-org.apache.solr.core.SolrConfig.java,</br>
-org.apache.solr.core.SolrCore.java</br>
-org.apache.solr.core.CoreDescriptor.java,</br>
-org.apache.solr.core.DirectoryFactory.java,</br>
-org.apache.solr.core.SolrResourceLoader.java</p>
-<p>不管你有多少个solrcore实例那么solrcore的实例都会存放在我们的CoreContainer的</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="keyword">protected</span> final <span class="keyword">Map</span>&lt;<span class="typename">String</span>, SolrCore&gt; cores = <span class="keyword">new</span> LinkedHashMap&lt;<span class="typename">String</span>, SolrCore&gt;();
-</pre></td></tr></table></figure>
-
-<p>这个属性中也就是用于保存solrcore实例，那么solrCore是如何被创建的，他是根据SolrConfig创建的</br>
-<strong>solrConfig</strong>继承自Config类Config类提供的xPath的方式去解析xml文件</br>
-<strong>solrConfig</strong>对应到我们的SolrConfig.xml文件，然后SolrResourceLoader是用来加载配置文件的并且用于定位solr.home</br>
-<strong>solr.home</strong>在SolrResourceLoader是怎么定位到<code>solr.home</code>的：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-</pre></td><td class="code"><pre><span class="keyword">public</span> static <span class="built_in">String</span> locateSolrHome() {
-    <span class="built_in">String</span> home <span class="subst">=</span> <span class="built_in">null</span>;
-    <span class="comment">// 功过JNDI的方式定位到solrHome的主要目录</span>
-    <span class="comment">// 他可以在web.xml中这样配置</span>
-    <span class="comment">//&lt;env-entry&gt;</span>
-	<span class="comment">//&lt;env-entry-name&gt;solr/home&lt;/env-entry-name&gt;</span>
-	<span class="comment">//&lt;env-entry-value&gt;C:\\apache-tomcat-6.0.35-windows-x64\\apache-tomcat-6.0.35\\webapps\\solr&lt;/env-entry-value&gt;</span>
-	<span class="comment">//&lt;env-entry-type&gt;java.lang.String&lt;/env-entry-type&gt;</span>
-    <span class="comment">//&lt;/env-entry&gt;</span>
-    try {
-      Context c <span class="subst">=</span> <span class="literal">new</span> InitialContext();
-      home <span class="subst">=</span> (<span class="built_in">String</span>)c<span class="built_in">.</span>lookup(<span class="string">"java:comp/env/"</span><span class="subst">+</span>project<span class="subst">+</span><span class="string">"/home"</span>);
-      <span class="keyword">log</span><span class="built_in">.</span>info(<span class="string">"Using JNDI solr.home: "</span><span class="subst">+</span>home );
-    } catch (NoInitialContextException e) {
-      <span class="keyword">log</span><span class="built_in">.</span>info(<span class="string">"JNDI not configured for "</span><span class="subst">+</span>project<span class="subst">+</span><span class="string">" (NoInitialContextEx)"</span>);
-    } catch (NamingException e) {
-      <span class="keyword">log</span><span class="built_in">.</span>info(<span class="string">"No /"</span><span class="subst">+</span>project<span class="subst">+</span><span class="string">"/home in JNDI"</span>);
-    } catch( RuntimeException ex ) {
-      <span class="keyword">log</span><span class="built_in">.</span>warn(<span class="string">"Odd RuntimeException while testing for JNDI: "</span> <span class="subst">+</span> ex<span class="built_in">.</span>getMessage());
-    } 
-    
-    <span class="comment">// 如果JNDI没有找到主要目录的话就会尝试在System.getProperty("solr.solr.home");</span>
-    <span class="comment">// 也就是JVM的系统参数中进行一个查找只要是在同一个JVM中都是可以找到的</span>
-    <span class="comment">// 你也可以在某个监听器或者过滤器中指定solrhome他是这样指定的</span>
-    <span class="comment">// 需要注意的是你的过滤器必须要在SolrDispatchFilter.java这个过滤器之前因为</span>
-    <span class="comment">// 容器初始化过滤器的时候是根据配置文件的顺序进行实例话的</span>
-    <span class="comment">// 在SolrDispatchFilter.java过滤器实例化的时候进行了很多的solr初始化服务包括容器的初始化等</span>
-    <span class="comment">// 所以必须要在这个过滤器实例化之前指定solrhome的主要目录</span>
-    <span class="comment">// System.setProperty("solr.solr.home","dir");</span>
-    <span class="keyword">if</span>( home <span class="subst">==</span> <span class="built_in">null</span> ) {
-      <span class="built_in">String</span> prop <span class="subst">=</span> project <span class="subst">+</span> <span class="string">".solr.home"</span>;
-      home <span class="subst">=</span> System<span class="built_in">.</span>getProperty(prop);
-      <span class="keyword">if</span>( home <span class="subst">!=</span> <span class="built_in">null</span> ) {
-        <span class="keyword">log</span><span class="built_in">.</span>info(<span class="string">"using system property "</span><span class="subst">+</span>prop<span class="subst">+</span><span class="string">": "</span> <span class="subst">+</span> home );
-      }
-    }
-    
-    <span class="comment">// 如果上面的两种方式都没有找到就会到web应用的主目录下就行查找</span>
-    <span class="comment">// 如果你的web应用名字叫test的话他就到test目录下去找solr这个目录</span>
-    <span class="keyword">if</span>( home <span class="subst">==</span> <span class="built_in">null</span> ) {
-      home <span class="subst">=</span> project <span class="subst">+</span> <span class="string">'/'</span>;
-      <span class="keyword">log</span><span class="built_in">.</span>info(project <span class="subst">+</span> <span class="string">" home defaulted to '"</span> <span class="subst">+</span> home <span class="subst">+</span> <span class="string">"' (could not find system property or JNDI)"</span>);
-    }
-    <span class="keyword">return</span> normalizeDir( home );
-  }
-</pre></td></tr></table></figure>
-
-<p>定位到<code>solr.home</code>的主要目录后也就可以根据特定的目录层次结构进行加载配置文件然后实例容器然后向容器中添加solrcore实例了。</br></p>
-<p><strong>CoreDescriptor</strong>这个类主要是用来描述一个solrcore实例特征的相当于介绍这个solrcore有几个处理器，并且
-有chema.xml文件在那个位置然后这个solrcore的名字叫什么他的数据索引文件存放在哪个位置等...</br>
-<strong>DirectoryFactory</strong>这个类对应的lucene中的FSDirectory他是找到所有索引文件所在的目录。</br></p>
-<blockquote>
-<p>org.apache.solr.handler</p>
-</blockquote>
-<p>这个包中有提供了大部分solr提供的服务功能的实现</br>
-处理器也就是处理提出的各种不同的solr的全文检索服务要求 </br>
-包括crud和控制我们的容器对象和solrcore实例对象的一些处理方式</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>org<span class="preprocessor">.apache</span><span class="preprocessor">.solr</span><span class="preprocessor">.handler</span><span class="preprocessor">.admin</span><span class="preprocessor">.AdminHandlers</span><span class="preprocessor">.java</span>
-</pre></td></tr></table></figure>
-
-<p>AdminHandlers相当于<strong>solr.home</strong>的主人，他将掌管这个家庭的成员也就是solrcore实例，
-等多方面的功能。</p>
-<blockquote>
-<p>org.apache.solr.handler.ReplicationHandler.java</p>
-</blockquote>
-<p>ReplicationHandler需要在做solr分布式的时候用到，在默认的情况下solr的<code>solrconfig.xml</code></br></p>
-<p>主机和从机上的索引文件是一样的他是通过他们两个之间的版本号的差别来进行一个两个索引库之间的索引同步操作来实现solr的分布式索引库的维护，这个目的主要是为了提供更好和更快速的检索服务，</br></p>
-<p>主机用于提供维护操作，而从机用于提供检索服务，我们还可以提供多个这样的组合,并且对外提供一台检索服务的机器,然后当有查询请求的时候,通过这台主机将查询语句发送到下面所有的从机上去.然后将这些查询结构做一个统一，</br></p>
-<p>这样的功能solr已经提供的非常好了，只是如何去搭建大的分布式检索架构需要考虑一下主机的配置:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-</pre></td><td class="code"><pre> <span class="tag">&lt;<span class="title">requestHandler</span> <span class="attribute">name</span>=<span class="value">"/replication"</span> <span class="attribute">class</span>=<span class="value">"solr.ReplicationHandler"</span> &gt;</span>
-      <span class="tag">&lt;<span class="title">lst</span> <span class="attribute">name</span>=<span class="value">"master"</span>&gt;</span> 
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"replicateAfter"</span>&gt;</span>commit<span class="tag">&lt;/<span class="title">str</span>&gt;</span> <span class="comment">&lt;!--在索引分发后自动提交 --&gt;</span>
-	    <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"httpConnTimeout"</span>&gt;</span>50000000<span class="tag">&lt;/<span class="title">str</span>&gt;</span> <span class="comment">&lt;!-- 当索引分连接达到这么长的时间后连接超时--&gt;</span>
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"httpReadTimeout"</span>&gt;</span>10000000<span class="tag">&lt;/<span class="title">str</span>&gt;</span>  <span class="comment">&lt;!-- 当读取索引文件达到这个时间的时候操作超时--&gt;</span>
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"confFiles"</span>&gt;</span>schema.xml,stopwords.txt,elevate.xml<span class="tag">&lt;/<span class="title">str</span>&gt;</span> <span class="comment">&lt;!-- 当有从机有要求和主机做同步的时候需要分发的配置文件 --&gt;</span>
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"commitReserveDuration"</span>&gt;</span>00:05:00<span class="tag">&lt;/<span class="title">str</span>&gt;</span> <span class="comment">&lt;!-- 提交受保护的时间段长度 --&gt;</span>
-        <span class="tag">&lt;/<span class="title">lst</span>&gt;</span>  
-  <span class="tag">&lt;/<span class="title">requestHandler</span>&gt;</span>
-  从机的配置:
-  <span class="tag">&lt;<span class="title">requestHandler</span> <span class="attribute">name</span>=<span class="value">"/replication"</span> <span class="attribute">class</span>=<span class="value">"solr.ReplicationHandler"</span> &gt;</span>
-      <span class="tag">&lt;<span class="title">lst</span> <span class="attribute">name</span>=<span class="value">"slave"</span>&gt;</span> 
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"masterUrl"</span>&gt;</span>http://localhost:8080/mysolr/collection1/replication<span class="tag">&lt;/<span class="title">str</span>&gt;</span>
-	    <span class="comment">&lt;!--translate is:http://host_name:port/webapp_name/solrcore_name/replicationHandler_name/ --&gt;</span>
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"pollInterval"</span>&gt;</span>00:05:00<span class="tag">&lt;/<span class="title">str</span>&gt;</span><span class="comment">&lt;!-- 间隔多长时间到master上去检测索引的version和generation--&gt;</span>   
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"compression"</span>&gt;</span>internal<span class="tag">&lt;/<span class="title">str</span>&gt;</span> 
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"httpConnTimeout"</span>&gt;</span>50000000<span class="tag">&lt;/<span class="title">str</span>&gt;</span> 
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"httpReadTimeout"</span>&gt;</span>10000000<span class="tag">&lt;/<span class="title">str</span>&gt;</span> 
-           <span class="comment">&lt;!--  &lt;str name="httpBasicAuthUser"&gt;123&lt;/str&gt; 
-           &lt;str name="httpBasicAuthPassword"&gt;123&lt;/str&gt; --&gt;</span><span class="comment">&lt;!-- 为了安全可以设置可以进行这些操作的请求的密码只有密码正确的请求才能执行分发操作--&gt;</span>
-         <span class="tag">&lt;/<span class="title">lst</span>&gt;</span>  
-     <span class="tag">&lt;/<span class="title">requestHandler</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-<blockquote>
-<p>org.apache.solr.handler.RequestHandlerBase.java</p>
-</blockquote>
-<p>他是所有Handler的基类,他提供了最基本的操作方式</br>
-其中重要的方法:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-</pre></td><td class="code"><pre><span class="comment">// 用于处理处理solr的服务请求操作</span>
-<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleRequest</span>(SolrQueryRequest req, SolrQueryResponse rsp) {
-    numRequests++;
-    <span class="keyword">try</span> {
-      SolrPluginUtils.setDefaults(req,defaults,appends,invariants);
-      rsp.setHttpCaching(httpCaching);
-      handleRequestBody( req, rsp );
-      <span class="comment">// count timeouts</span>
-      NamedList header = rsp.getResponseHeader();
-      <span class="keyword">if</span>(header != <span class="keyword">null</span>) {
-        Object partialResults = header.get(<span class="string">"partialResults"</span>);
-        <span class="keyword">boolean</span> timedOut = partialResults == <span class="keyword">null</span> ? <span class="keyword">false</span> : (Boolean)partialResults;
-        <span class="keyword">if</span>( timedOut ) {
-          numTimeouts++;
-          rsp.setHttpCaching(<span class="keyword">false</span>);
-        }
-      }
-    } <span class="keyword">catch</span> (Exception e) {
-      SolrException.log(SolrCore.log,e);
-      <span class="keyword">if</span> (e <span class="keyword">instanceof</span> ParseException) {
-        e = <span class="keyword">new</span> SolrException(SolrException.ErrorCode.BAD_REQUEST, e);
-      }
-      rsp.setException(e);
-      numErrors++;
-    }
-    totalTime += rsp.getEndTime() - req.getStartTime();
-  }
-
-
-<span class="comment">// 这个方法是一个抽象方法也就是真正的实现实在重写这个方法的子类身上进行实现了</span>
-<span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">handleRequestBody</span>( SolrQueryRequest req, SolrQueryResponse rsp ) <span class="keyword">throws</span> Exception;
-<span class="comment">// 在replicationHandler中的实现:</span>
- <span class="annotation">@Override</span>
-  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleRequestBody</span>(SolrQueryRequest req, SolrQueryResponse rsp) <span class="keyword">throws</span> Exception {
-    rsp.setHttpCaching(<span class="keyword">false</span>);
-    <span class="keyword">final</span> SolrParams solrParams = req.getParams();
-    String command = solrParams.get(COMMAND);<span class="comment">// 得到与这个solr实例需要进行分布式操作的命令</span>
-    <span class="keyword">if</span> (command == <span class="keyword">null</span>) {
-      rsp.add(STATUS, OK_STATUS);
-      rsp.add(<span class="string">"message"</span>, <span class="string">"No command"</span>);
-      <span class="keyword">return</span>;
-    }
-    <span class="comment">// This command does not give the current index version of the master</span>
-    <span class="comment">// 这个命令不提供当前主机的索引版本的信息</span>
-    <span class="comment">// It gives the current 'replicateable' index version</span>
-    <span class="comment">// 他提供当前需要复制的索引版本信息</span>
-   <span class="keyword">if</span> (command.equals(CMD_INDEX_VERSION)) {
-      IndexCommit commitPoint = indexCommitPoint;  <span class="comment">// make a copy so it won't change</span>
-      <span class="keyword">if</span> (commitPoint != <span class="keyword">null</span> && replicationEnabled.get()) {
-        <span class="comment">//</span>
-        <span class="comment">// There is a race condition here.  The commit point may be changed / deleted by the time</span>
-        <span class="comment">// we get around to reserving it.  This is a very small window though, and should not result</span>
-        <span class="comment">// in a catastrophic failure, but will result in the client getting an empty file list for</span>
-        <span class="comment">// the CMD_GET_FILE_LIST command.</span>
-        <span class="comment">//</span>
-        core.getDeletionPolicy().setReserveDuration(commitPoint.getVersion(), reserveCommitDuration);
-        rsp.add(CMD_INDEX_VERSION, commitPoint.getVersion());
-        rsp.add(GENERATION, commitPoint.getGeneration());
-      } <span class="keyword">else</span> {
-        <span class="comment">// This happens when replication is not configured to happen after startup and no commit/optimize</span>
-        <span class="comment">// has happened yet.</span>
-        rsp.add(CMD_INDEX_VERSION, <span class="number">0</span>L);
-        rsp.add(GENERATION, <span class="number">0</span>L);
-      }
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_GET_FILE)) {
-      getFileStream(solrParams, rsp);
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_GET_FILE_LIST)) {
-      getFileList(solrParams, rsp);
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_BACKUP)) {
-      doSnapShoot(<span class="keyword">new</span> ModifiableSolrParams(solrParams), rsp,req);
-      rsp.add(STATUS, OK_STATUS);
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_FETCH_INDEX)) {
-      String masterUrl = solrParams.get(MASTER_URL);
-      <span class="keyword">if</span> (!isSlave && masterUrl == <span class="keyword">null</span>) {
-        rsp.add(STATUS,ERR_STATUS);
-        rsp.add(<span class="string">"message"</span>,<span class="string">"No slave configured or no 'masterUrl' Specified"</span>);
-        <span class="keyword">return</span>;
-      }
-      <span class="keyword">final</span> SolrParams paramsCopy = <span class="keyword">new</span> ModifiableSolrParams(solrParams);
-      <span class="keyword">new</span> Thread() {
-        <span class="annotation">@Override</span>
-        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {
-          doFetch(paramsCopy);
-        }
-      }.start();
-      rsp.add(STATUS, OK_STATUS);
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_DISABLE_POLL)) {
-      <span class="keyword">if</span> (snapPuller != <span class="keyword">null</span>){
-        snapPuller.disablePoll();
-        rsp.add(STATUS, OK_STATUS);
-      } <span class="keyword">else</span> {
-        rsp.add(STATUS, ERR_STATUS);
-        rsp.add(<span class="string">"message"</span>,<span class="string">"No slave configured"</span>);
-      }
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_ENABLE_POLL)) {
-      <span class="keyword">if</span> (snapPuller != <span class="keyword">null</span>){
-        snapPuller.enablePoll();
-        rsp.add(STATUS, OK_STATUS);
-      }<span class="keyword">else</span> {
-        rsp.add(STATUS,ERR_STATUS);
-        rsp.add(<span class="string">"message"</span>,<span class="string">"No slave configured"</span>);
-      }
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_ABORT_FETCH)) {
-      <span class="keyword">if</span> (snapPuller != <span class="keyword">null</span>){
-        snapPuller.abortPull();
-        rsp.add(STATUS, OK_STATUS);
-      } <span class="keyword">else</span> {
-        rsp.add(STATUS,ERR_STATUS);
-        rsp.add(<span class="string">"message"</span>,<span class="string">"No slave configured"</span>);
-      }
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_FILE_CHECKSUM)) {
-      <span class="comment">// this command is not used by anyone</span>
-      getFileChecksum(solrParams, rsp);
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_SHOW_COMMITS)) {
-      rsp.add(CMD_SHOW_COMMITS, getCommits());
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_DETAILS)) {
-      rsp.add(CMD_DETAILS, getReplicationDetails(solrParams.getBool(<span class="string">"slave"</span>,<span class="keyword">true</span>)));
-      RequestHandlerUtils.addExperimentalFormatWarning(rsp);
-    } <span class="keyword">else</span> <span class="keyword">if</span> (CMD_ENABLE_REPL.equalsIgnoreCase(command)) {
-      replicationEnabled.set(<span class="keyword">true</span>);
-      rsp.add(STATUS, OK_STATUS);
-   } <span class="keyword">else</span> <span class="keyword">if</span> (CMD_DISABLE_REPL.equalsIgnoreCase(command)) {
-     replicationEnabled.set(<span class="keyword">false</span>);
-     rsp.add(STATUS, OK_STATUS);
-   }
-  }
-</pre></td></tr></table></figure>
-
-<h3 id="org-apache-solr-highlight">org.apache.solr.highlight</h3>
-<p>为检索到的文本提供高亮服务的包;</p>
-<blockquote>
-<p>org.apache.solr.request</p>
-</blockquote>
-<p>这个包主要通过<code>org.apache.solr.servlet.SolrRequestParser.java</code>类
-根据HttpServletRequest对象的请求参数分析成符合solr应用的请求参数</br>
-主要方法是:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-</pre></td><td class="code"><pre> <span class="keyword">public</span> SolrQueryRequest <span class="title">parse</span>( SolrCore core, String path, HttpServletRequest req ) throws Exception
-  {
-    SolrRequestParser parser = standard;
-    
-    <span class="comment">// TODO -- in the future, we could pick a different parser based on the request</span>
-    
-    <span class="comment">// Pick the parser from the request...</span>
-    ArrayList&lt;ContentStream&gt; streams = <span class="keyword">new</span> ArrayList&lt;ContentStream&gt;(<span class="number">1</span>);
-    SolrParams <span class="keyword">params</span> = parser.parseParamsAndFillStreams( req, streams );
-    SolrQueryRequest sreq = buildRequestFrom( core, <span class="keyword">params</span>, streams );
-
-    <span class="comment">// Handlers and login will want to know the path. If it contains a ':'</span>
-    <span class="comment">// the handler could use it for RESTful URLs</span>
-    sreq.getContext().put( <span class="string">"path"</span>, path );<span class="comment">// 在一个solr的请求处理中也有solr请求的上下文</span>
-    <span class="comment">// 应为处理这个请求的话这个请求将会被当作很多发放的参数所以设置一个方法的上下文环境</span>
-    <span class="comment">// 保存许多很重要的执行信息</span>
-    <span class="keyword">return</span> sreq;
-}
-</pre></td></tr></table></figure>
-
-<blockquote>
-<p>org.apache.solr.response</p>
-</blockquote>
-<p>关于solr的响应的信息的封装</p>
-<blockquote>
-<p>org.apache.solr.schema</p>
-</blockquote>
-<p>对应到封装schema.xml这个里面提供的一些功能的实现</p>
-<blockquote>
-<p>org.apache.solr.search
-org.apache.solr.servlet
-org.apache.solr.servlet.SolrDispatchFilter.java</p>
-</blockquote>
-<p>这个类是开启solr服务的关键过滤器一般需要在web.xml部署描述符中进行配置后
-才能够提供solr全文检索服务,他的doFilter方法是所有solr服务的入口。</p>
-<blockquote>
-<p>org.apache.solr.spelling
-org.apache.solr.update
-org.apache.solr.util</p>
-</blockquote>
-<hr>
-<h1 id="4-corecontainer-">4.如何配置多实例的CoreContainer容器</h1>
-<p>在solr的主目录下找到solr.xml进行配置就行了然后指定好solrcore
-实例子所在的索引库以及配置还有依赖包所在的目录</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">solr</span> <span class="attribute">persistent</span>=<span class="value">"false"</span>&gt;</span>
-  <span class="comment">&lt;!--
-  adminPath: RequestHandler path to manage cores.
-  管理员path:请求处理器所映射的管理路径然后去管理容器中的solrcore实例
-    If 'null' (or absent), cores will not be manageable via request handler
-    如果是null或者缺省的话,容器中的实例将不能通过请求处理器进行有效的管理
-    也就是同一个web应用下面有多个solrcore的应用在检索的时候需要指定你需要检索
-    的是那个solrcore:
-    http://host_name:port/webapp_name/solrcore_name/admin/cores/ 
-    这样就可以进行管理容器中的solrcore实例
-  --&gt;</span>
-  <span class="tag">&lt;<span class="title">cores</span> <span class="attribute">adminPath</span>=<span class="value">"/admin/cores"</span> <span class="attribute">defaultCoreName</span>=<span class="value">"collection1"</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">core</span> <span class="attribute">name</span>=<span class="value">"collection1"</span> <span class="attribute">instanceDir</span>=<span class="value">"."</span> /&gt;</span>
-    <span class="tag">&lt;<span class="title">core</span> <span class="attribute">name</span>=<span class="value">"collection2"</span> <span class="attribute">instanceDir</span>=<span class="value">"f:\\hh"</span> /&gt;</span>
-  <span class="tag">&lt;/<span class="title">cores</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">solr</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-<hr>
-<h1 id="5-solr-">5.分布式solr服务的搭建配置方式</h1>
-<p>首先找到需要进行分布式应用的solrcore实例的配置所在目录然后在solrconfig.xml中</br>
- 将用于处理分布式服务的请求处理器的配置加上去,还需要在scripts.conf中进行指定一些
- 信息就可以了</p>
-<blockquote>
-<p>master</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-</pre></td><td class="code"><pre> <span class="tag">&lt;<span class="title">requestHandler</span> <span class="attribute">name</span>=<span class="value">"/replication"</span> <span class="attribute">class</span>=<span class="value">"solr.ReplicationHandler"</span> &gt;</span>
-      <span class="tag">&lt;<span class="title">lst</span> <span class="attribute">name</span>=<span class="value">"master"</span>&gt;</span> 
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"replicateAfter"</span>&gt;</span>commit<span class="tag">&lt;/<span class="title">str</span>&gt;</span> <span class="comment">&lt;!--在索引分发后自动提交 --&gt;</span>
-	    <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"httpConnTimeout"</span>&gt;</span>50000000<span class="tag">&lt;/<span class="title">str</span>&gt;</span> <span class="comment">&lt;!-- 当索引分连接达到这么长的时间后连接超时--&gt;</span>
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"httpReadTimeout"</span>&gt;</span>10000000<span class="tag">&lt;/<span class="title">str</span>&gt;</span>  <span class="comment">&lt;!-- 当读取索引文件达到这个时间的时候操作超时--&gt;</span>
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"confFiles"</span>&gt;</span>schema.xml,stopwords.txt,elevate.xml<span class="tag">&lt;/<span class="title">str</span>&gt;</span> <span class="comment">&lt;!-- 当有从机有要求和主机做同步的时候需要分发的配置文件 --&gt;</span>
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"commitReserveDuration"</span>&gt;</span>00:05:00<span class="tag">&lt;/<span class="title">str</span>&gt;</span> <span class="comment">&lt;!-- 提交受保护的时间段长度 --&gt;</span>
-        <span class="tag">&lt;/<span class="title">lst</span>&gt;</span>  
-  <span class="tag">&lt;/<span class="title">requestHandler</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-<blockquote>
-<p>slave</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-</pre></td><td class="code"><pre>    <span class="tag">&lt;<span class="title">requestHandler</span> <span class="attribute">name</span>=<span class="value">"/replication"</span> <span class="attribute">class</span>=<span class="value">"solr.ReplicationHandler"</span> &gt;</span>
-      <span class="tag">&lt;<span class="title">lst</span> <span class="attribute">name</span>=<span class="value">"slave"</span>&gt;</span> 
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"masterUrl"</span>&gt;</span>http://localhost:8080/mysolr/collection1/replication<span class="tag">&lt;/<span class="title">str</span>&gt;</span>
-	    <span class="comment">&lt;!--translate is:http://host_name:port/webapp_name/solrcore_name/replicationHandler_name/ --&gt;</span>
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"pollInterval"</span>&gt;</span>00:05:00<span class="tag">&lt;/<span class="title">str</span>&gt;</span><span class="comment">&lt;!-- 间隔多长时间到master上去检测索引的version和generation--&gt;</span>   
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"compression"</span>&gt;</span>internal<span class="tag">&lt;/<span class="title">str</span>&gt;</span> 
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"httpConnTimeout"</span>&gt;</span>50000000<span class="tag">&lt;/<span class="title">str</span>&gt;</span> 
-            <span class="tag">&lt;<span class="title">str</span> <span class="attribute">name</span>=<span class="value">"httpReadTimeout"</span>&gt;</span>10000000<span class="tag">&lt;/<span class="title">str</span>&gt;</span> 
-           <span class="comment">&lt;!--  &lt;str name="httpBasicAuthUser"&gt;123&lt;/str&gt; 
-           &lt;str name="httpBasicAuthPassword"&gt;123&lt;/str&gt; --&gt;</span><span class="comment">&lt;!-- 为了安全可以设置可以进行这些操作的请求的密码只有密码正确的请求才能执行分发操作--&gt;</span>
-         <span class="tag">&lt;/<span class="title">lst</span>&gt;</span>  
-     <span class="tag">&lt;/<span class="title">requestHandler</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-<hr>
-<h1 id="6-solr-http-">6.一个请求solr服务的http请求的执行顺序</h1>
-<blockquote>
-<p><a href="http://host_name:port/webapp_name/solrcore_name/someSolrServiceParameters" target="_blank">http://host_name:port/webapp_name/solrcore_name/someSolrServiceParameters</a> </br></p>
-</blockquote>
-<p>  因为配置了SolrDispatchFilter过滤器所以这个请求肯定会通过这个过滤器的doFilter方法。
-  进入到doFilter方法后</br></p>
-<p>  1 首先这个过滤器做为一个普通的类他拥有Corecontainer这个容器属性也就是说所有的solrcore实例都在这个类中可以拿到。
-      那么这个拿到了什么都好说,并且他做的第一件事情是将这个coreContainer实例保存到了我们的请求中也就是HttpServletRequest对象的内置map属性中了，
-      那么通过这个过滤器后我们还可以访问到很多与solr相关的东西
-      <code>request.setAttribute(&quot;org.apache.solr.CoreContainer&quot;, cores);</code></br></p>
-<p>  2 下一步是根据我们的httpServletRequest中的请求参数得到对应的solr请求对象也就是得到<code>solrQueryRequest</code>
-    他是通过一个解析器来得到solrQueryRequest这个实例的在SolrQueryRequest的parse方法中需要传入 
-    <code>public SolrQueryRequest parse( SolrCore core, String path, HttpServletRequest req )</code></p>
-<p>  3 然后返回一个solrQueryRequest，也就是将httpServletRequest对象中的参数转换成solr容器知道这个请求
-  需要什么东西的一个对象，请求什么服务的对象已经构造好了，然后就是构造怎么处理这个请求的一个请求处理器
-  这个请求处理器在solrQueryRequest中已经描述出来了，所以只需要在一个集合中根据键值对进行取得就可以了
-  这个处理器
-  <code>handler = core.getRequestHandler( path );</code>
-  在solrcore实例中已经配置好了许多这样的请求处理器只要从中拿一个就可以了。根据参数构造了需要什么样的服务的对象出来，并且针对这个服务的处理器出来了，</p>
-<p>  4 下一步就是执行了<code>this.execute( req, handler, solrReq, solrRsp );</code>这一步是处理所有的solr服务的入口，如果想知道solr是怎么实现的一切都从这里开始。</p>
-<hr>
-<h1 id="7-solr-core-code-">7.solr分布式索引分发的全过程以及中间core code:</h1>
-<blockquote>
-<p>如何以http请求方式进行主从索引文件同步</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-</pre></td><td class="code"><pre>&gt; master HTTP 管理 API：
-      启用复制， <span class="keyword">http</span>://master_name:port/solr-master/replication?<span class="command"><span class="keyword">command</span>=<span class="title">enablereplication</span></span>
-      禁用复制， <span class="keyword">http</span>://master_name:port/solr-master/replication?<span class="command"><span class="keyword">command</span>=<span class="title">disablereplication</span></span>
-      备份：     <span class="keyword">http</span>://master_name:port/solr-master/replication?<span class="command"><span class="keyword">command</span>=<span class="title">backup</span></span>
-
-&gt; slave TTTP 管理 API：
-      复制索引，        <span class="keyword">http</span>://slave_host:port/solr-slave/replication?<span class="command"><span class="keyword">command</span>=<span class="title">fetchindex</span></span>
-      终止索引的复制，  <span class="keyword">http</span>://slave_host:port/solr-slave/replication?<span class="command"><span class="keyword">command</span>=<span class="title">abortfetch</span></span>
-      启动轮询复制索引，<span class="keyword">http</span>://slave_host:port/solr-slave/replication?<span class="command"><span class="keyword">command</span>=<span class="title">enablepoll</span></span>
-      禁用轮询复制索引，<span class="keyword">http</span>://slave_host:port/solr-slave/replication?<span class="command"><span class="keyword">command</span>=<span class="title">disablepoll</span></span>
-      索引详细，        <span class="keyword">http</span>://slave_host:port/solr-slave/replication?<span class="command"><span class="keyword">command</span>=<span class="title">details</span> </span>
-    
-&gt; public TTTP 管理 API:
-      取索引版本号，    <span class="keyword">http</span>://host_name:port/solr-slave/replication?<span class="command"><span class="keyword">command</span>=<span class="title">indexversion</span></span>
-</pre></td></tr></table></figure>
-
-
-<blockquote>
-<p>分布式处理的关键类:</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre>org<span class="preprocessor">.apache</span><span class="preprocessor">.solr</span><span class="preprocessor">.handler</span><span class="preprocessor">.ReplicationHandler</span><span class="preprocessor">.java</span>
-org<span class="preprocessor">.apache</span><span class="preprocessor">.solr</span><span class="preprocessor">.handler</span><span class="preprocessor">.SnapPuller</span><span class="preprocessor">.java</span>
-SnapPuller的内部类:SnapPuller$FileFetcher
-</pre></td></tr></table></figure>
-
-<blockquote>
-<p>browser:发送get请求</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="keyword">http</span>://slave_host:port/solr-slave/replication?<span class="command"><span class="keyword">command</span>=<span class="title">fetchindex</span></span>
-</pre></td></tr></table></figure>
-
-<p>经过SolrDispatchFilter过滤器的doFilter方法然后得到SolrQueryRequest对象和SolrRequestHandler对象实例，</br>
-让后调用<code>this.execute( req, handler, solrReq, solrRsp );</code>方法进入ReplicationHandler内部的HandleRequest</br>这个发放是从父类继承过滤在父类中调用了子类的HandlRequestBody方法然后开始处理分布式相关的操作</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-</pre></td><td class="code"><pre><span class="annotation">@Override</span>
-  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleRequestBody</span>(SolrQueryRequest req, SolrQueryResponse rsp) <span class="keyword">throws</span> Exception {
-    rsp.setHttpCaching(<span class="keyword">false</span>);
-    <span class="keyword">final</span> SolrParams solrParams = req.getParams();
-    String command = solrParams.get(COMMAND);
-    <span class="keyword">if</span> (command == <span class="keyword">null</span>) {
-      rsp.add(STATUS, OK_STATUS);
-      rsp.add(<span class="string">"message"</span>, <span class="string">"No command"</span>);
-      <span class="keyword">return</span>;
-    }
-    <span class="comment">// This command does not give the current index version of the master</span>
-    <span class="comment">// It gives the current 'replicateable' index version</span>
-   <span class="keyword">if</span> (command.equals(CMD_INDEX_VERSION)) {
-      IndexCommit commitPoint = indexCommitPoint;  <span class="comment">// make a copy so it won't change</span>
-      <span class="keyword">if</span> (commitPoint != <span class="keyword">null</span> && replicationEnabled.get()) {
-        <span class="comment">//</span>
-        <span class="comment">// There is a race condition here.  The commit point may be changed / deleted by the time</span>
-        <span class="comment">// we get around to reserving it.  This is a very small window though, and should not result</span>
-        <span class="comment">// in a catastrophic failure, but will result in the client getting an empty file list for</span>
-        <span class="comment">// the CMD_GET_FILE_LIST command.</span>
-        <span class="comment">//</span>
-        core.getDeletionPolicy().setReserveDuration(commitPoint.getVersion(), reserveCommitDuration);
-        rsp.add(CMD_INDEX_VERSION, commitPoint.getVersion());
-        rsp.add(GENERATION, commitPoint.getGeneration());
-      } <span class="keyword">else</span> {
-        <span class="comment">// This happens when replication is not configured to happen after startup and no commit/optimize</span>
-        <span class="comment">// has happened yet.</span>
-        rsp.add(CMD_INDEX_VERSION, <span class="number">0</span>L);
-        rsp.add(GENERATION, <span class="number">0</span>L);
-      }
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_GET_FILE)) {
-      getFileStream(solrParams, rsp);
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_GET_FILE_LIST)) {
-      getFileList(solrParams, rsp);
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_BACKUP)) {
-      doSnapShoot(<span class="keyword">new</span> ModifiableSolrParams(solrParams), rsp,req);
-      rsp.add(STATUS, OK_STATUS);
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_FETCH_INDEX)) {
-      String masterUrl = solrParams.get(MASTER_URL);
-      <span class="keyword">if</span> (!isSlave && masterUrl == <span class="keyword">null</span>) {
-        rsp.add(STATUS,ERR_STATUS);
-        rsp.add(<span class="string">"message"</span>,<span class="string">"No slave configured or no 'masterUrl' Specified"</span>);
-        <span class="keyword">return</span>;
-      }
-      <span class="keyword">final</span> SolrParams paramsCopy = <span class="keyword">new</span> ModifiableSolrParams(solrParams);
-      <span class="keyword">new</span> Thread() {
-        <span class="annotation">@Override</span>
-        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {
-          doFetch(paramsCopy);<span class="javadoc">/** 进行关键的处理*/</span>
-        }
-      }.start();
-      rsp.add(STATUS, OK_STATUS);
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_DISABLE_POLL)) {
-      <span class="keyword">if</span> (snapPuller != <span class="keyword">null</span>){
-        snapPuller.disablePoll();
-        rsp.add(STATUS, OK_STATUS);
-      } <span class="keyword">else</span> {
-        rsp.add(STATUS, ERR_STATUS);
-        rsp.add(<span class="string">"message"</span>,<span class="string">"No slave configured"</span>);
-      }
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_ENABLE_POLL)) {
-      <span class="keyword">if</span> (snapPuller != <span class="keyword">null</span>){
-        snapPuller.enablePoll();
-        rsp.add(STATUS, OK_STATUS);
-      }<span class="keyword">else</span> {
-        rsp.add(STATUS,ERR_STATUS);
-        rsp.add(<span class="string">"message"</span>,<span class="string">"No slave configured"</span>);
-      }
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equalsIgnoreCase(CMD_ABORT_FETCH)) {
-      <span class="keyword">if</span> (snapPuller != <span class="keyword">null</span>){
-        snapPuller.abortPull();
-        rsp.add(STATUS, OK_STATUS);
-      } <span class="keyword">else</span> {
-        rsp.add(STATUS,ERR_STATUS);
-        rsp.add(<span class="string">"message"</span>,<span class="string">"No slave configured"</span>);
-      }
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_FILE_CHECKSUM)) {
-      <span class="comment">// this command is not used by anyone</span>
-      getFileChecksum(solrParams, rsp);
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_SHOW_COMMITS)) {
-      rsp.add(CMD_SHOW_COMMITS, getCommits());
-    } <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(CMD_DETAILS)) {
-      rsp.add(CMD_DETAILS, getReplicationDetails(solrParams.getBool(<span class="string">"slave"</span>,<span class="keyword">true</span>)));
-      RequestHandlerUtils.addExperimentalFormatWarning(rsp);
-    } <span class="keyword">else</span> <span class="keyword">if</span> (CMD_ENABLE_REPL.equalsIgnoreCase(command)) {
-      replicationEnabled.set(<span class="keyword">true</span>);
-      rsp.add(STATUS, OK_STATUS);
-   } <span class="keyword">else</span> <span class="keyword">if</span> (CMD_DISABLE_REPL.equalsIgnoreCase(command)) {
-     replicationEnabled.set(<span class="keyword">false</span>);
-     rsp.add(STATUS, OK_STATUS);
-   }
-  }
-</pre></td></tr></table></figure>
-
-<hr>
-<h1 id="7-solrj-solrcore-api-">7.solrj提供了控制solrcore容器的api包括范围配置信息等</h1>
-<blockquote>
-<p>SolrRequest 的子类</p>
-</blockquote>
-<p> 用于控制一个web应用中的coreContainer容器如查询,添加实例,添加文档等对应到的有SolrResponse</p>
-<hr>
-<h1 id="-">参考</h1>
-<p><a href="http://blog.csdn.net/zyb243380456/article/details/7225768" target="_blank">solr 应用全面解析，简单的应用，多实例，分布式索引分发,如何在客户端配置注册多实例</a></p>
-]]></content>
-    <summary type="html"><![CDATA[<p>看Solr 的时候偶尔看到了一个博客，写的太和俺的胃口了,加到友情链接里面，嘿嘿</br>
-<a href="http://blog.csdn.net/zyb243380456/article/details/7225768" target="_blank">zyb243380456的专栏</a></p>
-]]></summary>
-    
-      <category term="solr" scheme="http://youfei.github.io/tags/solr/"/>
-    
-      <category term="solr" scheme="http://youfei.github.io/categories/solr/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[MongoDB初读-2]]></title>
     <link href="http://youfei.github.io/2014/03/04/mongo-g-2/"/>
     <id>http://youfei.github.io/2014/03/04/mongo-g-2/</id>
@@ -10117,45 +10342,6 @@ go build
     
     
       <category term="hexo" scheme="http://youfei.github.io/tags/hexo/"/>
-    
-      <category term="Github Blog" scheme="http://youfei.github.io/categories/Github%20Blog/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[建立Github博客]]></title>
-    <link href="http://youfei.github.io/2014/02/14/gitpages-g-1/"/>
-    <id>http://youfei.github.io/2014/02/14/gitpages-g-1/</id>
-    <published>2014-02-14T04:51:51.000Z</published>
-    <updated>2014-02-14T07:17:24.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="-github-">建立Github博客</h1>
-<p><a href="https://github.com/" target="_blank">Git</a> 作为代码管理仓库已经被广泛接受。</p>
-<a id="more"></a>
-
-<p>选择<strong>Github</strong>做博客的理由</p>
-<ul>
-<li>方便。     #用<em>Git</em> 管理代码，用<em>Git Page</em>发点博客</li>
-<li>简单，     #用Markdown编写</li>
-<li>速度快，     #体验好</li>
-</ul>
-<hr>
-<h2 id="-github-">注册Github账户</h2>
-<p>打开Github主页 <code>https://github.com/</code> 注册&lt;<em>Account</em>&gt;</p>
-<hr>
-<h2 id="-repository">建立Repository</h2>
-<ul>
-<li>建立一个Repository，命名为 <code>&lt;Account&gt;.git.io</code></li>
-<li>Click <code>Setting</code> Button</li>
-<li>在Tab <code>Github Page</code> 中，点击 <code>Atuomatic Page Generator</code>，生成默认页面</li>
-</ul>
-<p>Ok, 可以在浏览器中查看了<code>http://Account.git.io</code></p>
-<p>更多详细可参考<a href="http://beiyuu.com/github-pages/" target="_blank">使用Github Pages建独立博客</a></p>
-]]></content>
-    <summary type="html"><![CDATA[<h1 id="-github-">建立Github博客</h1>
-<p><a href="https://github.com/" target="_blank">Git</a> 作为代码管理仓库已经被广泛接受。</p>
-]]></summary>
-    
-      <category term="Git Page" scheme="http://youfei.github.io/tags/Git%20Page/"/>
     
       <category term="Github Blog" scheme="http://youfei.github.io/categories/Github%20Blog/"/>
     

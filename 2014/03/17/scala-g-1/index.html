@@ -4,14 +4,12 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Java多版本清理 | youfei&#39;s blog</title>
+    <title>scala看看 | youfei&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="fei you">
     
-    <meta name="description" content="近期需要对Java Web Start的各种版本进行测试，安装到SDK1.7以后就会出现各种问题，什么安装不上，什么清理不了等等。
-
-要恢复原来的开发系统相当苦难。">
+    <meta name="description" content="Scala地看看，记点小Tips">
     
     
     
@@ -69,15 +67,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/02/19/java-multi-1/" title="Java多版本清理" itemprop="url">Java多版本清理</a>
+      <a href="/2014/03/17/scala-g-1/" title="scala看看" itemprop="url">scala看看</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://youfei.github.io" title="fei you">fei you</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-02-19T08:56:56.000Z" itemprop="datePublished">2月 19 2014</time>
-    更新日期:<time datetime="2014-02-19T09:11:19.000Z" itemprop="dateModified">2月 19 2014</time>
+    <time datetime="2014-03-17T01:45:17.000Z" itemprop="datePublished">3月 17 2014</time>
+    更新日期:<time datetime="2014-03-17T08:44:46.000Z" itemprop="dateModified">3月 17 2014</time>
     
   </p>
 </header>
@@ -86,33 +84,160 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		
+		<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#until-to"><span class="toc-number">1.</span> <span class="toc-text">until &amp; to</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#-"><span class="toc-number">2.</span> <span class="toc-text">函数套函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#_-"><span class="toc-number">3.</span> <span class="toc-text">_*</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#highrt-order-function"><span class="toc-number">4.</span> <span class="toc-text">Highrt Order function</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#curry"><span class="toc-number">5.</span> <span class="toc-text">Curry</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#-"><span class="toc-number">6.</span> <span class="toc-text">读书笔记</span></a></li></ol>
 		</div>
 		
-		<p>近期需要对<strong>Java Web Start</strong>的各种版本进行测试，安装到<strong>SDK1.7</strong>以后就会出现各种问题，什么安装不上，什么清理不了等等。
-</br>
-要恢复原来的开发系统相当苦难。
-<a id="more"></a></p>
-<p></br>
-经过一天的苦苦奋斗，总结下经验：</p>
-<ul>
-<li>1.用360软件管家卸载各种JDK, JRE <strong>两遍</strong>， 一遍不干净两遍还有点残余</li>
-<li>2.在regedit中以<strong>JavaSoft</strong>为关键字搜索，然后进行各种删除</li>
-<li>3.整个世界清静了...</li>
-</ul>
+		<p>Scala地看看，记点小Tips</p>
+<a id="more"></a>
+
+<h4 id="until-to">until &amp; to</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="number">1</span> scala&gt; <span class="keyword">for</span> (i &lt;- <span class="number">0</span> <span class="keyword">until</span> <span class="number">2</span>) println(<span class="string">"Hello"</span>)<span class="comment"> //&lt;2</span>
+Hello
+Hello
+
+<span class="number">2</span> scala&gt; <span class="keyword">for</span> (i &lt;- <span class="number">0</span> <span class="built_in">to</span> <span class="number">2</span>) println(<span class="string">"Hello"</span>)<span class="comment"> //&lt;=2</span>
+Hello
+Hello
+Hello
+</pre></td></tr></table></figure>
+
+<h4 id="-">函数套函数</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="number">3</span> def <span class="built_in">add</span>(more:Int) = (x:Int)=&gt; x+more
+
+val <span class="keyword">int1</span> = <span class="built_in">add</span>(<span class="number">1</span>) <span class="comment"> // init more = 1</span>
+<span class="keyword">int1</span>(<span class="number">10</span>)          <span class="comment"> // will call function x+1 = 11</span>
+</pre></td></tr></table></figure>
+
+<h4 id="_-">_*</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="number">4</span> <span class="function"><span class="keyword">def</span> </span>echo(args <span class="symbol">:String*</span>) = <span class="keyword">for</span>(arg-&gt;args) println(arg)
+
+val arr = <span class="constant">Array</span>(<span class="string">"what's"</span>, <span class="string">"up"</span>, <span class="string">"doc?"</span>)
+
+echo(<span class="symbol">arr:</span><span class="number">_</span>*)
+what<span class="string">'s
+up
+doc?</span>
+</pre></td></tr></table></figure>
+
+<h4 id="highrt-order-function">Highrt Order function</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre><span class="number">5</span> 高阶函数：higher-order-<span class="function"><span class="keyword">function</span> 带其他函数做参数的函数
+
+<span class="title">def</span> <span class="title">filesMatching</span><span class="params">(query:<span class="keyword">String</span>, matcher:(<span class="keyword">String</span>, <span class="keyword">String</span>)</span>=&gt; <span class="title">Boolean</span>) =<span class="comment">{  // matcher:(String, String)=&gt; Boolean
+	for(file &lt;- filesHere; if matcher(file.getName, query)) yield file  // matcher(file.getName, query)
+}</span>
+
+<span class="title">def</span> <span class="title">filesEnding</span><span class="params">(query:<span class="keyword">String</span>)</span> = <span class="title">filesMatching</span><span class="params">(query, _.endWith(_)</span>)
+
+<span class="title">def</span> <span class="title">filesContaining</span><span class="params">(query:<span class="keyword">String</span>)</span> = <span class="title">filesMatching</span><span class="params">(query, _.contains(_)</span>)
+
+<span class="title">def</span> <span class="title">filesRegex</span><span class="params">(query:<span class="keyword">String</span>)</span> = <span class="title">filesMatching</span><span class="params">(query, _.matches(_)</span>)</span>
+</pre></td></tr></table></figure>
+
+<h4 id="curry">Curry</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="code"><pre>6 Curry化
+柯里化声称“如果你固定某些参数，你将得到接受余下参数的一个函数”。所以对于有两个变量的函数y^x，如果固定了 y=2，则得到有一个变量的函数 2^x
+
+def first(x:Int) = (y:Int) =&gt; x+y
+first: (Int)(Int) =&gt; Int
+
+
+def twice(op: Int =&gt; Int, x:Int) = op(op(x))  //高阶函数
+
+<span class="header">twice(_ + 1, 5)
+===</span>
+op(x) = x + 1
+|
+<span class="header">op(op(x))
+===</span>
+</pre></td></tr></table></figure>
+
+<h4 id="-">读书笔记</h4>
+<blockquote>
+<p><strong>貸出模式</strong> Loan Pattern</br>
+该模式大概说： 对于那些资源密集型（resource-intensive）对象应使用这一模式</br>
+既然是资源密集在一个对象中，那么用户代码就不能一直保持获得所有资源，而应该在需要时就向资源供给方进行借贷，使用完后应立即归还。</p>
+<p><strong>脆基类</strong></br>
+派生类对基类有十分紧密的耦合，同时这个闭合的连接是不受欢迎的。设计师们因此给这种行为起了一个绰号——“脆基类问题”。基类是被认为十分脆弱的，因为你可以通过一个表面上十分安全的方法修改一个基类，但这个新的行为，当被派生类继承的时候，可能会造成派生类运行出错。你不能简单孤立地通过检查基类的方法来判断你对基类的改变是不是安全；你也必须查看（并测试）所有的派生类。此外，你必须检查所有+同时使用了基类和派生类对象的代码，因为这些代码可能会被新的行为所破坏。对关键的基类的小小的改变都会导致整个程序无法运行。&amp;oq=派生类对基类有十分紧密的耦合，同时这个闭合的连接是不受欢迎的。设计师们因此给这种行为起了一个绰号——“脆基类问题”。基类是被认为十分脆弱的，因为你可以通过一个表面上十分安全的方法修改一个基类，但这个新的行为，当被派生类继承的时候，可能会造成派生类运行出错。你不能简单孤立地通过检查基类的方法来判断你对基类的改变是不是安全；你也必须查看（并测试）所有的派生类。此外，你必须检查所有+同时使用了基类和派生类对象的代码，因为这些代码可能会被新的行为所破坏。对关键的基类的小小的改变都会导致整个程序无法运行。</p>
+<p><strong>object看成是特殊的class，可以认为他是class的单例</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>===
+Any
+|
+class
+|
+<span class="header">Nothing/Null
+===</span>
+</pre></td></tr></table></figure>
+
+<p><strong>Scala类层次结构</strong>
+<img src="http://images.51cto.com/files/uploadimg/20090806/141440204.jpg" alt=""></p>
+<p><strong>trait</strong> 有点抽象接口的意思</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Java/">Java</a>
+  <span></span> <a href="/tags/scala/">scala</a>
   </div>
 
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Java/">Java</a>
+  <a class="article-category-link" href="/categories/scala/">scala</a>
 </div>
 
 
@@ -137,19 +262,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/02/20/go-g-3/" title="Golang语法初读-2">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  Golang语法初读-2</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/02/18/go-g-2/"  title="Golang语法初读-1">
+<a href="/2014/03/14/design-1/"  title="领域驱动设计">
  <strong>NEXT:</strong><br/> 
- <span>Golang语法初读-1
+ <span>领域驱动设计
 </span>
 </a>
 </div>
@@ -184,7 +301,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  
+  <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#until-to"><span class="toc-number">1.</span> <span class="toc-text">until &amp; to</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#-"><span class="toc-number">2.</span> <span class="toc-text">函数套函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#_-"><span class="toc-number">3.</span> <span class="toc-text">_*</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#highrt-order-function"><span class="toc-number">4.</span> <span class="toc-text">Highrt Order function</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#curry"><span class="toc-number">5.</span> <span class="toc-text">Curry</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#-"><span class="toc-number">6.</span> <span class="toc-text">读书笔记</span></a></li></ol>
   </div>
 
 <div id="asidepart">
